@@ -4,35 +4,31 @@
   /*
    * @class
    */
-  global.BimaNotificationManager = (function () {
+  global.BimaNotifications = (function () {
     /*
      * Is the global object class for managing notifications in BImA
      * applications
      *
      * @construtor
      * @param {Object{}} options - object hash with the settings
-     * @param {string} options.webSocketUrl - URL for the TCP Websocket to connect
+     * @param {string} options.socketUrl - URL for the TCP Websocket to connect
      * @param {string} options.accessId - App access ID for the BImA
+     * notification service
+     * @param {string} options.webSocketSecretKey - App websocket secret key for the BImA
      * notification service
      * @param {string} options.userId - User ID for the current app which is
      * using the notification service
      * @param {Object[function ...]|function} options.callbacks - function or
      * array of functions which should be executed when a notification was
      * received
-     * @param {boolean} options.initUnreadNotificationsFetch - Set true if all
-     * unread notifications for the given user should be fetched [default: true]
      */
-    function BimaNotificationManager (options) {
+    function BimaNotifications (options) {
       options = options || {};
 
-      this.webSocketUrl = options.webSocketUrl;
+      this.socketUrl = options.socketUrl;
       this.accessId = options.accessId;
+      this.webSocketSecretKey = options.webSocketSecretKey;
       this.userId = options.userId;
-      this.initUnreadNotificationsFetch = options.initUnreadNotificationsFetch;
-
-      if (typeof(this.initUnreadNotificationsFetch) === "undefined") {
-        this.initUnreadNotificationsFetch = true;
-      }
 
       var callbacks = options.callbacks;
 
@@ -46,6 +42,7 @@
         this.callbacks = [];
       }
 
+      createFullSocketUrl.call(this);
       createActionCableConsumer.call(this);
       createSubscriptionManager.call(this);
     };
@@ -58,7 +55,7 @@
      * @access public
      * @return {Array} - frozen array with the channel names
      */
-    BimaNotificationManager.channelNames = function () {
+    BimaNotifications.channelNames = function () {
       return Object.freeze([
         "GlobalNotificationsChannel",
         "UserNotificationsChannel"
@@ -73,7 +70,7 @@
      * @access public
      * @param {function} fn - function to be added
      */
-    BimaNotificationManager.prototype.addCallback = function (fn) {
+    BimaNotifications.prototype.addCallback = function (fn) {
       if (typeof(fn) === "function" && typeof(this.callbacks) === "object") {
         this.callbacks.push(fn);
       }
@@ -86,7 +83,7 @@
      * @name connect
      * @access public
      */
-    BimaNotificationManager.prototype.connect = function () {
+    BimaNotifications.prototype.connect = function () {
       this.actionCableConsumer.connect;
       this.subscriptionManager.resubscribeToAllChannels();
     };
@@ -98,22 +95,9 @@
      * @name disconnect
      * @access public
      */
-    BimaNotificationManager.prototype.disconnect = function () {
+    BimaNotifications.prototype.disconnect = function () {
       this.subscriptionManager.unsubscribeAllChannels();
       this.actionCableConsumer.disconnect();
-    };
-
-    /*
-     * Get all unread notifications for specified user
-     *
-     * @function
-     * @name getAllUnreadNotifications
-     * @access public
-     */
-    BimaNotificationManager.prototype.getAllUnreadNotifications = function () {
-      var subscription = this.subscriptionManager.subscriptions["UserNotificationsChannel"];
-
-      subscription.perform("get_all_unread_notifications");
     };
 
     /*
@@ -124,10 +108,10 @@
      * @access public
      * @param {string|number} id - Id of the notification
      */
-    BimaNotificationManager.prototype.markNotificationAsRead = function (id) {
+    BimaNotifications.prototype.markNotificationAsRead = function (id) {
       var subscription = this.subscriptionManager.subscriptions["UserNotificationsChannel"];
 
-      subscription.perform("mark_notification_as_read", { notificationId: id });
+      // subscription.perform("mark_notification_as_read", { notificationId: id });
     };
 
     // private
@@ -136,11 +120,35 @@
       try {
         var ActionCable = require("actioncable");
 
-        this.actionCableConsumer = ActionCable.createConsumer(this.webSocketUrl);
+        this.actionCableConsumer = ActionCable.createConsumer(this.fullSocketUrl);
+        this.connection = this.actionCableConsumer.connection;
         this.actionCableConsumer.connect();
       }
       catch (err) {
         throw new Error(err);
+      }
+    };
+
+    function createFullSocketUrl () {
+      const socketUrl = this.socketUrl;
+      const accessId = this.accessId;
+      const webSocketSecretKey = this.webSocketSecretKey;
+      const userId = this.userId;
+
+      if (socketUrl && accessId && webSocketSecretKey && userId) {
+        if(socketUrl.match(/^ws:\/\/\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*[^\/]$/)) {
+          this.fullSocketUrl = socketUrl;
+          this.fullSocketUrl += "?access_id=" + accessId;
+          this.fullSocketUrl += "&web_socket_secret_key=" + webSocketSecretKey;
+          this.fullSocketUrl += "&user_id=" + userId;
+          this.fullSocketUrl = encodeURI(this.fullSocketUrl);
+        }
+        else {
+          throw new Error("options.socketUrl has invalid format");
+        }
+      }
+      else {
+        throw new Error("Required option parameters are missing");
       }
     };
 
@@ -149,6 +157,10 @@
       this.subscriptionManager = new SubscriptionManager(this);
     };
 
-    return BimaNotificationManager;
+    return BimaNotifications;
   })();
+
+  if ((typeof(process) !== "undefined")) {
+   module.exports = BimaNotifications;
+  }
 }(window));

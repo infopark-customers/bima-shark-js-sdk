@@ -8,7 +8,7 @@ var SubscriptionManager = (function () {
    * Management wrapper for ActionCable Websocket subscriptions
    *
    * @construtor
-   * @param {BimaNotificationManager} instance
+   * @param {BimaNotifications} instance
    */
   function SubscriptionManager (instance) {
     this.instance = instance;
@@ -50,21 +50,17 @@ var SubscriptionManager = (function () {
   function addConnectedChannel (channelName) {
     if (this.connectedChannels.indexOf(channelName) === -1) {
       this.connectedChannels.push(channelName);
-      var channelsCount = BimaNotificationManager.channelNames().length;
+      var channelsCount = BimaNotifications.channelNames().length;
 
       if (this.connectedChannels.length === channelsCount) {
-        var data = { method: "socket.ConnectionAndSubscriptionsReady" };
-        performCallbacks.call(this, data);
-
-        if (this.instance.initUnreadNotificationsFetch) {
-          this.instance.getAllUnreadNotifications();
-        }
+        // var data = { method: "socket.ConnectionAndSubscriptionsReady" };
+        // performCallbacks.call(this, data);
       }
     }
   };
 
   function createChannelSubscriptions () {
-    BimaNotificationManager.channelNames().forEach(function (channelName) {
+    BimaNotifications.channelNames().forEach(function (channelName) {
       createSingleChannelSubscription.call(this, channelName);
     }.bind(this));
   };
@@ -77,6 +73,7 @@ var SubscriptionManager = (function () {
       }.bind(this, channelName),
 
       received: function (data) {
+        console.log(data);
         performCallbacks.call(this, data);
       }.bind(this),
 
