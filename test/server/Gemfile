@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+gem 'pry'
+gem 'rake'
+gem 'sinatra'
+gem 'sinatra-reloader'
+
+# our gems
+gem 'bima-http', '~> 1.2.1'
+gem 'bima-doorkeeper-client'
+

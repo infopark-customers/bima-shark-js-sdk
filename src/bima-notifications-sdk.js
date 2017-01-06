@@ -11,13 +11,16 @@
      *
      * @construtor
      * @param {Object{}} options - object hash with the settings
-     * @param {string} options.socketUrl - URL for the TCP Websocket to connect
+     * @param {string} options.url - Basic URL to the API endpoint of the
+     * Notification service
+     * IMPORTANT: Please use here without any protocol and extra paths
      * @param {string} options.accessId - App access ID for the BImA
      * notification service
-     * @param {string} options.webSocketSecretKey - App websocket secret key for the BImA
-     * notification service
-     * @param {string} options.userId - User ID for the current app which is
-     * using the notification service
+     * @param {string} options.serviceToken - Service Token for BImA Doorkeeper
+     * app to access the API
+     * @param {string} options.userId - User ID related with the given serviceToken
+     * @param {boolean} options.useHttps - Set true if API endpoint should be
+     * called with https [default: true]
      * @param {Object[function ...]|function} options.callbacks - function or
      * array of functions which should be executed when a notification was
      * received
@@ -25,10 +28,13 @@
     function BimaNotifications (options) {
       options = options || {};
 
-      this.socketUrl = options.socketUrl;
+      this.url = options.url;
       this.accessId = options.accessId;
-      this.webSocketSecretKey = options.webSocketSecretKey;
+      this.serviceToken = options.serviceToken;
       this.userId = options.userId;
+      this.useHttps = options.useHttps;
+
+      if (typeof(this.useHttps) === "undefined") this.useHttps = true;
 
       var callbacks = options.callbacks;
 
@@ -45,6 +51,12 @@
       createFullSocketUrl.call(this);
       createActionCableConsumer.call(this);
       createSubscriptionManager.call(this);
+
+      this.subscriptionsInitialized = false;
+      this.jQuery = options.jQuery || jQuery || $;
+
+      var Api = require("./api.js");
+      this.Api = new Api(this);
     };
 
     /*
@@ -111,7 +123,7 @@
     BimaNotifications.prototype.markNotificationAsRead = function (id) {
       var subscription = this.subscriptionManager.subscriptions["UserNotificationsChannel"];
 
-      // subscription.perform("mark_notification_as_read", { notificationId: id });
+      subscription.perform("mark_notification_as_read", { notification_id: id });
     };
 
     // private
@@ -130,17 +142,17 @@
     };
 
     function createFullSocketUrl () {
-      const socketUrl = this.socketUrl;
+      const url = this.url;
       const accessId = this.accessId;
-      const webSocketSecretKey = this.webSocketSecretKey;
-      const userId = this.userId;
+      const serviceToken = this.serviceToken;
 
-      if (socketUrl && accessId && webSocketSecretKey && userId) {
+      if (url && accessId && serviceToken) {
+        var socketUrl = "ws://" + url + "/socket";
+
         if(socketUrl.match(/^ws:\/\/\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*[^\/]$/)) {
           this.fullSocketUrl = socketUrl;
           this.fullSocketUrl += "?access_id=" + accessId;
-          this.fullSocketUrl += "&web_socket_secret_key=" + webSocketSecretKey;
-          this.fullSocketUrl += "&user_id=" + userId;
+          this.fullSocketUrl += "&service_token=" + serviceToken;
           this.fullSocketUrl = encodeURI(this.fullSocketUrl);
         }
         else {
@@ -160,6 +172,7 @@
     return BimaNotifications;
   })();
 
+  // In Node.JS base envs
   if ((typeof(process) !== "undefined")) {
    module.exports = BimaNotifications;
   }

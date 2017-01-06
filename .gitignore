@@ -1,2 +1,7 @@
 node_modules/
 .tmp
+
+test/server/vendor/cache/*
+!test/server/vendor/cache/*infopark.gem
+!test/server/vendor/cache/app_health_check*
+!test/server/vendor/cache/bima*.gem

@@ -53,8 +53,10 @@ var SubscriptionManager = (function () {
       var channelsCount = BimaNotifications.channelNames().length;
 
       if (this.connectedChannels.length === channelsCount) {
-        // var data = { method: "socket.ConnectionAndSubscriptionsReady" };
-        // performCallbacks.call(this, data);
+        this.instance.subscriptionsInitialized = true;
+
+        var data = { action: "subscriptions_initialized", data: null }
+        performCallbacks.call(this, data);
       }
     }
   };
@@ -73,7 +75,6 @@ var SubscriptionManager = (function () {
       }.bind(this, channelName),
 
       received: function (data) {
-        console.log(data);
         performCallbacks.call(this, data);
       }.bind(this),
 

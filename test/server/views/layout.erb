@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Notifications Test App</title>
+    <script
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="<%= @js_sdk_file %>"></script>
+    <script type="text/javascript">
+        var notifications = [];
+        var callback = function (response) {
+          if(typeof(response) !== "undefined" && response["action"]) {
+          }
+        };
+
+        var notifications = new BimaNotifications({
+          url: "localhost:5000",
+          accessId: "<%= @access_id %>",
+          serviceToken: "<%= session[:service_token] %>",
+          userId: "<%= session[:user_id] %>",
+          useHttps: false,
+          callbacks: [callback]
+        });
+    </script>
+  </head>
+  <body>
+    <p>
+      <strong>JS-SDK Version:</strong> <%= @js_sdk_version %><br />
+      <strong>User-ID:</strong> <%= session[:user_id] %>
+    </p>
+    <hr />
+
+    <%= yield %>
+
+    <hr />
+    <form action="/logout" method="post">
+      <button type="submit">Log out</button>
+    </form>
+  </body>
+</html>
