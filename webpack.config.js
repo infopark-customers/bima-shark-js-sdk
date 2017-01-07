@@ -16,8 +16,12 @@ module.exports = {
 
   plugins: [
     new LiveReloadPlugin(),
-    new webpack.DefinePlugin({
-      SDK_VERSION: sdkVersion
+    new webpack.BannerPlugin("BImA-Notifications JS-SDK v" + sdkVersion),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: true,
+        screw_ie8: true
+      }
     })
   ].concat(baseConfig.plugins)
 };
