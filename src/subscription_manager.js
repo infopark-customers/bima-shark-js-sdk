@@ -54,6 +54,7 @@ var SubscriptionManager = (function () {
 
       if (this.connectedChannels.length === channelsCount) {
         this.instance.subscriptionsInitialized = true;
+        this.instance.subscriptionsInitializationsCount += 1;
 
         var data = { action: "subscriptions_initialized", data: null }
         performCallbacks.call(this, data);

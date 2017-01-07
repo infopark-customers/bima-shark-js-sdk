@@ -48,15 +48,14 @@
         this.callbacks = [];
       }
 
+      this.jQuery = options.jQuery || jQuery || window.jQuery || $;
+      this.subscriptionsInitialized = false;
+      this.subscriptionsInitializationsCount = 0;
+
       createFullSocketUrl.call(this);
       createActionCableConsumer.call(this);
-      createSubscriptionManager.call(this);
-
-      this.subscriptionsInitialized = false;
-      this.jQuery = options.jQuery || jQuery || $;
-
-      var Api = require("./api.js");
-      this.Api = new Api(this);
+      createSubscriptionManagerInstance.call(this);
+      createApiInstance.call(this);
     };
 
     /*
@@ -141,6 +140,11 @@
       }
     };
 
+    function createApiInstance () {
+      var Api = require("./api.js");
+      this.Api = new Api(this);
+    };
+
     function createFullSocketUrl () {
       const url = this.url;
       const accessId = this.accessId;
@@ -164,7 +168,7 @@
       }
     };
 
-    function createSubscriptionManager ()  {
+    function createSubscriptionManagerInstance ()  {
       var SubscriptionManager = require("./subscription_manager.js");
       this.subscriptionManager = new SubscriptionManager(this);
     };
@@ -172,7 +176,7 @@
     return BimaNotifications;
   })();
 
-  // In Node.JS base envs
+  // In Node.JS based envs
   if ((typeof(process) !== "undefined")) {
    module.exports = BimaNotifications;
   }
