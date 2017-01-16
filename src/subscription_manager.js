@@ -1,58 +1,62 @@
 "use strict";
 
-/*
- * @class
+/**
+ * @class SubscriptionManager
+ * @classdesc Management wrapper class for ActionCable Websocket subscriptions
+ * @param {BimaNotifications} instance - Instance of BimaNotifications
+ * @private
  */
 var SubscriptionManager = (function () {
-  /*
-   * Management wrapper for ActionCable Websocket subscriptions
-   *
-   * @construtor
-   * @param {BimaNotifications} instance
-   */
-  function SubscriptionManager (instance) {
-    this.instance = instance;
-    this.consumer = instance.actionCableConsumer;
-    this.subscriptions = {};
-    this.connectedChannels = [];
+  /** @private **/
+  var connectedChannels = null;
 
+  /** @construtor **/
+  function SubscriptionManager (instance) {
+    /**
+     * @name SubscriptionManager#instance
+     * @type BimaNotifications
+     */
+    this.instance = instance;
+
+    this.consumer = instance._actionCableConsumer;
+    this.subscriptions = {};
+
+    connectedChannels = [];
     createChannelSubscriptions.call(this);
   };
-  /*
+  /**
    * Unsubscribe and resubscribe to all channels
    *
    * @function
-   * @name resubscribeToAllChannels
-   * @access public
+   * @name SubscriptionManager#resubscribeToAllChannels
    */
   SubscriptionManager.prototype.resubscribeToAllChannels = function () {
     this.unsubscribeAllChannels();
     createChannelSubscriptions.call(this);
   };
 
-  /*
+  /**
    * Unsubscribe from all subscribed channels
    *
    * @function
-   * @name unsubscribeAllChannels
-   * @access public
+   * @name SubscriptionManager#unsubscribeAllChannels
    */
   SubscriptionManager.prototype.unsubscribeAllChannels = function () {
     Object.keys(this.subscriptions).forEach(function (channelName) {
       this.consumer.subscriptions.remove(this.subscriptions[channelName]);
       delete(this.subscriptions[channelName]);
-      this.connectedChannels.splice(this.connectedChannels.indexOf(channelName), 1)
+      connectedChannels.splice(connectedChannels.indexOf(channelName), 1);
     }.bind(this));
   };
 
   // private
 
   function addConnectedChannel (channelName) {
-    if (this.connectedChannels.indexOf(channelName) === -1) {
-      this.connectedChannels.push(channelName);
-      var channelsCount = BimaNotifications.channelNames().length;
+    if (connectedChannels.indexOf(channelName) === -1) {
+      connectedChannels.push(channelName);
+      var channelsCount = BimaNotifications.channelNames.length;
 
-      if (this.connectedChannels.length === channelsCount) {
+      if (connectedChannels.length === channelsCount) {
         this.instance.subscriptionsInitialized = true;
         this.instance.subscriptionsInitializationsCount += 1;
 
@@ -63,13 +67,14 @@ var SubscriptionManager = (function () {
   };
 
   function createChannelSubscriptions () {
-    BimaNotifications.channelNames().forEach(function (channelName) {
+    BimaNotifications.channelNames.forEach(function (channelName) {
       createSingleChannelSubscription.call(this, channelName);
     }.bind(this));
   };
 
   function createSingleChannelSubscription (channelName) {
     var params = subscriptionParamsForChannel.call(this, channelName);
+
     var subscription = this.consumer.subscriptions.create(params, {
       connected: function (channelName) {
         addConnectedChannel.call(this, channelName);
@@ -96,8 +101,8 @@ var SubscriptionManager = (function () {
 
   function subscriptionParamsForChannel (channelName) {
     return {
-      accessId: this.instance.accessId,
-      userId: this.instance.userId,
+      accessId: this.instance.configuration.accessId,
+      userId: this.instance.configuration.userId,
       channel: channelName
     };
   };

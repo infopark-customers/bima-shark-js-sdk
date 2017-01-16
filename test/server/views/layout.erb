@@ -9,13 +9,13 @@
     </script>
     <script type="text/javascript" src="<%= @js_sdk_file %>"></script>
     <script type="text/javascript">
-        var notifications = [];
         var callback = function (response) {
           if(typeof(response) !== "undefined" && response["action"]) {
+            console.log(response);
           }
         };
 
-        var notifications = new BimaNotifications({
+        window.notifications = new BimaNotifications({
           url: "localhost:5000",
           accessId: "<%= @access_id %>",
           serviceToken: "<%= session[:service_token] %>",

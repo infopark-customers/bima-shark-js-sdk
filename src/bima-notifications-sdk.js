@@ -1,84 +1,102 @@
+/** @global **/
 (function (global) {
   "use strict";
 
-  /*
-   * @class
+  /**
+   * @class BimaNotifications
+   * @classdesc Class to manage and receive notifications in BImA applications
+   *
+   * @param {Object} options - object hash with the settings
+   * @param {string} options.url - Basic URL to the API endpoint of the
+   * Notification service
+   * IMPORTANT: Please use here without any protocol and extra paths! (Example:
+   * localhost:5000)
+   * @param {string} options.accessId - App access ID for the BImA
+   * notification service
+   * @param {string} options.serviceToken - Service Token for BImA Doorkeeper
+   * app to access the API
+   * @param {string} options.userId - User ID related with the given serviceToken
+   * @param {boolean} options.useHttps - Set true if API endpoint should be
+   * called with https [default: true]
+   * @param {Object} options.jQuery - jQuery object with .ajax function
+   * [default: jQuery | window.jQuery]
+   * @param {(function|Object[])} options.callbacks - function or
+   * array of functions which should be executed when a notification was
+   * received
+   * @throws An error if any if the required option properties is missing or
+   * has a wrong format
    */
   global.BimaNotifications = (function () {
-    /*
-     * Is the global object class for managing notifications in BImA
-     * applications
-     *
-     * @construtor
-     * @param {Object{}} options - object hash with the settings
-     * @param {string} options.url - Basic URL to the API endpoint of the
-     * Notification service
-     * IMPORTANT: Please use here without any protocol and extra paths
-     * @param {string} options.accessId - App access ID for the BImA
-     * notification service
-     * @param {string} options.serviceToken - Service Token for BImA Doorkeeper
-     * app to access the API
-     * @param {string} options.userId - User ID related with the given serviceToken
-     * @param {boolean} options.useHttps - Set true if API endpoint should be
-     * called with https [default: true]
-     * @param {Object[function ...]|function} options.callbacks - function or
-     * array of functions which should be executed when a notification was
-     * received
-     */
+    /** @private **/
+    var subscriptionManager = null;
+
+    /** * @construtor */
     function BimaNotifications (options) {
       options = options || {};
 
-      this.url = options.url;
-      this.accessId = options.accessId;
-      this.serviceToken = options.serviceToken;
-      this.userId = options.userId;
-      this.useHttps = options.useHttps;
+      this.configuration = {};
 
-      if (typeof(this.useHttps) === "undefined") this.useHttps = true;
+      this.configuration.url = options.url;
+      this.configuration.accessId = options.accessId;
+      this.configuration.serviceToken = options.serviceToken;
+      this.configuration.userId = options.userId;
+      this.configuration.useHttps = options.useHttps;
+      this.configuration.jQuery = options.jQuery || jQuery || window.jQuery || $;
 
-      var callbacks = options.callbacks;
+      if (typeof(this.configuration.useHttps) === "undefined") {
+        this.configuration.useHttps = true;
+      }
 
-      if (typeof(callbacks) !== "undefined" && typeof(callbacks) === "function") {
+      this.callbacks = options.callbacks;
+
+      if (typeof(this.callbacks) !== "undefined" && typeof(this.callbacks) === "function") {
         this.callbacks = [callbacks];
       }
-      else if (typeof(callbacks) === "object") {
-        this.callbacks = callbacks;
+      else if (typeof(this.callbacks) === "object") {
+        this.callbacks = this.callbacks;
       }
       else {
         this.callbacks = [];
       }
 
-      this.jQuery = options.jQuery || jQuery || window.jQuery || $;
       this.subscriptionsInitialized = false;
       this.subscriptionsInitializationsCount = 0;
 
-      createFullSocketUrl.call(this);
-      createActionCableConsumer.call(this);
-      createSubscriptionManagerInstance.call(this);
-      createApiInstance.call(this);
+      setFullSocketUrl.call(this);
+      setFinalConfiguration.call(this);
+      setActionCableConsumer.call(this);
+      setSubscriptionManagerInstance.call(this);
+      setApiInstance.call(this);
     };
 
-    /*
+    /**
      * Names of the notification channels
      *
-     * @function
-     * @name channelNames
-     * @access public
-     * @return {Array} - frozen array with the channel names
+     * @name BimaNotifications.channelNames
+     * @type Array
+     * @readonly
      */
-    BimaNotifications.channelNames = function () {
-      return Object.freeze([
-        "GlobalNotificationsChannel",
-        "UserNotificationsChannel"
-      ]);
-    };
+    BimaNotifications.channelNames = Object.freeze([
+      "GlobalNotificationsChannel",
+      "UserNotificationsChannel"
+    ]);
 
-    /*
+    /**
+     * Keys for configuration which are editable
+     *
+     * @name BimaNotifications.editableConfigurationKeys
+     * @type Array
+     * @readonly
+     */
+    BimaNotifications.editableConfigurationKeys = Object.freeze([
+      "url", "accessId", "serviceToken", "userId", "useHttps", "jQuery"
+    ]);
+
+    /**
      * Adds a function to the callbacks
      *
      * @function
-     * @name addCallback
-     * @access public
+     * @name BimaNotifications#addCallback
      * @param {function} fn - function to be added
      */
     BimaNotifications.prototype.addCallback = function (fn) {
@@ -87,90 +105,108 @@
       }
     };
 
-    /*
+    /**
      * Connect with the Websocket server under the specified address
      *
      * @function
-     * @name connect
-     * @access public
+     * @name BimaNotifications#connect
      */
     BimaNotifications.prototype.connect = function () {
-      this.actionCableConsumer.connect;
-      this.subscriptionManager.resubscribeToAllChannels();
+      this._actionCableConsumer.connect;
+      subscriptionManager.resubscribeToAllChannels();
     };
 
-    /*
+    /**
      * Disconnect from the websocket
      *
      * @function
-     * @name disconnect
-     * @access public
+     * @name BimaNotifications#disconnect
      */
     BimaNotifications.prototype.disconnect = function () {
-      this.subscriptionManager.unsubscribeAllChannels();
-      this.actionCableConsumer.disconnect();
+      subscriptionManager.unsubscribeAllChannels();
+      this._actionCableConsumer.disconnect();
     };
 
-    /*
+    /**
+     * Returns the full URL to the WebSocket with the current configuration
+     *
+     * @function
+     * @name BimaNotifications#fullSocketUrl
+     * @return {string}
+     */
+    BimaNotifications.prototype.fullSocketUrl = function () {
+      return this.configuration.fullSocketUrl;
+    };
+
+    /**
      * Mark a specific notification as read
      *
      * @function
-     * @name markNotificationAsRead
-     * @access public
-     * @param {string|number} id - Id of the notification
+     * @name BimaNotifications#markNotificationAsRead
+     * @param {(string|number)} id - Id of the notification
      */
     BimaNotifications.prototype.markNotificationAsRead = function (id) {
-      var subscription = this.subscriptionManager.subscriptions["UserNotificationsChannel"];
+      var subscription = subscriptionManager.subscriptions["UserNotificationsChannel"];
 
       subscription.perform("mark_notification_as_read", { notification_id: id });
     };
 
     // private
 
-    function createActionCableConsumer () {
+    function setActionCableConsumer () {
       try {
         var ActionCable = require("actioncable");
 
-        this.actionCableConsumer = ActionCable.createConsumer(this.fullSocketUrl);
-        this.connection = this.actionCableConsumer.connection;
-        this.actionCableConsumer.connect();
+        this._actionCableConsumer = ActionCable.createConsumer(this.configuration.fullSocketUrl);
+        this._actionCableConsumer.connect();
       }
       catch (err) {
         throw new Error(err);
       }
     };
 
-    function createApiInstance () {
+    function setApiInstance () {
       var Api = require("./api.js");
+
+      /**
+       * Variable to access the notifications REST API instance
+       *
+       * @name BimaNotifications#Api
+       * @type Api
+       */
       this.Api = new Api(this);
     };
 
-    function createFullSocketUrl () {
-      const url = this.url;
-      const accessId = this.accessId;
-      const serviceToken = this.serviceToken;
+    function setFullSocketUrl () {
+      var url = this.configuration.url;
+      var accessId = this.configuration.accessId;
+      var serviceToken = this.configuration.serviceToken;
 
       if (url && accessId && serviceToken) {
         var socketUrl = "ws://" + url + "/socket";
 
         if(socketUrl.match(/^ws:\/\/\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*[^\/]$/)) {
-          this.fullSocketUrl = socketUrl;
-          this.fullSocketUrl += "?access_id=" + accessId;
-          this.fullSocketUrl += "&service_token=" + serviceToken;
-          this.fullSocketUrl = encodeURI(this.fullSocketUrl);
+          this.configuration.fullSocketUrl = socketUrl;
+          this.configuration.fullSocketUrl += "?access_id=" + accessId;
+          this.configuration.fullSocketUrl += "&service_token=" + serviceToken;
+          this.configuration.fullSocketUrl = encodeURI(this.configuration.fullSocketUrl);
         }
         else {
           throw new Error("options.socketUrl has invalid format");
         }
       }
       else {
-        throw new Error("Required option parameters are missing");
+        throw new Error("Required option properties are missing");
       }
     };
 
-    function createSubscriptionManagerInstance ()  {
+    function setSubscriptionManagerInstance ()  {
       var SubscriptionManager = require("./subscription_manager.js");
-      this.subscriptionManager = new SubscriptionManager(this);
+      subscriptionManager = new SubscriptionManager(this);
+    };
+
+    function setFinalConfiguration () {
+      this.configuration = Object.freeze(this.configuration);
     };
 
     return BimaNotifications;
