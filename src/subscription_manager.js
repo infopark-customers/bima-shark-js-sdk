@@ -75,6 +75,8 @@ var SubscriptionManager = (function () {
   function createSingleChannelSubscription (channelName) {
     var params = subscriptionParamsForChannel.call(this, channelName);
 
+    console.log("new connection try");
+
     var subscription = this.consumer.subscriptions.create(params, {
       connected: function (channelName) {
         addConnectedChannel.call(this, channelName);

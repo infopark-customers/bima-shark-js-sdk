@@ -151,6 +151,42 @@
       subscription.perform("mark_notification_as_read", { notification_id: id });
     };
 
+    BimaNotifications.prototype.updateConfiguration = function (options) {
+      options = options || {};
+      var keys = Object.keys(options);
+
+      if (keys.length > 0) {
+        var jQuery = this.configuration.jQuery;
+        var currentUserId = this.configuration.userId;
+        var newConfiguration = jQuery.extend(true, {}, this.configuration);
+
+        for (var i in keys) {
+          var key = keys[i];
+
+          if (jQuery.inArray(key, BimaNotifications.editableConfigurationKeys) > -1) {
+            newConfiguration[key] = options[key];
+          }
+          else {
+            throw new Error("Unallowed configuration key `" + key + "`");
+          }
+        }
+
+        if (currentUserId !== newConfiguration.userId) {
+          this.subscriptionsInitialized = false;
+          this.subscriptionsInitializationsCount = 0;
+        }
+
+        this.configuration = newConfiguration;
+        this.disconnect();
+
+        setFullSocketUrl.call(this);
+        setFinalConfiguration.call(this);
+        setActionCableConsumer.call(this);
+        setSubscriptionManagerInstance.call(this);
+        setApiInstance.call(this);
+      }
+    };
+
     // private
 
     function setActionCableConsumer () {
@@ -169,8 +205,6 @@
       var Api = require("./api.js");
 
       /**
-       * Variable to access the notifications REST API instance
-       *
        * @name BimaNotifications#Api
        * @type Api
        */

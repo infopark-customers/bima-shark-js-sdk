@@ -1,2 +1,1362 @@
 /*! BImA-Notifications JS-SDK v0.1.1 */
-!function(t){function n(e){if(i[e])return i[e].exports;var o=i[e]={exports:{},id:e,loaded:!1};return t[e].call(o.exports,o,o.exports,n),o.loaded=!0,o.exports}var i={};return n.m=t,n.c=i,n.p="",n(0)}([function(t,n,i){(function(n){!function(e){"use strict";e.BimaNotifications=function(){function t(t){t=t||{},this.configuration={},this.configuration.url=t.url,this.configuration.accessId=t.accessId,this.configuration.serviceToken=t.serviceToken,this.configuration.userId=t.userId,this.configuration.useHttps=t.useHttps,this.configuration.jQuery=t.jQuery||jQuery||window.jQuery||$,"undefined"==typeof this.configuration.useHttps&&(this.configuration.useHttps=!0),this.callbacks=t.callbacks,"undefined"!=typeof this.callbacks&&"function"==typeof this.callbacks?this.callbacks=[callbacks]:"object"==typeof this.callbacks?this.callbacks=this.callbacks:this.callbacks=[],this.subscriptionsInitialized=!1,this.subscriptionsInitializationsCount=0,o.call(this),s.call(this),n.call(this),r.call(this),e.call(this)}function n(){try{var t=i(2);this._actionCableConsumer=t.createConsumer(this.configuration.fullSocketUrl),this._actionCableConsumer.connect()}catch(t){throw new Error(t)}}function e(){var t=i(3);this.Api=new t(this)}function o(){var t=this.configuration.url,n=this.configuration.accessId,i=this.configuration.serviceToken;if(!(t&&n&&i))throw new Error("Required option properties are missing");var e="ws://"+t+"/socket";if(!e.match(/^ws:\/\/\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*[^\/]$/))throw new Error("options.socketUrl has invalid format");this.configuration.fullSocketUrl=e,this.configuration.fullSocketUrl+="?access_id="+n,this.configuration.fullSocketUrl+="&service_token="+i,this.configuration.fullSocketUrl=encodeURI(this.configuration.fullSocketUrl)}function r(){var t=i(4);c=new t(this)}function s(){this.configuration=Object.freeze(this.configuration)}var c=null;return t.channelNames=Object.freeze(["GlobalNotificationsChannel","UserNotificationsChannel"]),t.editableConfigurationKeys=Object.freeze(["url","accessId","serviceToken","userId","useHttps","jQuery"]),t.prototype.addCallback=function(t){"function"==typeof t&&"object"==typeof this.callbacks&&this.callbacks.push(t)},t.prototype.connect=function(){this._actionCableConsumer.connect,c.resubscribeToAllChannels()},t.prototype.disconnect=function(){c.unsubscribeAllChannels(),this._actionCableConsumer.disconnect()},t.prototype.fullSocketUrl=function(){return this.configuration.fullSocketUrl},t.prototype.markNotificationAsRead=function(t){var n=c.subscriptions.UserNotificationsChannel;n.perform("mark_notification_as_read",{notification_id:t})},t}(),"undefined"!=typeof n&&(t.exports=BimaNotifications)}(window)}).call(n,i(1))},function(t,n){function i(){throw new Error("setTimeout has not been defined")}function e(){throw new Error("clearTimeout has not been defined")}function o(t){if(l===setTimeout)return setTimeout(t,0);if((l===i||!l)&&setTimeout)return l=setTimeout,setTimeout(t,0);try{return l(t,0)}catch(n){try{return l.call(null,t,0)}catch(n){return l.call(this,t,0)}}}function r(t){if(h===clearTimeout)return clearTimeout(t);if((h===e||!h)&&clearTimeout)return h=clearTimeout,clearTimeout(t);try{return h(t)}catch(n){try{return h.call(null,t)}catch(n){return h.call(this,t)}}}function s(){g&&p&&(g=!1,p.length?d=p.concat(d):b=-1,d.length&&c())}function c(){if(!g){var t=o(s);g=!0;for(var n=d.length;n;){for(p=d,d=[];++b<n;)p&&p[b].run();b=-1,n=d.length}p=null,g=!1,r(t)}}function u(t,n){this.fun=t,this.array=n}function a(){}var l,h,f=t.exports={};!function(){try{l="function"==typeof setTimeout?setTimeout:i}catch(t){l=i}try{h="function"==typeof clearTimeout?clearTimeout:e}catch(t){h=e}}();var p,d=[],g=!1,b=-1;f.nextTick=function(t){var n=new Array(arguments.length-1);if(arguments.length>1)for(var i=1;i<arguments.length;i++)n[i-1]=arguments[i];d.push(new u(t,n)),1!==d.length||g||o(c)},u.prototype.run=function(){this.fun.apply(null,this.array)},f.title="browser",f.browser=!0,f.env={},f.argv=[],f.version="",f.versions={},f.on=a,f.addListener=a,f.once=a,f.off=a,f.removeListener=a,f.removeAllListeners=a,f.emit=a,f.binding=function(t){throw new Error("process.binding is not supported")},f.cwd=function(){return"/"},f.chdir=function(t){throw new Error("process.chdir is not supported")},f.umask=function(){return 0}},function(t,n,i){var e,o;(function(){(function(){(function(){var t=[].slice;this.ActionCable={INTERNAL:{message_types:{welcome:"welcome",ping:"ping",confirmation:"confirm_subscription",rejection:"reject_subscription"},default_mount_path:"/cable",protocols:["actioncable-v1-json","actioncable-unsupported"]},createConsumer:function(t){var n;return null==t&&(t=null!=(n=this.getConfig("url"))?n:this.INTERNAL.default_mount_path),new r.Consumer(this.createWebSocketURL(t))},getConfig:function(t){var n;return n=document.head.querySelector("meta[name='action-cable-"+t+"']"),null!=n?n.getAttribute("content"):void 0},createWebSocketURL:function(t){var n;return t&&!/^wss?:/i.test(t)?(n=document.createElement("a"),n.href=t,n.href=n.href,n.protocol=n.protocol.replace("http","ws"),n.href):t},startDebugging:function(){return this.debugging=!0},stopDebugging:function(){return this.debugging=null},log:function(){var n;if(n=1<=arguments.length?t.call(arguments,0):[],this.debugging)return n.push(Date.now()),console.log.apply(console,["[ActionCable]"].concat(t.call(n)))}}}).call(this)}).call(this);var r=this.ActionCable;(function(){(function(){var t=function(t,n){return function(){return t.apply(n,arguments)}};r.ConnectionMonitor=function(){function n(n){this.connection=n,this.visibilityDidChange=t(this.visibilityDidChange,this),this.reconnectAttempts=0}var i,e,o;return n.pollInterval={min:3,max:30},n.staleThreshold=6,n.prototype.start=function(){if(!this.isRunning())return this.startedAt=e(),delete this.stoppedAt,this.startPolling(),document.addEventListener("visibilitychange",this.visibilityDidChange),r.log("ConnectionMonitor started. pollInterval = "+this.getPollInterval()+" ms")},n.prototype.stop=function(){if(this.isRunning())return this.stoppedAt=e(),this.stopPolling(),document.removeEventListener("visibilitychange",this.visibilityDidChange),r.log("ConnectionMonitor stopped")},n.prototype.isRunning=function(){return null!=this.startedAt&&null==this.stoppedAt},n.prototype.recordPing=function(){return this.pingedAt=e()},n.prototype.recordConnect=function(){return this.reconnectAttempts=0,this.recordPing(),delete this.disconnectedAt,r.log("ConnectionMonitor recorded connect")},n.prototype.recordDisconnect=function(){return this.disconnectedAt=e(),r.log("ConnectionMonitor recorded disconnect")},n.prototype.startPolling=function(){return this.stopPolling(),this.poll()},n.prototype.stopPolling=function(){return clearTimeout(this.pollTimeout)},n.prototype.poll=function(){return this.pollTimeout=setTimeout(function(t){return function(){return t.reconnectIfStale(),t.poll()}}(this),this.getPollInterval())},n.prototype.getPollInterval=function(){var t,n,e,o;return o=this.constructor.pollInterval,e=o.min,n=o.max,t=5*Math.log(this.reconnectAttempts+1),Math.round(1e3*i(t,e,n))},n.prototype.reconnectIfStale=function(){if(this.connectionIsStale())return r.log("ConnectionMonitor detected stale connection. reconnectAttempts = "+this.reconnectAttempts+", pollInterval = "+this.getPollInterval()+" ms, time disconnected = "+o(this.disconnectedAt)+" s, stale threshold = "+this.constructor.staleThreshold+" s"),this.reconnectAttempts++,this.disconnectedRecently()?r.log("ConnectionMonitor skipping reopening recent disconnect"):(r.log("ConnectionMonitor reopening"),this.connection.reopen())},n.prototype.connectionIsStale=function(){var t;return o(null!=(t=this.pingedAt)?t:this.startedAt)>this.constructor.staleThreshold},n.prototype.disconnectedRecently=function(){return this.disconnectedAt&&o(this.disconnectedAt)<this.constructor.staleThreshold},n.prototype.visibilityDidChange=function(){if("visible"===document.visibilityState)return setTimeout(function(t){return function(){if(t.connectionIsStale()||!t.connection.isOpen())return r.log("ConnectionMonitor reopening stale connection on visibilitychange. visbilityState = "+document.visibilityState),t.connection.reopen()}}(this),200)},e=function(){return(new Date).getTime()},o=function(t){return(e()-t)/1e3},i=function(t,n,i){return Math.max(n,Math.min(i,t))},n}()}).call(this),function(){var t,n,i,e,o,s,c=[].slice,u=function(t,n){return function(){return t.apply(n,arguments)}},a=[].indexOf||function(t){for(var n=0,i=this.length;n<i;n++)if(n in this&&this[n]===t)return n;return-1};e=r.INTERNAL,n=e.message_types,i=e.protocols,o=2<=i.length?c.call(i,0,t=i.length-1):(t=0,[]),s=i[t++],r.Connection=function(){function t(t){this.consumer=t,this.open=u(this.open,this),this.subscriptions=this.consumer.subscriptions,this.monitor=new r.ConnectionMonitor(this),this.disconnected=!0}return t.reopenDelay=500,t.prototype.send=function(t){return!!this.isOpen()&&(this.webSocket.send(JSON.stringify(t)),!0)},t.prototype.open=function(){if(this.isActive())throw r.log("Attempted to open WebSocket, but existing socket is "+this.getState()),new Error("Existing connection must be closed before opening");return r.log("Opening WebSocket, current state is "+this.getState()+", subprotocols: "+i),null!=this.webSocket&&this.uninstallEventHandlers(),this.webSocket=new WebSocket(this.consumer.url,i),this.installEventHandlers(),this.monitor.start(),!0},t.prototype.close=function(t){var n,i;if(n=(null!=t?t:{allowReconnect:!0}).allowReconnect,n||this.monitor.stop(),this.isActive())return null!=(i=this.webSocket)?i.close():void 0},t.prototype.reopen=function(){var t;if(r.log("Reopening WebSocket, current state is "+this.getState()),!this.isActive())return this.open();try{return this.close()}catch(n){return t=n,r.log("Failed to reopen WebSocket",t)}finally{r.log("Reopening WebSocket in "+this.constructor.reopenDelay+"ms"),setTimeout(this.open,this.constructor.reopenDelay)}},t.prototype.getProtocol=function(){var t;return null!=(t=this.webSocket)?t.protocol:void 0},t.prototype.isOpen=function(){return this.isState("open")},t.prototype.isActive=function(){return this.isState("open","connecting")},t.prototype.isProtocolSupported=function(){var t;return t=this.getProtocol(),a.call(o,t)>=0},t.prototype.isState=function(){var t,n;return n=1<=arguments.length?c.call(arguments,0):[],t=this.getState(),a.call(n,t)>=0},t.prototype.getState=function(){var t,n,i;for(n in WebSocket)if(i=WebSocket[n],i===(null!=(t=this.webSocket)?t.readyState:void 0))return n.toLowerCase();return null},t.prototype.installEventHandlers=function(){var t,n;for(t in this.events)n=this.events[t].bind(this),this.webSocket["on"+t]=n},t.prototype.uninstallEventHandlers=function(){var t;for(t in this.events)this.webSocket["on"+t]=function(){}},t.prototype.events={message:function(t){var i,e,o,r;if(this.isProtocolSupported())switch(o=JSON.parse(t.data),i=o.identifier,e=o.message,r=o.type,r){case n.welcome:return this.monitor.recordConnect(),this.subscriptions.reload();case n.ping:return this.monitor.recordPing();case n.confirmation:return this.subscriptions.notify(i,"connected");case n.rejection:return this.subscriptions.reject(i);default:return this.subscriptions.notify(i,"received",e)}},open:function(){if(r.log("WebSocket onopen event, using '"+this.getProtocol()+"' subprotocol"),this.disconnected=!1,!this.isProtocolSupported())return r.log("Protocol is unsupported. Stopping monitor and disconnecting."),this.close({allowReconnect:!1})},close:function(t){if(r.log("WebSocket onclose event"),!this.disconnected)return this.disconnected=!0,this.monitor.recordDisconnect(),this.subscriptions.notifyAll("disconnected",{willAttemptReconnect:this.monitor.isRunning()})},error:function(){return r.log("WebSocket onerror event")}},t}()}.call(this),function(){var t=[].slice;r.Subscriptions=function(){function n(t){this.consumer=t,this.subscriptions=[]}return n.prototype.create=function(t,n){var i,e,o;return i=t,e="object"==typeof i?i:{channel:i},o=new r.Subscription(this.consumer,e,n),this.add(o)},n.prototype.add=function(t){return this.subscriptions.push(t),this.consumer.ensureActiveConnection(),this.notify(t,"initialized"),this.sendCommand(t,"subscribe"),t},n.prototype.remove=function(t){return this.forget(t),this.findAll(t.identifier).length||this.sendCommand(t,"unsubscribe"),t},n.prototype.reject=function(t){var n,i,e,o,r;for(e=this.findAll(t),o=[],n=0,i=e.length;n<i;n++)r=e[n],this.forget(r),this.notify(r,"rejected"),o.push(r);return o},n.prototype.forget=function(t){var n;return this.subscriptions=function(){var i,e,o,r;for(o=this.subscriptions,r=[],i=0,e=o.length;i<e;i++)n=o[i],n!==t&&r.push(n);return r}.call(this),t},n.prototype.findAll=function(t){var n,i,e,o,r;for(e=this.subscriptions,o=[],n=0,i=e.length;n<i;n++)r=e[n],r.identifier===t&&o.push(r);return o},n.prototype.reload=function(){var t,n,i,e,o;for(i=this.subscriptions,e=[],t=0,n=i.length;t<n;t++)o=i[t],e.push(this.sendCommand(o,"subscribe"));return e},n.prototype.notifyAll=function(){var n,i,e,o,r,s,c;for(i=arguments[0],n=2<=arguments.length?t.call(arguments,1):[],r=this.subscriptions,s=[],e=0,o=r.length;e<o;e++)c=r[e],s.push(this.notify.apply(this,[c,i].concat(t.call(n))));return s},n.prototype.notify=function(){var n,i,e,o,r,s,c;for(s=arguments[0],i=arguments[1],n=3<=arguments.length?t.call(arguments,2):[],c="string"==typeof s?this.findAll(s):[s],r=[],e=0,o=c.length;e<o;e++)s=c[e],r.push("function"==typeof s[i]?s[i].apply(s,n):void 0);return r},n.prototype.sendCommand=function(t,n){var i;return i=t.identifier,this.consumer.send({command:n,identifier:i})},n}()}.call(this),function(){r.Subscription=function(){function t(t,i,e){this.consumer=t,null==i&&(i={}),this.identifier=JSON.stringify(i),n(this,e)}var n;return t.prototype.perform=function(t,n){return null==n&&(n={}),n.action=t,this.send(n)},t.prototype.send=function(t){return this.consumer.send({command:"message",identifier:this.identifier,data:JSON.stringify(t)})},t.prototype.unsubscribe=function(){return this.consumer.subscriptions.remove(this)},n=function(t,n){var i,e;if(null!=n)for(i in n)e=n[i],t[i]=e;return t},t}()}.call(this),function(){r.Consumer=function(){function t(t){this.url=t,this.subscriptions=new r.Subscriptions(this),this.connection=new r.Connection(this)}return t.prototype.send=function(t){return this.connection.send(t)},t.prototype.connect=function(){return this.connection.open()},t.prototype.disconnect=function(){return this.connection.close({allowReconnect:!1})},t.prototype.ensureActiveConnection=function(){if(!this.connection.isActive())return this.connection.open()},t}()}.call(this)}).call(this),"object"==typeof t&&t.exports?t.exports=r:(e=r,o="function"==typeof e?e.call(n,i,n,t):e,!(void 0!==o&&(t.exports=o)))}).call(this)},function(t,n){"use strict";var i=function(){function t(t){this.instance=t||{};var n=this.instance.configuration.jQuery;if("undefined"==typeof n||"function"!=typeof n.ajax){var i="jQuery and jQuery.ajax are required to use the API";throw new Error(i)}}return t.prototype.findNotification=function(t,n){n=n||{};var i=this.url()+"/notifications/"+t+".json",e={access_id:this.instance.configuration.accessId,service_token:this.instance.configuration.serviceToken},o={url:i,data:e,type:"GET"};return this.jQuery().ajax(this.jQuery().extend(n,o))},t.prototype.unreadUserNotifications=function(t,n){n=n||{};var i=this.instance.configurationuserId,e=this.url()+"/users/"+i+"/notifications/unread.json",o={access_id:this.instance.configuration.accessId,service_token:this.instance.configuration.serviceToken};t&&(o.since=t);var r={url:e,data:o,type:"GET"};return this.jQuery().ajax(this.jQuery().extend(n,r))},t.prototype.userNotifications=function(t,n){n=n||{};var i=this.instance.configuration.userId,e=this.url()+"/users/"+i+"/notifications.json",o={access_id:this.instance.configuration.accessId,service_token:this.instance.configuration.serviceToken};t&&(o.since=t);var r={url:e,data:o,type:"GET"};return this.jQuery().ajax(this.jQuery().extend(n,r))},t.prototype.jQuery=function(){return this.instance.configuration.jQuery},t.prototype.url=function(){var t="";return t+=this.instance.configuration.useHttps===!0?"https://":"http://",t+=this.instance.configuration.url+"/api/v1"},t}();t.exports=i},function(t,n){"use strict";var i=function(){function t(t){this.instance=t,this.consumer=t._actionCableConsumer,this.subscriptions={},s=[],i.call(this)}function n(t){if(s.indexOf(t)===-1){s.push(t);var n=BimaNotifications.channelNames.length;if(s.length===n){this.instance.subscriptionsInitialized=!0,this.instance.subscriptionsInitializationsCount+=1;var i={action:"subscriptions_initialized",data:null};o.call(this,i)}}}function i(){BimaNotifications.channelNames.forEach(function(t){e.call(this,t)}.bind(this))}function e(t){var i=r.call(this,t),e=this.consumer.subscriptions.create(i,{connected:function(t){n.call(this,t)}.bind(this,t),received:function(t){o.call(this,t)}.bind(this),rejected:function(t){var n="Connection to channel `"+t+"` was rejected";throw new Error(n)}.bind(this,t)});this.subscriptions[t]=e}function o(t){this.instance.callbacks.forEach(function(t,n){n.call(this,t)}.bind(this,t))}function r(t){return{accessId:this.instance.configuration.accessId,userId:this.instance.configuration.userId,channel:t}}var s=null;return t.prototype.resubscribeToAllChannels=function(){this.unsubscribeAllChannels(),i.call(this)},t.prototype.unsubscribeAllChannels=function(){Object.keys(this.subscriptions).forEach(function(t){this.consumer.subscriptions.remove(this.subscriptions[t]),delete this.subscriptions[t],s.splice(s.indexOf(t),1)}.bind(this))},t}();t.exports=i}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/** @global **/
+	(function (global) {
+	  "use strict";
+
+	  /**
+	   * @class BimaNotifications
+	   * @classdesc Class to manage and receive notifications in BImA applications
+	   *
+	   * @param {Object} options - object hash with the settings
+	   * @param {string} options.url - Basic URL to the API endpoint of the
+	   * Notification service
+	   * IMPORTANT: Please use here without any protocol and extra paths! (Example:
+	   * localhost:5000)
+	   * @param {string} options.accessId - App access ID for the BImA
+	   * notification service
+	   * @param {string} options.serviceToken - Service Token for BImA Doorkeeper
+	   * app to access the API
+	   * @param {string} options.userId - User ID related with the given serviceToken
+	   * @param {boolean} options.useHttps - Set true if API endpoint should be
+	   * called with https [default: true]
+	   * @param {Object} options.jQuery - jQuery object with .ajax function
+	   * [default: jQuery | window.jQuery]
+	   * @param {(function|Object[])} options.callbacks - function or
+	   * array of functions which should be executed when a notification was
+	   * received
+	   * @throws An error if any if the required option properties is missing or
+	   * has a wrong format
+	   */
+	  global.BimaNotifications = (function () {
+	    /** @private **/
+	    var subscriptionManager = null;
+
+	    /** * @construtor */
+	    function BimaNotifications (options) {
+	      options = options || {};
+
+	      this.configuration = {};
+
+	      this.configuration.url = options.url;
+	      this.configuration.accessId = options.accessId;
+	      this.configuration.serviceToken = options.serviceToken;
+	      this.configuration.userId = options.userId;
+	      this.configuration.useHttps = options.useHttps;
+	      this.configuration.jQuery = options.jQuery || jQuery || window.jQuery || $;
+
+	      if (typeof(this.configuration.useHttps) === "undefined") {
+	        this.configuration.useHttps = true;
+	      }
+
+	      this.callbacks = options.callbacks;
+
+	      if (typeof(this.callbacks) !== "undefined" && typeof(this.callbacks) === "function") {
+	        this.callbacks = [callbacks];
+	      }
+	      else if (typeof(this.callbacks) === "object") {
+	        this.callbacks = this.callbacks;
+	      }
+	      else {
+	        this.callbacks = [];
+	      }
+
+	      this.subscriptionsInitialized = false;
+	      this.subscriptionsInitializationsCount = 0;
+
+	      setFullSocketUrl.call(this);
+	      setFinalConfiguration.call(this);
+	      setActionCableConsumer.call(this);
+	      setSubscriptionManagerInstance.call(this);
+	      setApiInstance.call(this);
+	    };
+
+	    /**
+	     * Names of the notification channels
+	     *
+	     * @name BimaNotifications.channelNames
+	     * @type Array
+	     * @readonly
+	     */
+	    BimaNotifications.channelNames = Object.freeze([
+	      "GlobalNotificationsChannel",
+	      "UserNotificationsChannel"
+	    ]);
+
+	    /**
+	     * Keys for configuration which are editable
+	     *
+	     * @name BimaNotifications.editableConfigurationKeys
+	     * @type Array
+	     * @readonly
+	     */
+	    BimaNotifications.editableConfigurationKeys = Object.freeze([
+	      "url", "accessId", "serviceToken", "userId", "useHttps", "jQuery"
+	    ]);
+
+	    /**
+	     * Adds a function to the callbacks
+	     *
+	     * @function
+	     * @name BimaNotifications#addCallback
+	     * @param {function} fn - function to be added
+	     */
+	    BimaNotifications.prototype.addCallback = function (fn) {
+	      if (typeof(fn) === "function" && typeof(this.callbacks) === "object") {
+	        this.callbacks.push(fn);
+	      }
+	    };
+
+	    /**
+	     * Connect with the Websocket server under the specified address
+	     *
+	     * @function
+	     * @name BimaNotifications#connect
+	     */
+	    BimaNotifications.prototype.connect = function () {
+	      this._actionCableConsumer.connect;
+	      subscriptionManager.resubscribeToAllChannels();
+	    };
+
+	    /**
+	     * Disconnect from the websocket
+	     *
+	     * @function
+	     * @name BimaNotifications#disconnect
+	     */
+	    BimaNotifications.prototype.disconnect = function () {
+	      subscriptionManager.unsubscribeAllChannels();
+	      this._actionCableConsumer.disconnect();
+	    };
+
+	    /**
+	     * Returns the full URL to the WebSocket with the current configuration
+	     *
+	     * @function
+	     * @name BimaNotifications#fullSocketUrl
+	     * @return {string}
+	     */
+	    BimaNotifications.prototype.fullSocketUrl = function () {
+	      return this.configuration.fullSocketUrl;
+	    };
+
+	    /**
+	     * Mark a specific notification as read
+	     *
+	     * @function
+	     * @name BimaNotifications#markNotificationAsRead
+	     * @param {(string|number)} id - Id of the notification
+	     */
+	    BimaNotifications.prototype.markNotificationAsRead = function (id) {
+	      var subscription = subscriptionManager.subscriptions["UserNotificationsChannel"];
+
+	      subscription.perform("mark_notification_as_read", { notification_id: id });
+	    };
+
+	    BimaNotifications.prototype.updateConfiguration = function (options) {
+	      options = options || {};
+	      var keys = Object.keys(options);
+
+	      if (keys.length > 0) {
+	        var jQuery = this.configuration.jQuery;
+	        var currentUserId = this.configuration.userId;
+	        var newConfiguration = jQuery.extend(true, {}, this.configuration);
+
+	        for (var i in keys) {
+	          var key = keys[i];
+
+	          if (jQuery.inArray(key, BimaNotifications.editableConfigurationKeys) > -1) {
+	            newConfiguration[key] = options[key];
+	          }
+	          else {
+	            throw new Error("Unallowed configuration key `" + key + "`");
+	          }
+	        }
+
+	        if (currentUserId !== newConfiguration.userId) {
+	          this.subscriptionsInitialized = false;
+	          this.subscriptionsInitializationsCount = 0;
+	        }
+
+	        this.configuration = newConfiguration;
+	        this.disconnect();
+
+	        setFullSocketUrl.call(this);
+	        setFinalConfiguration.call(this);
+	        setActionCableConsumer.call(this);
+	        setSubscriptionManagerInstance.call(this);
+	        setApiInstance.call(this);
+	      }
+	    };
+
+	    // private
+
+	    function setActionCableConsumer () {
+	      try {
+	        var ActionCable = __webpack_require__(2);
+
+	        this._actionCableConsumer = ActionCable.createConsumer(this.configuration.fullSocketUrl);
+	        this._actionCableConsumer.connect();
+	      }
+	      catch (err) {
+	        throw new Error(err);
+	      }
+	    };
+
+	    function setApiInstance () {
+	      var Api = __webpack_require__(3);
+
+	      /**
+	       * @name BimaNotifications#Api
+	       * @type Api
+	       */
+	      this.Api = new Api(this);
+	    };
+
+	    function setFullSocketUrl () {
+	      var url = this.configuration.url;
+	      var accessId = this.configuration.accessId;
+	      var serviceToken = this.configuration.serviceToken;
+
+	      if (url && accessId && serviceToken) {
+	        var socketUrl = "ws://" + url + "/socket";
+
+	        if(socketUrl.match(/^ws:\/\/\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*[^\/]$/)) {
+	          this.configuration.fullSocketUrl = socketUrl;
+	          this.configuration.fullSocketUrl += "?access_id=" + accessId;
+	          this.configuration.fullSocketUrl += "&service_token=" + serviceToken;
+	          this.configuration.fullSocketUrl = encodeURI(this.configuration.fullSocketUrl);
+	        }
+	        else {
+	          throw new Error("options.socketUrl has invalid format");
+	        }
+	      }
+	      else {
+	        throw new Error("Required option properties are missing");
+	      }
+	    };
+
+	    function setSubscriptionManagerInstance ()  {
+	      var SubscriptionManager = __webpack_require__(4);
+	      subscriptionManager = new SubscriptionManager(this);
+	    };
+
+	    function setFinalConfiguration () {
+	      this.configuration = Object.freeze(this.configuration);
+	    };
+
+	    return BimaNotifications;
+	  })();
+
+	  // In Node.JS based envs
+	  if ((typeof(process) !== "undefined")) {
+	   module.exports = BimaNotifications;
+	  }
+	}(window));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	// shim for using process in browser
+	var process = module.exports = {};
+
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+
+	function defaultSetTimout() {
+	    throw new Error('setTimeout has not been defined');
+	}
+	function defaultClearTimeout () {
+	    throw new Error('clearTimeout has not been defined');
+	}
+	(function () {
+	    try {
+	        if (typeof setTimeout === 'function') {
+	            cachedSetTimeout = setTimeout;
+	        } else {
+	            cachedSetTimeout = defaultSetTimout;
+	        }
+	    } catch (e) {
+	        cachedSetTimeout = defaultSetTimout;
+	    }
+	    try {
+	        if (typeof clearTimeout === 'function') {
+	            cachedClearTimeout = clearTimeout;
+	        } else {
+	            cachedClearTimeout = defaultClearTimeout;
+	        }
+	    } catch (e) {
+	        cachedClearTimeout = defaultClearTimeout;
+	    }
+	} ())
+	function runTimeout(fun) {
+	    if (cachedSetTimeout === setTimeout) {
+	        //normal enviroments in sane situations
+	        return setTimeout(fun, 0);
+	    }
+	    // if setTimeout wasn't available but was latter defined
+	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+	        cachedSetTimeout = setTimeout;
+	        return setTimeout(fun, 0);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedSetTimeout(fun, 0);
+	    } catch(e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+	            return cachedSetTimeout.call(null, fun, 0);
+	        } catch(e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+	            return cachedSetTimeout.call(this, fun, 0);
+	        }
+	    }
+
+
+	}
+	function runClearTimeout(marker) {
+	    if (cachedClearTimeout === clearTimeout) {
+	        //normal enviroments in sane situations
+	        return clearTimeout(marker);
+	    }
+	    // if clearTimeout wasn't available but was latter defined
+	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+	        cachedClearTimeout = clearTimeout;
+	        return clearTimeout(marker);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedClearTimeout(marker);
+	    } catch (e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+	            return cachedClearTimeout.call(null, marker);
+	        } catch (e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+	            return cachedClearTimeout.call(this, marker);
+	        }
+	    }
+
+
+
+	}
+	var queue = [];
+	var draining = false;
+	var currentQueue;
+	var queueIndex = -1;
+
+	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
+	}
+
+	function drainQueue() {
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = runTimeout(cleanUpNextTick);
+	    draining = true;
+
+	    var len = queue.length;
+	    while(len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    runClearTimeout(timeout);
+	}
+
+	process.nextTick = function (fun) {
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        runTimeout(drainQueue);
+	    }
+	};
+
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	    this.fun = fun;
+	    this.array = array;
+	}
+	Item.prototype.run = function () {
+	    this.fun.apply(null, this.array);
+	};
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	process.version = ''; // empty string to avoid regexp issues
+	process.versions = {};
+
+	function noop() {}
+
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+	process.umask = function() { return 0; };
+
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;(function() {
+	  (function() {
+	    (function() {
+	      var slice = [].slice;
+
+	      this.ActionCable = {
+	        INTERNAL: {
+	          "message_types": {
+	            "welcome": "welcome",
+	            "ping": "ping",
+	            "confirmation": "confirm_subscription",
+	            "rejection": "reject_subscription"
+	          },
+	          "default_mount_path": "/cable",
+	          "protocols": ["actioncable-v1-json", "actioncable-unsupported"]
+	        },
+	        createConsumer: function(url) {
+	          var ref;
+	          if (url == null) {
+	            url = (ref = this.getConfig("url")) != null ? ref : this.INTERNAL.default_mount_path;
+	          }
+	          return new ActionCable.Consumer(this.createWebSocketURL(url));
+	        },
+	        getConfig: function(name) {
+	          var element;
+	          element = document.head.querySelector("meta[name='action-cable-" + name + "']");
+	          return element != null ? element.getAttribute("content") : void 0;
+	        },
+	        createWebSocketURL: function(url) {
+	          var a;
+	          if (url && !/^wss?:/i.test(url)) {
+	            a = document.createElement("a");
+	            a.href = url;
+	            a.href = a.href;
+	            a.protocol = a.protocol.replace("http", "ws");
+	            return a.href;
+	          } else {
+	            return url;
+	          }
+	        },
+	        startDebugging: function() {
+	          return this.debugging = true;
+	        },
+	        stopDebugging: function() {
+	          return this.debugging = null;
+	        },
+	        log: function() {
+	          var messages;
+	          messages = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+	          if (this.debugging) {
+	            messages.push(Date.now());
+	            return console.log.apply(console, ["[ActionCable]"].concat(slice.call(messages)));
+	          }
+	        }
+	      };
+
+	    }).call(this);
+	  }).call(this);
+
+	  var ActionCable = this.ActionCable;
+
+	  (function() {
+	    (function() {
+	      var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+	      ActionCable.ConnectionMonitor = (function() {
+	        var clamp, now, secondsSince;
+
+	        ConnectionMonitor.pollInterval = {
+	          min: 3,
+	          max: 30
+	        };
+
+	        ConnectionMonitor.staleThreshold = 6;
+
+	        function ConnectionMonitor(connection) {
+	          this.connection = connection;
+	          this.visibilityDidChange = bind(this.visibilityDidChange, this);
+	          this.reconnectAttempts = 0;
+	        }
+
+	        ConnectionMonitor.prototype.start = function() {
+	          if (!this.isRunning()) {
+	            this.startedAt = now();
+	            delete this.stoppedAt;
+	            this.startPolling();
+	            document.addEventListener("visibilitychange", this.visibilityDidChange);
+	            return ActionCable.log("ConnectionMonitor started. pollInterval = " + (this.getPollInterval()) + " ms");
+	          }
+	        };
+
+	        ConnectionMonitor.prototype.stop = function() {
+	          if (this.isRunning()) {
+	            this.stoppedAt = now();
+	            this.stopPolling();
+	            document.removeEventListener("visibilitychange", this.visibilityDidChange);
+	            return ActionCable.log("ConnectionMonitor stopped");
+	          }
+	        };
+
+	        ConnectionMonitor.prototype.isRunning = function() {
+	          return (this.startedAt != null) && (this.stoppedAt == null);
+	        };
+
+	        ConnectionMonitor.prototype.recordPing = function() {
+	          return this.pingedAt = now();
+	        };
+
+	        ConnectionMonitor.prototype.recordConnect = function() {
+	          this.reconnectAttempts = 0;
+	          this.recordPing();
+	          delete this.disconnectedAt;
+	          return ActionCable.log("ConnectionMonitor recorded connect");
+	        };
+
+	        ConnectionMonitor.prototype.recordDisconnect = function() {
+	          this.disconnectedAt = now();
+	          return ActionCable.log("ConnectionMonitor recorded disconnect");
+	        };
+
+	        ConnectionMonitor.prototype.startPolling = function() {
+	          this.stopPolling();
+	          return this.poll();
+	        };
+
+	        ConnectionMonitor.prototype.stopPolling = function() {
+	          return clearTimeout(this.pollTimeout);
+	        };
+
+	        ConnectionMonitor.prototype.poll = function() {
+	          return this.pollTimeout = setTimeout((function(_this) {
+	            return function() {
+	              _this.reconnectIfStale();
+	              return _this.poll();
+	            };
+	          })(this), this.getPollInterval());
+	        };
+
+	        ConnectionMonitor.prototype.getPollInterval = function() {
+	          var interval, max, min, ref;
+	          ref = this.constructor.pollInterval, min = ref.min, max = ref.max;
+	          interval = 5 * Math.log(this.reconnectAttempts + 1);
+	          return Math.round(clamp(interval, min, max) * 1000);
+	        };
+
+	        ConnectionMonitor.prototype.reconnectIfStale = function() {
+	          if (this.connectionIsStale()) {
+	            ActionCable.log("ConnectionMonitor detected stale connection. reconnectAttempts = " + this.reconnectAttempts + ", pollInterval = " + (this.getPollInterval()) + " ms, time disconnected = " + (secondsSince(this.disconnectedAt)) + " s, stale threshold = " + this.constructor.staleThreshold + " s");
+	            this.reconnectAttempts++;
+	            if (this.disconnectedRecently()) {
+	              return ActionCable.log("ConnectionMonitor skipping reopening recent disconnect");
+	            } else {
+	              ActionCable.log("ConnectionMonitor reopening");
+	              return this.connection.reopen();
+	            }
+	          }
+	        };
+
+	        ConnectionMonitor.prototype.connectionIsStale = function() {
+	          var ref;
+	          return secondsSince((ref = this.pingedAt) != null ? ref : this.startedAt) > this.constructor.staleThreshold;
+	        };
+
+	        ConnectionMonitor.prototype.disconnectedRecently = function() {
+	          return this.disconnectedAt && secondsSince(this.disconnectedAt) < this.constructor.staleThreshold;
+	        };
+
+	        ConnectionMonitor.prototype.visibilityDidChange = function() {
+	          if (document.visibilityState === "visible") {
+	            return setTimeout((function(_this) {
+	              return function() {
+	                if (_this.connectionIsStale() || !_this.connection.isOpen()) {
+	                  ActionCable.log("ConnectionMonitor reopening stale connection on visibilitychange. visbilityState = " + document.visibilityState);
+	                  return _this.connection.reopen();
+	                }
+	              };
+	            })(this), 200);
+	          }
+	        };
+
+	        now = function() {
+	          return new Date().getTime();
+	        };
+
+	        secondsSince = function(time) {
+	          return (now() - time) / 1000;
+	        };
+
+	        clamp = function(number, min, max) {
+	          return Math.max(min, Math.min(max, number));
+	        };
+
+	        return ConnectionMonitor;
+
+	      })();
+
+	    }).call(this);
+	    (function() {
+	      var i, message_types, protocols, ref, supportedProtocols, unsupportedProtocol,
+	        slice = [].slice,
+	        bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+	        indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+	      ref = ActionCable.INTERNAL, message_types = ref.message_types, protocols = ref.protocols;
+
+	      supportedProtocols = 2 <= protocols.length ? slice.call(protocols, 0, i = protocols.length - 1) : (i = 0, []), unsupportedProtocol = protocols[i++];
+
+	      ActionCable.Connection = (function() {
+	        Connection.reopenDelay = 500;
+
+	        function Connection(consumer) {
+	          this.consumer = consumer;
+	          this.open = bind(this.open, this);
+	          this.subscriptions = this.consumer.subscriptions;
+	          this.monitor = new ActionCable.ConnectionMonitor(this);
+	          this.disconnected = true;
+	        }
+
+	        Connection.prototype.send = function(data) {
+	          if (this.isOpen()) {
+	            this.webSocket.send(JSON.stringify(data));
+	            return true;
+	          } else {
+	            return false;
+	          }
+	        };
+
+	        Connection.prototype.open = function() {
+	          if (this.isActive()) {
+	            ActionCable.log("Attempted to open WebSocket, but existing socket is " + (this.getState()));
+	            throw new Error("Existing connection must be closed before opening");
+	          } else {
+	            ActionCable.log("Opening WebSocket, current state is " + (this.getState()) + ", subprotocols: " + protocols);
+	            if (this.webSocket != null) {
+	              this.uninstallEventHandlers();
+	            }
+	            this.webSocket = new WebSocket(this.consumer.url, protocols);
+	            this.installEventHandlers();
+	            this.monitor.start();
+	            return true;
+	          }
+	        };
+
+	        Connection.prototype.close = function(arg) {
+	          var allowReconnect, ref1;
+	          allowReconnect = (arg != null ? arg : {
+	            allowReconnect: true
+	          }).allowReconnect;
+	          if (!allowReconnect) {
+	            this.monitor.stop();
+	          }
+	          if (this.isActive()) {
+	            return (ref1 = this.webSocket) != null ? ref1.close() : void 0;
+	          }
+	        };
+
+	        Connection.prototype.reopen = function() {
+	          var error, error1;
+	          ActionCable.log("Reopening WebSocket, current state is " + (this.getState()));
+	          if (this.isActive()) {
+	            try {
+	              return this.close();
+	            } catch (error1) {
+	              error = error1;
+	              return ActionCable.log("Failed to reopen WebSocket", error);
+	            } finally {
+	              ActionCable.log("Reopening WebSocket in " + this.constructor.reopenDelay + "ms");
+	              setTimeout(this.open, this.constructor.reopenDelay);
+	            }
+	          } else {
+	            return this.open();
+	          }
+	        };
+
+	        Connection.prototype.getProtocol = function() {
+	          var ref1;
+	          return (ref1 = this.webSocket) != null ? ref1.protocol : void 0;
+	        };
+
+	        Connection.prototype.isOpen = function() {
+	          return this.isState("open");
+	        };
+
+	        Connection.prototype.isActive = function() {
+	          return this.isState("open", "connecting");
+	        };
+
+	        Connection.prototype.isProtocolSupported = function() {
+	          var ref1;
+	          return ref1 = this.getProtocol(), indexOf.call(supportedProtocols, ref1) >= 0;
+	        };
+
+	        Connection.prototype.isState = function() {
+	          var ref1, states;
+	          states = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+	          return ref1 = this.getState(), indexOf.call(states, ref1) >= 0;
+	        };
+
+	        Connection.prototype.getState = function() {
+	          var ref1, state, value;
+	          for (state in WebSocket) {
+	            value = WebSocket[state];
+	            if (value === ((ref1 = this.webSocket) != null ? ref1.readyState : void 0)) {
+	              return state.toLowerCase();
+	            }
+	          }
+	          return null;
+	        };
+
+	        Connection.prototype.installEventHandlers = function() {
+	          var eventName, handler;
+	          for (eventName in this.events) {
+	            handler = this.events[eventName].bind(this);
+	            this.webSocket["on" + eventName] = handler;
+	          }
+	        };
+
+	        Connection.prototype.uninstallEventHandlers = function() {
+	          var eventName;
+	          for (eventName in this.events) {
+	            this.webSocket["on" + eventName] = function() {};
+	          }
+	        };
+
+	        Connection.prototype.events = {
+	          message: function(event) {
+	            var identifier, message, ref1, type;
+	            if (!this.isProtocolSupported()) {
+	              return;
+	            }
+	            ref1 = JSON.parse(event.data), identifier = ref1.identifier, message = ref1.message, type = ref1.type;
+	            switch (type) {
+	              case message_types.welcome:
+	                this.monitor.recordConnect();
+	                return this.subscriptions.reload();
+	              case message_types.ping:
+	                return this.monitor.recordPing();
+	              case message_types.confirmation:
+	                return this.subscriptions.notify(identifier, "connected");
+	              case message_types.rejection:
+	                return this.subscriptions.reject(identifier);
+	              default:
+	                return this.subscriptions.notify(identifier, "received", message);
+	            }
+	          },
+	          open: function() {
+	            ActionCable.log("WebSocket onopen event, using '" + (this.getProtocol()) + "' subprotocol");
+	            this.disconnected = false;
+	            if (!this.isProtocolSupported()) {
+	              ActionCable.log("Protocol is unsupported. Stopping monitor and disconnecting.");
+	              return this.close({
+	                allowReconnect: false
+	              });
+	            }
+	          },
+	          close: function(event) {
+	            ActionCable.log("WebSocket onclose event");
+	            if (this.disconnected) {
+	              return;
+	            }
+	            this.disconnected = true;
+	            this.monitor.recordDisconnect();
+	            return this.subscriptions.notifyAll("disconnected", {
+	              willAttemptReconnect: this.monitor.isRunning()
+	            });
+	          },
+	          error: function() {
+	            return ActionCable.log("WebSocket onerror event");
+	          }
+	        };
+
+	        return Connection;
+
+	      })();
+
+	    }).call(this);
+	    (function() {
+	      var slice = [].slice;
+
+	      ActionCable.Subscriptions = (function() {
+	        function Subscriptions(consumer) {
+	          this.consumer = consumer;
+	          this.subscriptions = [];
+	        }
+
+	        Subscriptions.prototype.create = function(channelName, mixin) {
+	          var channel, params, subscription;
+	          channel = channelName;
+	          params = typeof channel === "object" ? channel : {
+	            channel: channel
+	          };
+	          subscription = new ActionCable.Subscription(this.consumer, params, mixin);
+	          return this.add(subscription);
+	        };
+
+	        Subscriptions.prototype.add = function(subscription) {
+	          this.subscriptions.push(subscription);
+	          this.consumer.ensureActiveConnection();
+	          this.notify(subscription, "initialized");
+	          this.sendCommand(subscription, "subscribe");
+	          return subscription;
+	        };
+
+	        Subscriptions.prototype.remove = function(subscription) {
+	          this.forget(subscription);
+	          if (!this.findAll(subscription.identifier).length) {
+	            this.sendCommand(subscription, "unsubscribe");
+	          }
+	          return subscription;
+	        };
+
+	        Subscriptions.prototype.reject = function(identifier) {
+	          var i, len, ref, results, subscription;
+	          ref = this.findAll(identifier);
+	          results = [];
+	          for (i = 0, len = ref.length; i < len; i++) {
+	            subscription = ref[i];
+	            this.forget(subscription);
+	            this.notify(subscription, "rejected");
+	            results.push(subscription);
+	          }
+	          return results;
+	        };
+
+	        Subscriptions.prototype.forget = function(subscription) {
+	          var s;
+	          this.subscriptions = (function() {
+	            var i, len, ref, results;
+	            ref = this.subscriptions;
+	            results = [];
+	            for (i = 0, len = ref.length; i < len; i++) {
+	              s = ref[i];
+	              if (s !== subscription) {
+	                results.push(s);
+	              }
+	            }
+	            return results;
+	          }).call(this);
+	          return subscription;
+	        };
+
+	        Subscriptions.prototype.findAll = function(identifier) {
+	          var i, len, ref, results, s;
+	          ref = this.subscriptions;
+	          results = [];
+	          for (i = 0, len = ref.length; i < len; i++) {
+	            s = ref[i];
+	            if (s.identifier === identifier) {
+	              results.push(s);
+	            }
+	          }
+	          return results;
+	        };
+
+	        Subscriptions.prototype.reload = function() {
+	          var i, len, ref, results, subscription;
+	          ref = this.subscriptions;
+	          results = [];
+	          for (i = 0, len = ref.length; i < len; i++) {
+	            subscription = ref[i];
+	            results.push(this.sendCommand(subscription, "subscribe"));
+	          }
+	          return results;
+	        };
+
+	        Subscriptions.prototype.notifyAll = function() {
+	          var args, callbackName, i, len, ref, results, subscription;
+	          callbackName = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+	          ref = this.subscriptions;
+	          results = [];
+	          for (i = 0, len = ref.length; i < len; i++) {
+	            subscription = ref[i];
+	            results.push(this.notify.apply(this, [subscription, callbackName].concat(slice.call(args))));
+	          }
+	          return results;
+	        };
+
+	        Subscriptions.prototype.notify = function() {
+	          var args, callbackName, i, len, results, subscription, subscriptions;
+	          subscription = arguments[0], callbackName = arguments[1], args = 3 <= arguments.length ? slice.call(arguments, 2) : [];
+	          if (typeof subscription === "string") {
+	            subscriptions = this.findAll(subscription);
+	          } else {
+	            subscriptions = [subscription];
+	          }
+	          results = [];
+	          for (i = 0, len = subscriptions.length; i < len; i++) {
+	            subscription = subscriptions[i];
+	            results.push(typeof subscription[callbackName] === "function" ? subscription[callbackName].apply(subscription, args) : void 0);
+	          }
+	          return results;
+	        };
+
+	        Subscriptions.prototype.sendCommand = function(subscription, command) {
+	          var identifier;
+	          identifier = subscription.identifier;
+	          return this.consumer.send({
+	            command: command,
+	            identifier: identifier
+	          });
+	        };
+
+	        return Subscriptions;
+
+	      })();
+
+	    }).call(this);
+	    (function() {
+	      ActionCable.Subscription = (function() {
+	        var extend;
+
+	        function Subscription(consumer, params, mixin) {
+	          this.consumer = consumer;
+	          if (params == null) {
+	            params = {};
+	          }
+	          this.identifier = JSON.stringify(params);
+	          extend(this, mixin);
+	        }
+
+	        Subscription.prototype.perform = function(action, data) {
+	          if (data == null) {
+	            data = {};
+	          }
+	          data.action = action;
+	          return this.send(data);
+	        };
+
+	        Subscription.prototype.send = function(data) {
+	          return this.consumer.send({
+	            command: "message",
+	            identifier: this.identifier,
+	            data: JSON.stringify(data)
+	          });
+	        };
+
+	        Subscription.prototype.unsubscribe = function() {
+	          return this.consumer.subscriptions.remove(this);
+	        };
+
+	        extend = function(object, properties) {
+	          var key, value;
+	          if (properties != null) {
+	            for (key in properties) {
+	              value = properties[key];
+	              object[key] = value;
+	            }
+	          }
+	          return object;
+	        };
+
+	        return Subscription;
+
+	      })();
+
+	    }).call(this);
+	    (function() {
+	      ActionCable.Consumer = (function() {
+	        function Consumer(url) {
+	          this.url = url;
+	          this.subscriptions = new ActionCable.Subscriptions(this);
+	          this.connection = new ActionCable.Connection(this);
+	        }
+
+	        Consumer.prototype.send = function(data) {
+	          return this.connection.send(data);
+	        };
+
+	        Consumer.prototype.connect = function() {
+	          return this.connection.open();
+	        };
+
+	        Consumer.prototype.disconnect = function() {
+	          return this.connection.close({
+	            allowReconnect: false
+	          });
+	        };
+
+	        Consumer.prototype.ensureActiveConnection = function() {
+	          if (!this.connection.isActive()) {
+	            return this.connection.open();
+	          }
+	        };
+
+	        return Consumer;
+
+	      })();
+
+	    }).call(this);
+	  }).call(this);
+
+	  if (typeof module === "object" && module.exports) {
+	    module.exports = ActionCable;
+	  } else if (true) {
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (ActionCable), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  }
+	}).call(this);
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	/**
+	 * @class Api
+	 * @classdesc Management class to access the notifications REST API
+	 * @private
+	 * @param {BimaNotifications} instance - Instance of BimaNotifications
+	 * @throws Will throw an error if instance.configuration.jQuery is invalid,
+	 * null or does not have an .ajax function
+	 */
+	var Api = (function () {
+	  /** @construtor **/
+	  function Api (instance) {
+	    /**
+	     * @name Api#instance
+	     * @type BimaNotifications
+	     */
+	    this.instance = instance || {};
+
+	    var jQuery = this.instance.configuration.jQuery;
+
+	    if (typeof(jQuery) === "undefined" || typeof(jQuery.ajax) !== "function") {
+	      var error = "jQuery and jQuery.ajax are required to use the API";
+	      throw new Error(error);
+	    }
+	  };
+
+	  /**
+	   * API call to find a specific notification
+	   *
+	   * @function
+	   * @name Api#findNotification
+	   * @param {Number|String} id - ID of the notification to be found
+	   * @param {Object} ajaxOptions - extra options hash for jQuery.ajax
+	   * @return {Promise} jQuery AJAX promise
+	   * @see {@link http://api.jquery.com/jquery.ajax/}
+	   */
+	  Api.prototype.findNotification = function (id, ajaxOptions) {
+	    ajaxOptions = ajaxOptions || {};
+
+	    var reqUrl = this.url() + "/notifications/" + id + ".json";
+	    var data = {
+	      access_id: this.instance.configuration.accessId,
+	      service_token: this.instance.configuration.serviceToken
+	    };
+	    var options = { url: reqUrl, data: data, type: "GET" };
+
+	    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options));
+	  };
+
+	  /**
+	   * API call to get all unread notifications for the given user
+	   *
+	   * @function
+	   * @name Api#unreadUserNotifications
+	   * @param {Date} since - Date since when notifications should be fetched
+	   * [default: 7 days ago]
+	   * @param {Object} ajaxOptions - extra options hash for jQuery.ajax
+	   * @return {Promise} jQuery AJAX promise
+	   * @see {@link http://api.jquery.com/jquery.ajax/}
+	   */
+	  Api.prototype.unreadUserNotifications = function (since, ajaxOptions) {
+	    ajaxOptions = ajaxOptions || {};
+
+	    var userId = this.instance.configurationuserId;
+	    var reqUrl = this.url() + "/users/" + userId + "/notifications/unread" + ".json";
+	    var data = {
+	      access_id: this.instance.configuration.accessId,
+	      service_token: this.instance.configuration.serviceToken
+	    };
+
+	    if (since) data["since"] = since;
+	    var options = { url: reqUrl, data: data, type: "GET" };
+
+	    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options));
+	  };
+
+	  /**
+	   * API call to get all notifications for the given user
+	   *
+	   * @function
+	   * @name Api#userNotifications
+	   * @param {Date} since - Date since when notifications should be fetched
+	   * [default: 7 days ago]
+	   * @param {Object} ajaxOptions - extra options hash for jQuery.ajax
+	   * @return {Promise} jQuery AJAX promise
+	   * @see {@link http://api.jquery.com/jquery.ajax/}
+	   */
+	  Api.prototype.userNotifications = function (since, ajaxOptions) {
+	    ajaxOptions = ajaxOptions || {};
+
+	    var userId = this.instance.configuration.userId;
+	    var reqUrl = this.url() + "/users/" + userId + "/notifications" + ".json";
+	    var data = {
+	      access_id: this.instance.configuration.accessId,
+	      service_token: this.instance.configuration.serviceToken
+	    };
+
+	    if (since) data["since"] = since;
+	    var options = { url: reqUrl, data: data, type: "GET" };
+
+	    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options));
+	  };
+
+	  /**
+	   * Getter for the jQuery object of this.instance.configuration
+	   *
+	   * @function
+	   * @name Api#jQuery
+	   * @return {Object} jQuery
+	   */
+	  Api.prototype.jQuery = function () {
+	    return this.instance.configuration.jQuery;
+	  };
+
+	  /**
+	   * URL to the HTTP(S) API endpoint
+	   *
+	   * @function
+	   * @name Api#url
+	   * @return String
+	   */
+	  Api.prototype.url = function () {
+	    var url = "";
+
+	    if (this.instance.configuration.useHttps === true) {
+	      url += "https://";
+	    }
+	    else {
+	      url += "http://";
+	    }
+
+	    // TODO: Make this version later dynamicly configureable
+	    url += this.instance.configuration.url + "/api/v1";
+	    return url;
+	  };
+
+	  return Api;
+	})();
+
+	module.exports = Api;
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	/**
+	 * @class SubscriptionManager
+	 * @classdesc Management wrapper class for ActionCable Websocket subscriptions
+	 * @param {BimaNotifications} instance - Instance of BimaNotifications
+	 * @private
+	 */
+	var SubscriptionManager = (function () {
+	  /** @private **/
+	  var connectedChannels = null;
+
+	  /** @construtor **/
+	  function SubscriptionManager (instance) {
+	    /**
+	     * @name SubscriptionManager#instance
+	     * @type BimaNotifications
+	     */
+	    this.instance = instance;
+
+	    this.consumer = instance._actionCableConsumer;
+	    this.subscriptions = {};
+
+	    connectedChannels = [];
+	    createChannelSubscriptions.call(this);
+	  };
+	  /**
+	   * Unsubscribe and resubscribe to all channels
+	   *
+	   * @function
+	   * @name SubscriptionManager#resubscribeToAllChannels
+	   */
+	  SubscriptionManager.prototype.resubscribeToAllChannels = function () {
+	    this.unsubscribeAllChannels();
+	    createChannelSubscriptions.call(this);
+	  };
+
+	  /**
+	   * Unsubscribe from all subscribed channels
+	   *
+	   * @function
+	   * @name SubscriptionManager#unsubscribeAllChannels
+	   */
+	  SubscriptionManager.prototype.unsubscribeAllChannels = function () {
+	    Object.keys(this.subscriptions).forEach(function (channelName) {
+	      this.consumer.subscriptions.remove(this.subscriptions[channelName]);
+	      delete(this.subscriptions[channelName]);
+	      connectedChannels.splice(connectedChannels.indexOf(channelName), 1);
+	    }.bind(this));
+	  };
+
+	  // private
+
+	  function addConnectedChannel (channelName) {
+	    if (connectedChannels.indexOf(channelName) === -1) {
+	      connectedChannels.push(channelName);
+	      var channelsCount = BimaNotifications.channelNames.length;
+
+	      if (connectedChannels.length === channelsCount) {
+	        this.instance.subscriptionsInitialized = true;
+	        this.instance.subscriptionsInitializationsCount += 1;
+
+	        var data = { action: "subscriptions_initialized", data: null }
+	        performCallbacks.call(this, data);
+	      }
+	    }
+	  };
+
+	  function createChannelSubscriptions () {
+	    BimaNotifications.channelNames.forEach(function (channelName) {
+	      createSingleChannelSubscription.call(this, channelName);
+	    }.bind(this));
+	  };
+
+	  function createSingleChannelSubscription (channelName) {
+	    var params = subscriptionParamsForChannel.call(this, channelName);
+
+	    console.log("new connection try");
+
+	    var subscription = this.consumer.subscriptions.create(params, {
+	      connected: function (channelName) {
+	        addConnectedChannel.call(this, channelName);
+	      }.bind(this, channelName),
+
+	      received: function (data) {
+	        performCallbacks.call(this, data);
+	      }.bind(this),
+
+	      rejected: function (channelName) {
+	        var error = "Connection to channel `" + channelName + "` was rejected";
+	        throw new Error(error);
+	      }.bind(this, channelName)
+	    });
+
+	    this.subscriptions[channelName] = subscription;
+	  };
+
+	  function performCallbacks (data) {
+	    this.instance.callbacks.forEach(function (data, fn) {
+	      fn.call(this, data);
+	    }.bind(this, data));
+	  };
+
+	  function subscriptionParamsForChannel (channelName) {
+	    return {
+	      accessId: this.instance.configuration.accessId,
+	      userId: this.instance.configuration.userId,
+	      channel: channelName
+	    };
+	  };
+
+	  return SubscriptionManager;
+	})();
+
+	module.exports = SubscriptionManager;
+
+
+/***/ }
+/******/ ]);
