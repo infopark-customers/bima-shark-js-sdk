@@ -3,6 +3,10 @@
   "version": "0.1.1",
   "private": true,
   "main": "src/bima-notifications-sdk.js",
+  "engines": {
+    "node": ">= 7.0.0",
+    "npm": ">= 3.0.0"
+  },
   "scripts": {
     "docs": "./node_modules/.bin/jsdoc -c ./conf.json",
     "test": "./node_modules/karma/bin/karma start --single-run",
