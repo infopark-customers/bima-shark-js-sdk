@@ -9,12 +9,14 @@ module.exports = function (config) {
     basePath: "",
     frameworks: ["jasmine"],
     files: [
-      "test/**/*_test.js"
+      "test/integration/**/*_test.js",
+      "test/unit/**/*_test.js"
     ],
 
     preprocessors: {
       "src/**/*.js": ["webpack", "sourcemap"],
-      "test/**/*_test.js": ["webpack", "sourcemap"]
+      "test/integration/**/*_test.js": ["webpack"],
+      "test/unit/**/*_test.js": ["webpack", "sourcemap"]
     },
 
     webpack: {
@@ -45,7 +47,8 @@ module.exports = function (config) {
       "karma-jasmine",
       "karma-sourcemap-loader",
       "karma-chrome-launcher",
-      "karma-firefox-launcher"
+      "karma-firefox-launcher",
+      "karma-phantomjs-launcher"
     ].concat(baseConfig.plugins),
 
     customLaunchers: {
@@ -67,6 +70,6 @@ module.exports = function (config) {
     config.browsers = ["Chrome_without_sandbox", "Firefox"];
   }
   else {
-    config.browsers = ["Chrome", "Firefox"];
+    config.browsers = ["Chrome", "Firefox", "PhantomJS"];
   }
 };

@@ -27,6 +27,7 @@
     "karma-sourcemap-loader": "~0.3.7",
     "karma-webpack": "~1.8.0",
     "faker": "~3.1.0",
-    "jsdoc": "~3.4.3"
+    "jsdoc": "~3.4.3",
+    "karma-phantomjs-launcher": "latest"
   }
 }
