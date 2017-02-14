@@ -7,5 +7,4 @@ gem 'sinatra-reloader'
 
 # our gems
 gem 'bima-http', '~> 1.2.1'
-gem 'bima-doorkeeper-client'
-
+gem 'bima-doorkeeper-core', '~> 2.0.0'
