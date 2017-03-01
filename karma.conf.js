@@ -47,8 +47,7 @@ module.exports = function (config) {
       "karma-jasmine",
       "karma-sourcemap-loader",
       "karma-chrome-launcher",
-      "karma-firefox-launcher",
-      "karma-phantomjs-launcher"
+      "karma-firefox-launcher"
     ].concat(baseConfig.plugins),
 
     customLaunchers: {
@@ -70,6 +69,6 @@ module.exports = function (config) {
     config.browsers = ["Chrome_without_sandbox", "Firefox"];
   }
   else {
-    config.browsers = ["Chrome", "Firefox", "PhantomJS"];
+    config.browsers = ["Chrome", "Firefox"];
   }
 };
