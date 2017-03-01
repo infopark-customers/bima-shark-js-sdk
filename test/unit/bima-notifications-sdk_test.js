@@ -1,6 +1,6 @@
 "use strict";
 
-const BimaNotifications = require("src/bima-notifications-sdk");
+const NotificationService = require("src/bima-notifications-sdk");
 const faker = require("faker");
 
 // IMPORTANT: Do NOT change any of those values!
@@ -11,17 +11,17 @@ const validApiOptions = Object.freeze({
   userId: faker.random.uuid()
 });
 
-describe("BimaNotifications", () => {
+describe("NotificationService", () => {
   describe("class", () => {
     describe("methods", () => {
       describe("channelNames()", () => {
         it("has lenght of two entries", () => {
-          expect(BimaNotifications.channelNames().length).toEqual(2);
+          expect(NotificationService.channelNames().length).toEqual(2);
         });
 
         it("includes specific values", () => {
-          expect(BimaNotifications.channelNames()).toContain("GlobalNotificationsChannel");
-          expect(BimaNotifications.channelNames()).toContain("UserNotificationsChannel");
+          expect(NotificationService.channelNames()).toContain("GlobalNotificationsChannel");
+          expect(NotificationService.channelNames()).toContain("UserNotificationsChannel");
         });
       });
     });
@@ -31,7 +31,7 @@ describe("BimaNotifications", () => {
     describe("construtor(options)", () => {
       describe("options parameter is not present", () => {
         it("throws an error", () => {
-          const notifications = () => { return new BimaNotifications(); };
+          const notifications = () => { return new NotificationService(); };
           const errorMessage = "Required option parameters are missing";
 
           expect(notifications).toThrowError(errorMessage);
@@ -45,7 +45,7 @@ describe("BimaNotifications", () => {
           webSocketSecretKey: faker.internet.password(),
           userId: faker.random.uuid()
         };
-        const notifications = () => { return new BimaNotifications(options); };
+        const notifications = () => { return new NotificationService(options); };
         const errorMessage = "options.socketUrl has invalid format";
 
         it("throws an error", () => {
@@ -55,7 +55,7 @@ describe("BimaNotifications", () => {
 
       describe("options are complete and valid", () => {
         const options = validApiOptions;
-        const notifications = new BimaNotifications(options);
+        const notifications = new NotificationService(options);
 
         describe("new defined attributes", () => {
           it("has defined action cable attributes", () => {

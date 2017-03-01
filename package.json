@@ -2,13 +2,15 @@
   "name": "bima-notifications-sdk",
   "version": "0.1.1",
   "private": true,
-  "main": "src/bima-notifications-sdk.js",
+  "main": "src/notification_service.js",
   "engines": {
     "node": ">= 5.0.0",
     "npm": ">= 3.0.0"
   },
   "scripts": {
+    "bundle": "./node_modules/.bin/webpack",
     "docs": "jsdoc -c ./conf.json",
+    "start": "./node_modules/.bin/webpack --watch",
     "test": "./node_modules/karma/bin/karma start --single-run",
     "watch-test": "./node_modules/karma/bin/karma start"
   },

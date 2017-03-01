@@ -4,7 +4,7 @@
  * @class Api
  * @classdesc Management class to access the notifications REST API
  * @private
- * @param {BimaNotifications} instance - Instance of BimaNotifications
+ * @param {NotificationService} instance - Instance of NotificationService
  * @throws Will throw an error if instance.configuration.jQuery is invalid,
  * null or does not have an .ajax function
  */
@@ -13,7 +13,7 @@ var Api = (function () {
   function Api (instance) {
     /**
      * @name Api#instance
-     * @type BimaNotifications
+     * @type NotificationService
      */
     this.instance = instance || {};
 

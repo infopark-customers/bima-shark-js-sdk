@@ -7,7 +7,7 @@ const webpack           = require("webpack"),
       sdkVersion        = require("./package.json").version;
 
 module.exports = {
-  entry: path.join(__dirname, "src", "bima-notifications-sdk.js"),
+  entry: path.join(__dirname, "src", "notification_service.js"),
 
   output: {
     path: path.join(__dirname, "dist", sdkVersion),

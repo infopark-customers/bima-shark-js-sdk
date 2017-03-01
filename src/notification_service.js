@@ -3,7 +3,7 @@
   "use strict";
 
   /**
-   * @class BimaNotifications
+   * @class NotificationService
    * @classdesc Class to manage and receive notifications in BImA applications
    *
    * @param {Object} options - object hash with the settings
@@ -26,12 +26,12 @@
    * @throws An error if any if the required option properties is missing or
    * has a wrong format
    */
-  global.BimaNotifications = (function () {
+  global.NotificationService = (function () {
     /** @private **/
     var subscriptionManager = null;
 
     /** * @construtor */
-    function BimaNotifications (options) {
+    function NotificationService (options) {
       options = options || {};
 
       this.configuration = {};
@@ -72,11 +72,11 @@
     /**
      * Names of the notification channels
      *
-     * @name BimaNotifications.channelNames
+     * @name NotificationService.channelNames
      * @type Array
      * @readonly
      */
-    BimaNotifications.channelNames = Object.freeze([
+    NotificationService.channelNames = Object.freeze([
       "GlobalNotificationsChannel",
       "UserNotificationsChannel"
     ]);
@@ -84,11 +84,11 @@
     /**
      * Keys for configuration which are editable
      *
-     * @name BimaNotifications.editableConfigurationKeys
+     * @name NotificationService.editableConfigurationKeys
      * @type Array
      * @readonly
      */
-    BimaNotifications.editableConfigurationKeys = Object.freeze([
+    NotificationService.editableConfigurationKeys = Object.freeze([
       "url", "accessId", "serviceToken", "userId", "useHttps", "jQuery"
     ]);
 
@@ -96,10 +96,10 @@
      * Adds a function to the callbacks
      *
      * @function
-     * @name BimaNotifications#addCallback
+     * @name NotificationService#addCallback
      * @param {function} fn - function to be added
      */
-    BimaNotifications.prototype.addCallback = function (fn) {
+    NotificationService.prototype.addCallback = function (fn) {
       if (typeof(fn) === "function" && typeof(this.callbacks) === "object") {
         this.callbacks.push(fn);
       }
@@ -109,9 +109,9 @@
      * Connect with the Websocket server under the specified address
      *
      * @function
-     * @name BimaNotifications#connect
+     * @name NotificationService#connect
      */
-    BimaNotifications.prototype.connect = function () {
+    NotificationService.prototype.connect = function () {
       this._actionCableConsumer.connect;
       subscriptionManager.resubscribeToAllChannels();
     };
@@ -120,9 +120,9 @@
      * Disconnect from the websocket
      *
      * @function
-     * @name BimaNotifications#disconnect
+     * @name NotificationService#disconnect
      */
-    BimaNotifications.prototype.disconnect = function () {
+    NotificationService.prototype.disconnect = function () {
       subscriptionManager.unsubscribeAllChannels();
       this._actionCableConsumer.disconnect();
     };
@@ -131,10 +131,10 @@
      * Returns the full URL to the WebSocket with the current configuration
      *
      * @function
-     * @name BimaNotifications#fullSocketUrl
+     * @name NotificationService#fullSocketUrl
      * @return {string}
      */
-    BimaNotifications.prototype.fullSocketUrl = function () {
+    NotificationService.prototype.fullSocketUrl = function () {
       return this.configuration.fullSocketUrl;
     };
 
@@ -142,16 +142,16 @@
      * Mark a specific notification as read
      *
      * @function
-     * @name BimaNotifications#markNotificationAsRead
+     * @name NotificationService#markNotificationAsRead
      * @param {(string|number)} id - Id of the notification
      */
-    BimaNotifications.prototype.markNotificationAsRead = function (id) {
+    NotificationService.prototype.markNotificationAsRead = function (id) {
       var subscription = subscriptionManager.subscriptions["UserNotificationsChannel"];
 
       subscription.perform("mark_notification_as_read", { notification_id: id });
     };
 
-    BimaNotifications.prototype.updateConfiguration = function (options) {
+    NotificationService.prototype.updateConfiguration = function (options) {
       options = options || {};
       var keys = Object.keys(options);
 
@@ -163,7 +163,7 @@
         for (var i in keys) {
           var key = keys[i];
 
-          if (jQuery.inArray(key, BimaNotifications.editableConfigurationKeys) > -1) {
+          if (jQuery.inArray(key, NotificationService.editableConfigurationKeys) > -1) {
             newConfiguration[key] = options[key];
           }
           else {
@@ -205,7 +205,7 @@
       var Api = require("./api.js");
 
       /**
-       * @name BimaNotifications#Api
+       * @name NotificationService#Api
        * @type Api
        */
       this.Api = new Api(this);
@@ -243,11 +243,11 @@
       this.configuration = Object.freeze(this.configuration);
     };
 
-    return BimaNotifications;
+    return NotificationService;
   })();
 
   // In Node.JS based envs
   if ((typeof(process) !== "undefined")) {
-   module.exports = BimaNotifications;
+   module.exports = NotificationService;
   }
 }(window));

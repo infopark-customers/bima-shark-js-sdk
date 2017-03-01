@@ -3,7 +3,7 @@
 /**
  * @class SubscriptionManager
  * @classdesc Management wrapper class for ActionCable Websocket subscriptions
- * @param {BimaNotifications} instance - Instance of BimaNotifications
+ * @param {NotificationService} instance - Instance of NotificationService
  * @private
  */
 var SubscriptionManager = (function () {
@@ -14,7 +14,7 @@ var SubscriptionManager = (function () {
   function SubscriptionManager (instance) {
     /**
      * @name SubscriptionManager#instance
-     * @type BimaNotifications
+     * @type NotificationService
      */
     this.instance = instance;
 
@@ -54,7 +54,7 @@ var SubscriptionManager = (function () {
   function addConnectedChannel (channelName) {
     if (connectedChannels.indexOf(channelName) === -1) {
       connectedChannels.push(channelName);
-      var channelsCount = BimaNotifications.channelNames.length;
+      var channelsCount = NotificationService.channelNames.length;
 
       if (connectedChannels.length === channelsCount) {
         this.instance.subscriptionsInitialized = true;
@@ -67,7 +67,7 @@ var SubscriptionManager = (function () {
   };
 
   function createChannelSubscriptions () {
-    BimaNotifications.channelNames.forEach(function (channelName) {
+    NotificationService.channelNames.forEach(function (channelName) {
       createSingleChannelSubscription.call(this, channelName);
     }.bind(this));
   };
