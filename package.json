@@ -4,11 +4,11 @@
   "private": true,
   "main": "src/bima-notifications-sdk.js",
   "engines": {
-    "node": ">= 7.0.0",
+    "node": ">= 5.0.0",
     "npm": ">= 3.0.0"
   },
   "scripts": {
-    "docs": "./node_modules/.bin/jsdoc -c ./conf.json",
+    "docs": "jsdoc -c ./conf.json",
     "test": "./node_modules/karma/bin/karma start --single-run",
     "watch-test": "./node_modules/karma/bin/karma start"
   },
@@ -27,7 +27,6 @@
     "karma-sourcemap-loader": "~0.3.7",
     "karma-webpack": "~1.8.0",
     "faker": "~3.1.0",
-    "jsdoc": "~3.4.3",
-    "karma-phantomjs-launcher": "latest"
+    "jsdoc": "~3.4.3"
   }
 }

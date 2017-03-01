@@ -1,6 +1,9 @@
 node_modules/
 .tmp
 dump.rdb
+npm-debug.log
+
+docs/*
 
 test/server/vendor/cache/*
 !test/server/vendor/cache/*infopark.gem
