@@ -1,42 +1,49 @@
 require "bima-http"
 require "bima-doorkeeper-core"
+require "bima-notifications-client"
 require "json"
 require "sinatra/base"
 require "sinatra/reloader"
+require "sprockets"
 require "pry"
 
-# ATTENTSION: These credentials need to be present in config/api_apps.yml in the
+# ATTENTSION: These credentials need to be present in config/bima_http.yml in the
 # bima-notifications app
-APP_NAME = "notifications_test_app"
-ACCESS_ID = "notifications_test_app"
-SECRET_KEY = "wHYTfmXpeaRUYOS92aDIhOFnEPzbJ7p5eC3DW1h5/VFkmNTnCHGCrjtT1ToaHmYgz/C5ieiLeM8xVIaXIQExhw=="
+APP_NAME = "notifications_js_sdk_test_server"
+ACCESS_ID = "notifications_js_sdk_test_server"
+SECRET_KEY = "jEfHfCOfy7oXyfv93cLzoyvJrIgfbpLVgAtgJDfFwSakKYwV/jH5wrsLbjV8QTYBqkge1DSTDZDZM7YS93KKRg=="
 
 class App < Sinatra::Application
   use Rack::Session::Pool, :expire_after => 2592000
 
-  before "/*" do
-    BimaHttp.configure do |config|
-      config.apps = {
-        "doorkeeper" => {
-          "url" => "http://localhost:3000",
-          "access_id" => "doorkeeper",
-          "secret_key" => "doorkeeper"
-        }
-      }
+  set :environment, Sprockets::Environment.new
 
+  environment.append_path "assets/stylesheets"
+  environment.append_path "assets/javascripts"
+
+  before "/*" do
+    Doorkeeper.configure do |config|
+      config.client_app_name = APP_NAME
+      config.site = "http://0.0.0.0:3001"
+    end
+
+    NotificationService.configure do |config|
+      config.client_app_name = APP_NAME
+      config.site = "http://0.0.0.0:3004"
+    end
+
+    BimaHttp.configure do |config|
       config.apps[APP_NAME] = {
-        "url" => "http://localhost:5000",
         "access_id" => ACCESS_ID,
         "secret_key" => SECRET_KEY
       }
     end
-
-    Doorkeeper.configure do |config|
-      config.client_app_name = APP_NAME
-      config.site = BimaHttp.apps["doorkeeper"]["url"]
-    end
   end
 
+  get "/assets/*" do
+    env["PATH_INFO"].sub!("/assets", "")
+    settings.environment.call(env)
+  end
   # TODO: This is a really bad hack, but Sinatra seems a  bit buggy here. Maybe
   # there is another way to get this working...
   get "/Users/*" do
@@ -63,13 +70,15 @@ class App < Sinatra::Application
     if session[:session_token] && session[:service_token]
       session[:user_id] = get_session_user_id
 
-      @socket_url = "ws://localhost:5000/socket"
-      @access_id = "js_sdk_test_app"
+      @access_id = ACCESS_ID
+      @api_endpoint = NotificationService.config.api_endpoint
+      @web_socket_url = NotificationService.config.websocket_url
 
       erb :index, :layout => :layout
     else
-      @login_url = BimaHttp.apps["doorkeeper"]["url"] + "?app_name="
-      @login_url += APP_NAME
+      @login_url = Doorkeeper.config.login_site
+      @login_url += "?app_name=#{APP_NAME}"
+      @login_url += "&callback_url=#{request.url}"
 
       erb :no_session_index, :layout => false
     end
@@ -78,10 +87,8 @@ class App < Sinatra::Application
   post "/logout" do
     begin
       session_token = session[:session_token]
-      path = "api/sessions/logout"
-      url = File.join(BimaHttp.apps["doorkeeper"]["url"], path)
       response = BimaHttp.post(
-        url,
+        Doorkeeper.config.endpoints[:logout],
         {
           :params => { :session_token => session_token },
           :headers => { :accept => :json },
@@ -95,6 +102,26 @@ class App < Sinatra::Application
       session[:user_id] = nil
 
       redirect "/"
+    end
+  end
+
+  post "/create_random_broadcast_notification" do
+    begin
+      message = "Random broadcast notification (#{Time.now.to_i})"
+      NotificationService::Notification.create(:message => message)
+    rescue => e
+    end
+  end
+
+  post "/create_random_user_notification" do
+    begin
+      user_id = session[:user_id]
+      message = "Random user notification for user #{user_id} (#{Time.now.to_i})"
+      NotificationService::Notification.create({
+        :context => "user",
+        :user_id => user_id,
+        :message => message,
+      })
     end
   end
 

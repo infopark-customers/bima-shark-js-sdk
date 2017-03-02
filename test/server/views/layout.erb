@@ -8,22 +8,48 @@
       crossorigin="anonymous">
     </script>
     <script type="text/javascript" src="<%= @js_sdk_file %>"></script>
+    <script type="text/javascript" src="assets/app.js"></script>
     <script type="text/javascript">
-        var callback = function (response) {
-          if(typeof(response) !== "undefined" && response["action"]) {
-            console.log(response);
-          }
-        };
+      window.sessionConfig = {
+        "accessId": "<%= @access_id %>",
+        "userId": "<%= session[:user_id] %>",
+        "serviceToken": "<%= session[:service_token] %>",
+        "apiEndpoint": "<%= @api_endpoint %>",
+        "webSocketUrl": "<%= @web_socket_url %>",
+      };
 
-        window.notifications = new BimaNotifications({
-          url: "localhost:5000",
-          accessId: "<%= @access_id %>",
-          serviceToken: "<%= session[:service_token] %>",
-          userId: "<%= session[:user_id] %>",
-          useHttps: false,
-          callbacks: [callback]
+      $(document).ready(function () {
+        $(".notification-form").on("submit", function (evt) {
+          evt.preventDefault();
+
+          $.ajax({
+            url: this.action,
+            type: this.method
+          })
+            .done(function () { });
         });
+      });
     </script>
+
+    <style type="text/css">
+      ul#notifications {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      ul#notifications li {
+        background: #CCC;
+        list-style: none;
+        margin: 0 0 1% 0;
+        padding: 1%;
+        width: 98%;
+      }
+
+      ul#notifications li:hover {
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
     <p>

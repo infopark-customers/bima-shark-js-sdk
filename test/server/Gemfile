@@ -4,7 +4,9 @@ gem 'pry'
 gem 'rake'
 gem 'sinatra'
 gem 'sinatra-reloader'
+gem 'sprockets'
 
 # our gems
 gem 'bima-http', '~> 1.2.1'
 gem 'bima-doorkeeper-core', '~> 2.0.0'
+gem 'bima-notifications-client', '~> 0.1.0'
