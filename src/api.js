@@ -45,7 +45,7 @@ var Api = (function () {
     };
     var options = { url: reqUrl, data: data, type: "GET" };
 
-    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options));
+    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options)).always(function () { });
   };
 
   /**
@@ -59,20 +59,26 @@ var Api = (function () {
    * @return {Promise} jQuery AJAX promise
    * @see {@link http://api.jquery.com/jquery.ajax/}
    */
-  Api.prototype.unreadUserNotifications = function (since, ajaxOptions) {
+  Api.prototype.unreadUserNotifications = function (ajaxOptions) {
     ajaxOptions = ajaxOptions || {};
 
-    var userId = this.instance.configurationuserId;
+    var userId = this.instance.configuration.userId;
     var reqUrl = this.url() + "/users/" + userId + "/notifications/unread" + ".json";
+    var since = ajaxOptions.since;
     var data = {
       access_id: this.instance.configuration.accessId,
       service_token: this.instance.configuration.serviceToken
     };
 
+    if (since) {
+      data["since"] = since;
+      delete(ajaxOptions["since"]);
+    }
+
     if (since) data["since"] = since;
     var options = { url: reqUrl, data: data, type: "GET" };
 
-    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options));
+    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options)).always(function () { });
   };
 
   /**
@@ -86,20 +92,25 @@ var Api = (function () {
    * @return {Promise} jQuery AJAX promise
    * @see {@link http://api.jquery.com/jquery.ajax/}
    */
-  Api.prototype.userNotifications = function (since, ajaxOptions) {
+  Api.prototype.userNotifications = function (ajaxOptions) {
     ajaxOptions = ajaxOptions || {};
 
     var userId = this.instance.configuration.userId;
     var reqUrl = this.url() + "/users/" + userId + "/notifications" + ".json";
+    var since = ajaxOptions.since;
     var data = {
       access_id: this.instance.configuration.accessId,
       service_token: this.instance.configuration.serviceToken
     };
 
-    if (since) data["since"] = since;
+    if (since) {
+      data["since"] = since;
+      delete(ajaxOptions["since"]);
+    }
+
     var options = { url: reqUrl, data: data, type: "GET" };
 
-    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options));
+    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options)).always(function () { });
   };
 
   /**
@@ -121,18 +132,7 @@ var Api = (function () {
    * @return String
    */
   Api.prototype.url = function () {
-    var url = "";
-
-    if (this.instance.configuration.useHttps === true) {
-      url += "https://";
-    }
-    else {
-      url += "http://";
-    }
-
-    // TODO: Make this version later dynamicly configureable
-    url += this.instance.configuration.url + "/api/v1";
-    return url;
+    return this.instance.configuration.apiEndpoint;
   };
 
   return Api;

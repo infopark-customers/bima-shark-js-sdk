@@ -7,8 +7,6 @@
    * @classdesc Class to manage and receive notifications in BImA applications
    *
    * @param {Object} options - object hash with the settings
-   * @param {string} options.url - Basic URL to the API endpoint of the
-   * Notification service
    * IMPORTANT: Please use here without any protocol and extra paths! (Example:
    * localhost:5000)
    * @param {string} options.accessId - App access ID for the BImA
@@ -16,10 +14,12 @@
    * @param {string} options.serviceToken - Service Token for BImA Doorkeeper
    * app to access the API
    * @param {string} options.userId - User ID related with the given serviceToken
-   * @param {boolean} options.useHttps - Set true if API endpoint should be
-   * called with https [default: true]
    * @param {Object} options.jQuery - jQuery object with .ajax function
    * [default: jQuery | window.jQuery]
+   * @param {string} options.apiEndpoint - URL to the API endpoint of the
+   * Notification service
+   * @param {string} options.webSocketUrl - URL to the WebSocket of the
+   * Notification service
    * @param {(function|Object[])} options.callbacks - function or
    * array of functions which should be executed when a notification was
    * received
@@ -36,11 +36,11 @@
 
       this.configuration = {};
 
-      this.configuration.url = options.url;
       this.configuration.accessId = options.accessId;
       this.configuration.serviceToken = options.serviceToken;
       this.configuration.userId = options.userId;
-      this.configuration.useHttps = options.useHttps;
+      this.configuration.apiEndpoint = options.apiEndpoint;
+      this.configuration.webSocketUrl = options.webSocketUrl;
       this.configuration.jQuery = options.jQuery || jQuery || window.jQuery || $;
 
       if (typeof(this.configuration.useHttps) === "undefined") {
@@ -89,7 +89,7 @@
      * @readonly
      */
     NotificationService.editableConfigurationKeys = Object.freeze([
-      "url", "accessId", "serviceToken", "userId", "useHttps", "jQuery"
+       "accessId", "serviceToken", "userId", "apiEndpoint", "webSocketUrl", "jQuery"
     ]);
 
     /**
@@ -212,21 +212,19 @@
     };
 
     function setFullSocketUrl () {
-      var url = this.configuration.url;
+      var webSocketUrl = this.configuration.webSocketUrl;
       var accessId = this.configuration.accessId;
       var serviceToken = this.configuration.serviceToken;
 
-      if (url && accessId && serviceToken) {
-        var socketUrl = "ws://" + url + "/socket";
-
-        if(socketUrl.match(/^ws:\/\/\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*[^\/]$/)) {
-          this.configuration.fullSocketUrl = socketUrl;
+      if (webSocketUrl && accessId && serviceToken) {
+        if(webSocketUrl.match(/^ws:\/\/\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*[^\/]$/) || webSocketUrl.match(/^wss:\/\/\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*[^\/]$/)) {
+          this.configuration.fullSocketUrl = webSocketUrl;
           this.configuration.fullSocketUrl += "?access_id=" + accessId;
           this.configuration.fullSocketUrl += "&service_token=" + serviceToken;
           this.configuration.fullSocketUrl = encodeURI(this.configuration.fullSocketUrl);
         }
         else {
-          throw new Error("options.socketUrl has invalid format");
+          throw new Error("options.webSocketUrl has invalid format");
         }
       }
       else {
