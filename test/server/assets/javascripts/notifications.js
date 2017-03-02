@@ -21,6 +21,7 @@ $(document).ready(function () {
 
   var addNewNotificationToStore = function (data) {
     notificationStore.unshift(data);
+
     renderNotifications();
   };
 
@@ -40,6 +41,7 @@ $(document).ready(function () {
       }
 
       if (elementIndex !== null) notificationStore.splice(elementIndex, 1);
+
       renderNotifications();
     }
   };
@@ -62,6 +64,7 @@ $(document).ready(function () {
   var setInitialNotificationStore = function (notifications) {
     notifications = notifications || [];
     notificationStore = notifications;
+
     renderNotifications();
   };
 
@@ -92,5 +95,4 @@ $(document).ready(function () {
     webSocketUrl: window.sessionConfig.webSocketUrl, // http://localhost:3004/socket
     callbacks: [onNotificationChange]
   });
-
 });
