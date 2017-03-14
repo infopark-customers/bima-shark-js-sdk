@@ -45,7 +45,7 @@ var Api = (function () {
     };
     var options = { url: reqUrl, data: data, type: "GET" };
 
-    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options)).always(function () { });
+    return executeJQueryAjaxCall(ajaxOptions, options).bind(this);
   };
 
   /**
@@ -78,7 +78,7 @@ var Api = (function () {
     if (since) data["since"] = since;
     var options = { url: reqUrl, data: data, type: "GET" };
 
-    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options)).always(function () { });
+    return executeJQueryAjaxCall(ajaxOptions, options).bind(this);
   };
 
   /**
@@ -110,7 +110,7 @@ var Api = (function () {
 
     var options = { url: reqUrl, data: data, type: "GET" };
 
-    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options)).always(function () { });
+    return executeJQueryAjaxCall(ajaxOptions, options).bind(this);
   };
 
   /**
@@ -133,6 +133,12 @@ var Api = (function () {
    */
   Api.prototype.url = function () {
     return this.instance.configuration.apiEndpoint;
+  };
+
+  // private
+
+  function executeJQueryAjaxCall (ajaxOptions, options) {
+    return this.jQuery().ajax(this.jQuery().extend(ajaxOptions, options)).always(function () { });
   };
 
   return Api;

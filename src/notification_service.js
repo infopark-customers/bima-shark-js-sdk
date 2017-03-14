@@ -163,7 +163,7 @@
         for (var i in keys) {
           var key = keys[i];
 
-          if (jQuery.inArray(key, NotificationService.editableConfigurationKeys) > -1) {
+          if (NotificationService.editableConfigurationKeys.indexOf(key) > -1) {
             newConfiguration[key] = options[key];
           }
           else {
@@ -190,15 +190,10 @@
     // private
 
     function setActionCableConsumer () {
-      try {
-        var ActionCable = require("actioncable");
+      var ActionCable = require("actioncable");
 
-        this._actionCableConsumer = ActionCable.createConsumer(this.configuration.fullSocketUrl);
-        this._actionCableConsumer.connect();
-      }
-      catch (err) {
-        throw new Error(err);
-      }
+      this._actionCableConsumer = ActionCable.createConsumer(this.configuration.fullSocketUrl);
+      this._actionCableConsumer.connect();
     };
 
     function setApiInstance () {
@@ -217,7 +212,7 @@
       var serviceToken = this.configuration.serviceToken;
 
       if (webSocketUrl && accessId && serviceToken) {
-        if(webSocketUrl.match(/^ws:\/\/\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*[^\/]$/) || webSocketUrl.match(/^wss:\/\/\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*[^\/]$/)) {
+        if(webSocketUrl.match(/^ws(s)?:\/\/\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*[^\/]$/)) {
           this.configuration.fullSocketUrl = webSocketUrl;
           this.configuration.fullSocketUrl += "?access_id=" + accessId;
           this.configuration.fullSocketUrl += "&service_token=" + serviceToken;

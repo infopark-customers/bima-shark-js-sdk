@@ -10,7 +10,7 @@ var SubscriptionManager = (function () {
   /** @private **/
   var connectedChannels = null;
 
-  /** @construtor **/
+  /** @constructor **/
   function SubscriptionManager (instance) {
     /**
      * @name SubscriptionManager#instance
