@@ -28,7 +28,12 @@ export const setup = {
   serviceTokenSuccess: function() {
     beforeEach(function() {
       fetchMock.get(TEST.SERVICE_TOKEN_URL, {
-        body: { jwt: TEST.JWT, expires_at: new Date() },
+        body: {
+          attributes: {
+            jwt: TEST.JWT,
+            expires_at: new Date()
+          },
+        },
         status: 200,
       });
     });

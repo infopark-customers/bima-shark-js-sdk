@@ -48,21 +48,24 @@ class ServiceToken {
     const self = this;
     self.remove();
 
-    return request(this.url)
-      .then(token => {
+    return request(this.url, {
+        credentials: "same-origin"
+      })
+      .then(json => {
+        const token = json.attributes;
         self.store(token);
         return token.jwt;
       });
   }
 
   lookup() {
-    const jwt = this.storage.getItem(TOKEN_STORAGE_KEY);
-    return JSON.parse(jwt);
+    const token_string = this.storage.getItem(TOKEN_STORAGE_KEY);
+    return JSON.parse(token_string);
   }
 
   store(token) {
-    const jwt = JSON.stringify(token);
-    this.storage.setItem(TOKEN_STORAGE_KEY, jwt);
+    const token_string = JSON.stringify(token);
+    this.storage.setItem(TOKEN_STORAGE_KEY, token_string);
   }
 
   remove() {

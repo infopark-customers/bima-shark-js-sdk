@@ -1,5 +1,8 @@
 "use strict";
 
+/**
+ * https://stackoverflow.com/questions/44541561/webpack-output-is-empty-object
+ **/
 const webpack           = require("webpack"),
       path              = require("path"),
       sdkVersion        = require("./package.json").version;
@@ -11,8 +14,10 @@ module.exports = {
   ],
 
   output: {
-    path: path.join(__dirname, "dist", sdkVersion),
-    filename: "bima-shark-sdk.js"
+    path: path.join(__dirname, "dist"),
+    filename: "bima-shark-sdk.js",
+    library: "Shark",
+    libraryTarget: "commonjs2"
   },
 
   resolve: {

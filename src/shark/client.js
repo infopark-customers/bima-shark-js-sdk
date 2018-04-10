@@ -115,18 +115,18 @@ class Client {
 
     if (this.config.authorizationRequired) {
       return ServiceToken.create().then(jwt => {
-        opts.headers = {
-          "authorization": `Bearer ${jwt}`,
-          "content-type": self.config.contentType
-        }
+        opts.headers = new Headers({
+          "Authorization": `Bearer ${jwt}`,
+          "Content-Type": self.config.contentType
+        });
         return request(url, opts);
       });
 
     } else {
       opts.credentials = "same-origin";
-      opts.headers = {
-        "content-type": self.config.contentType
-      }
+      opts.headers = new Headers({
+        "Content-Type": self.config.contentType
+      });
       return request(url, opts);
     }
   }

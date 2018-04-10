@@ -1,7 +1,5 @@
-node_modules/
 .tmp
-dump.rdb
 npm-debug.log
 
-dist/*
 docs/*
+node_modules/

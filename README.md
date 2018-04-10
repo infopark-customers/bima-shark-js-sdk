@@ -3,31 +3,30 @@
 This is the Javascript SDK for the BImA applications.
 
 
-### Installation (TODO)
+### Installation
 
 #### In Node.JS environments
 
-1. Add ` "bima-notifications-sdk": "git@github.com:infopark-customers/bima-notifications-js-sdk.git" ` to your ` package.json `.
-2. Run ` npm install `
-3. Done.
+```
+npm install --save "git+ssh://git@github.com:infopark-customers/bima-notifications-js-sdk.git#master"
+```
 
 ### In browser enviroments
 
-If you don't have Node.JS locally, you could use the already pre-build versions of the SDK.
-Just link any version which is available under ` dist/ ` in your app.
-
-
-In both ways you can use the SDK through the global class ` NotificationService `.
+Copy ` dist/bima-shark-sdk.js ` into your app.
 
 
 ### Usage
+
 ```
 // group_client.js
-import { Client } from "bima-shark-sdk";
+
+import Shark from "bima-shark-sdk";        // And use Shark.Client or
+import { Client } from "bima-shark-sdk";   // to just import the client.
 
 class Group {
   constructor() {
-    this.client = new ApiClient({
+    this.client = new Shark.Client({
       name: "GroupClient",
       url: "https://contactservice.bundesimmo.de"
     });
@@ -91,15 +90,12 @@ npm test
 
 ### About promises
 
-Why does this happen? I thought that `then()` and `catch()` can be chain multiple times?
-
-If you add then multiple times, you are chaining methods that should be called in sequence, until an exception is thrown.
-Exceptions in the then chain must be handled by `catch` declared after the `then`. If there's no `catch` after the `then`,
-this error will be triggered: `Uncaught (in promise) Error(…)`.
+If you add `then` multiple times, you are chaining methods that should be called in sequence, until an exception is thrown.
+Exceptions in the then chain must be handled by `catch` declared after the `then`. If there's no `catch` after the `then`, this error will be triggered: `Uncaught (in promise) Error(…)`.
 
 If you add `catch` multiple times, you are chaining methods that should be called when something goes wrong (in the `then` functions before).
-However, the second `catch` in the chain will only be called if the first one re-throw the exception, and so forth.
-When `catch` is triggered, the chain resumes on the next then declared after the `catch`.
+However, the second `catch` in the chain will only be called if the first one re-throws the exception, and so forth.
+When `catch` is triggered, the chain resumes on the next `then` declared after the `catch`.
 
 The **catch()** method returns a `Promise` and deals with rejected cases only. It behaves the same as calling `Promise.prototype.then(undefined, onRejected)`
 (in fact, calling `obj.catch(onRejected)` internally calls `obj.then(undefined, onRejected)`).

@@ -24,4 +24,6 @@ const Shark = {
   },
 }
 
+export { Client, ServiceToken };
+
 export default Shark;
