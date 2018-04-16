@@ -18,17 +18,28 @@ Copy ` dist/bima-shark-sdk.js ` into your app.
 
 ### Usage
 
+#### Basic Client
+
 ```
-// group_client.js
+  var client = Shark.createClient({
+    name: "GroupClient",
+    url: "https://contactservice.bundesimmo.de/api/groups",
+    contentType: "application/vnd.api+json",
+  });
+```
 
+
+#### Example Client with customization
+
+```
 import Shark from "bima-shark-sdk";        // And use Shark.Client or
-import { Client } from "bima-shark-sdk";   // to just import the client.
 
-class Group {
+class GroupClient {
   constructor() {
     this.client = new Shark.Client({
       name: "GroupClient",
-      url: "https://contactservice.bundesimmo.de"
+      url: "https://contactservice.bundesimmo.de/api/groups",
+      contentType: "application/vnd.api+json",
     });
   }
 
@@ -67,7 +78,7 @@ class Group {
   }
 }
 
-export default Group;
+export default GroupClient;
 ```
 
 

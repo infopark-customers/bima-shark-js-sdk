@@ -26,6 +26,21 @@ describe("default export Shark", function() {
       expect(Shark.config.foo).toEqual(1);
     });
   });
+
+  describe(".createClient", function() {
+    it("should be a function", function() {
+      expect(typeof Shark.createClient).toEqual("function");
+    });
+
+    it("should return a Shark.Client", function() {
+      const client = Shark.createClient({
+        name: "FooClient",
+        url: "https://contactservice.bundesimmo.de/api/groups",
+        contentType: "application/vnd.api+json",
+      });
+      expect(client instanceof Shark.Client).toEqual(true);
+    });
+  });
 });
 
 describe("export Client", function() {

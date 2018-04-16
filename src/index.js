@@ -15,12 +15,31 @@ const Shark = {
   Client: Client,
   ServiceToken: ServiceToken,
 
-  // Shark configuration
+  /**
+   * Returns the Shark configuration
+   *
+   * @return {Object}         The Shark configuration
+   */
   config: Config,
 
-  // Use this method to configure Shark
+  /**
+   * Merge the options into the Shark configuration
+   *
+   * @param  {object} [options] The options we want to pass
+   */
   configure: function(options) {
     Object.assign(Shark.config, options);
+  },
+
+  /**
+   * Merge the options into the Shark configuration
+   *
+   * @param  {object} [options] The options we want to pass
+   *
+   * @return {Client}           A basic Shark client
+   */
+  createClient: function(options) {
+    return new Client(options);
   },
 }
 
