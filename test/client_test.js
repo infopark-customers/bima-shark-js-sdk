@@ -7,19 +7,20 @@ import Client from "src/shark/client";
 const client = new Client({
   name: "TestClient",
   url: TEST.CLIENT_URL,
+  contentType: "application/vnd.api+json",
 });
 
 function mockBody(body, status = 200) {
   return function(url, options) {
-    if (options.headers.authentication == `Bearer ${TEST.JWT}`) {
-      return {
-        body: { message: "Access forbidden" },
-        status: 403,
-      };
-    } else {
+    if (options.headers.get("Authorization") == `Bearer ${TEST.JWT}`) {
       return {
         body: body || options.body,
         status: status,
+      };
+    } else {
+      return {
+        body: { message: "Access forbidden" },
+        status: 403,
       };
     }
   }
@@ -29,9 +30,21 @@ function mockBody(body, status = 200) {
  * Use 'done()' for asynchronous Jasmine testing.
  * https://jasmine.github.io/tutorials/async
  */
-describe("Client with service tokens", function() {
+describe("Client with successful service tokens", function() {
   setup.serviceTokenSuccess();
   teardown();
+
+  describe("#baseUrl", function() {
+    it("should be a valid url", function() {
+      expect(client.baseUrl).toEqual(TEST.CLIENT_URL);
+    });
+  });
+
+  describe("#config", function() {
+    it("should have a contentType", function() {
+      expect(client.config.contentType).toEqual("application/vnd.api+json");
+    });
+  });
 
   describe("#search", function() {
     describe("on success", function() {
@@ -193,6 +206,32 @@ describe("Client with service tokens", function() {
           expect(error.name).toEqual("Error");
           done();
         });
+      });
+    });
+  });
+});
+
+describe("Client with failed service tokens", function() {
+  setup.serviceTokenError();
+  teardown();
+
+  describe("#find", function() {
+    describe("on success", function() {
+      beforeEach(function() {
+        fetchMock.get(TEST.CLIENT_URL + "1",
+          mockBody(TEST.BODY)
+        );
+      });
+
+      it("should reject with a ServerError", function(done) {
+        const promise = client.find(1);
+        promise.then(body => {
+          done.fail("client#find() was resolved, but it should fail!");
+        }, error => {
+          expect(error.name).toEqual("ServerError");
+          expect(error.status).toEqual(500);
+          done();
+        })
       });
     });
   });
