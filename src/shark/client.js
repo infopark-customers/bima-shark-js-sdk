@@ -19,7 +19,7 @@ class Client {
     this.baseUrl = options.url;
     this.config = {
       authorizationRequired: true,
-      contentType: options.contentType || "application/json",
+      contentType: options.contentType || "application/vnd.api+json",
     };
 
     if (this.baseUrl && typeof this.baseUrl === "string") {

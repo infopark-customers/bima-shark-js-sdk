@@ -32,7 +32,7 @@ Copy ` dist/bima-shark-sdk.js ` into your app.
 #### Example Client with customization
 
 ```
-import Shark from "bima-shark-sdk";        // And use Shark.Client or
+import Shark from "bima-shark-sdk";
 
 class GroupClient {
   constructor() {
