@@ -1,6 +1,6 @@
 {
   "name": "bima-shark-sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "main": "dist/bima-shark-sdk.js",
   "module": "src/index.js",
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "jquery-param": "^1.0.1",
+    "uuid": "^3.2.1",
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {

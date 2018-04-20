@@ -19,7 +19,7 @@ class Client {
     this.baseUrl = options.url;
     this.config = {
       authorizationRequired: true,
-      contentType: "application/json",
+      contentType: options.contentType || "application/vnd.api+json",
     };
 
     if (this.baseUrl && typeof this.baseUrl === "string") {
@@ -111,22 +111,19 @@ class Client {
     const self = this;
 
     opts.method = (options.method || "GET").toUpperCase();
+    opts.headers = new Headers({
+      "Content-Type": self.config.contentType
+    });
     if (options.body) { opts.body = JSON.stringify(options.body) }
 
     if (this.config.authorizationRequired) {
       return ServiceToken.create().then(jwt => {
-        opts.headers = new Headers({
-          "Authorization": `Bearer ${jwt}`,
-          "Content-Type": self.config.contentType
-        });
+        opts.headers.set("Authorization", `Bearer ${jwt}`);
         return request(url, opts);
       });
 
     } else {
       opts.credentials = "same-origin";
-      opts.headers = new Headers({
-        "Content-Type": self.config.contentType
-      });
       return request(url, opts);
     }
   }

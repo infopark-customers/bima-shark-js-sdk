@@ -4,8 +4,6 @@ import isString from "src/utils/is_string";
 import request from "src/utils/request";
 import Config from "src/shark/config";
 
-const TOKEN_STORAGE_KEY = "api-service-token";
-
 /**
  * @class ServiceToken
  * @classdesc Helper class to request and manage a valid service token.
@@ -18,7 +16,9 @@ class ServiceToken {
   static create() {
     const client = new ServiceToken({
       url: Config.serviceTokenUrl,
+      tokenStorageKey: "api-service-token/" + Config.secret,
     });
+
     const token = client.lookup();
 
     if (token && token.expires_at) {
@@ -42,6 +42,7 @@ class ServiceToken {
     }
 
     this.storage = window.sessionStorage;
+    this.tokenStorageKey = options.tokenStorageKey;
   }
 
   requestToken() {
@@ -59,17 +60,17 @@ class ServiceToken {
   }
 
   lookup() {
-    const token_string = this.storage.getItem(TOKEN_STORAGE_KEY);
+    const token_string = this.storage.getItem(this.tokenStorageKey);
     return JSON.parse(token_string);
   }
 
   store(token) {
     const token_string = JSON.stringify(token);
-    this.storage.setItem(TOKEN_STORAGE_KEY, token_string);
+    this.storage.setItem(this.tokenStorageKey, token_string);
   }
 
   remove() {
-    this.storage.removeItem(TOKEN_STORAGE_KEY);
+    this.storage.removeItem(this.tokenStorageKey);
   }
 }
 
