@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "jquery-param": "^1.0.1",
+    "uuid": "^3.2.1",
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {

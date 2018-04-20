@@ -14,6 +14,10 @@ describe("default export Shark", function() {
     it("should be an object", function() {
       expect(typeof Shark.config).toEqual("object");
     });
+
+    it("should contain key #secret", function() {
+      expect(typeof Shark.config.secret).toEqual("string");
+    });
   });
 
   describe(".configure", function() {
@@ -22,8 +26,11 @@ describe("default export Shark", function() {
     });
 
     it("should change the Shark.config", function() {
-      Shark.configure({ foo: 1 });
+      const newSecret = "1234567890";
+      Shark.configure({ foo: 1, secret: newSecret });
+
       expect(Shark.config.foo).toEqual(1);
+      expect(Shark.config.secret).toEqual(newSecret);
     });
   });
 
