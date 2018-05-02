@@ -37,7 +37,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: "eslint-loader",
+          loader: "standard-loader",
         }
       },
       {

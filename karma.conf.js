@@ -1,7 +1,8 @@
 "use strict";
 
-const path        = require("path"),
-      webpack     = require("webpack");
+const webpackConfig = require("./webpack.config.js");
+const path = require("path");
+const webpack = require("webpack");
 
 module.exports = function (config) {
   config.set({
@@ -21,32 +22,15 @@ module.exports = function (config) {
 
       mode: "production",
 
-      resolve: {
-        extensions: [".js"],
-        alias: {
-          "dist": __dirname + "/dist",
-          "node_modules": __dirname + "/node_modules",
-          "src": __dirname + "/src",
-          "test": __dirname + "/test",
-        }
-      },
+      module: webpackConfig.module,
+
+      resolve: webpackConfig.resolve,
+
+      plugins: webpackConfig.plugins,
 
       performance: {
         hints: process.env.NODE_ENV === "production" ? "warning" : false
       },
-
-      plugins: [
-      ],
-
-      module: {
-        rules: [
-          {
-            test: /\.(js|jsx)?$/,
-            exclude: /node_modules/,
-            loader: "babel-loader"
-          }
-        ]
-      }
     },
 
     webpackServer: {
