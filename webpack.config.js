@@ -9,7 +9,7 @@ const webpack           = require("webpack"),
 
 module.exports = {
   entry: [
-    "whatwg-fetch",
+    "isomorphic-fetch",
     path.join(__dirname, "src", "index.js"),
   ],
 
@@ -37,7 +37,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: "eslint-loader",
+          loader: "standard-loader",
         }
       },
       {

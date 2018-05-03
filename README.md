@@ -18,67 +18,79 @@ Copy ` dist/bima-shark-sdk.js ` into your app.
 
 ### Usage
 
+#### Configuration (optional)
+
+```
+Shark.configure({
+  debug: false,             // log request and response, when true
+  secret: 'random-id',      // user specific secret e.g. id
+  serviceTokenUrl: '/doorkeeper/service_token'
+})
+```
+
 #### Basic Client
 
 ```
-  var client = Shark.createClient({
-    name: "GroupClient",
-    url: "https://contactservice.bundesimmo.de/api/groups",
-    contentType: "application/vnd.api+json",
-  });
+import Shark from 'bima-shark-sdk'
+
+var client = Shark.createClient({
+  name: 'GroupClient',
+  url: 'https://contactservice.bundesimmo.de/api/groups',
+  contentType: 'application/vnd.api+json',
+})
 ```
 
 
 #### Example Client with customization
 
 ```
-import Shark from "bima-shark-sdk";
+import Shark from 'bima-shark-sdk'
 
 class GroupClient {
   constructor() {
     this.client = new Shark.Client({
-      name: "GroupClient",
-      url: "https://contactservice.bundesimmo.de/api/groups",
-      contentType: "application/vnd.api+json",
-    });
+      name: 'GroupClient',
+      url: 'https://contactservice.bundesimmo.de/api/groups',
+      contentType: 'application/vnd.api+json',
+    })
   }
 
   search(options = {}) {
-    const ids = options.ids || null;
-    const canManage = options.canManage || null;
-    const data = { filter: {}, include: "creator" };
+    const ids = options.ids || null
+    const canManage = options.canManage || null
+    const data = { filter: {}, include: 'creator' }
 
     if (ids !== null && ids.length === 0) {
-      return new Promise((resolve, reject) => { resolve(null); });
+      return new Promise((resolve, reject) => { resolve(null) })
     } else if (ids !== null) {
-      data.filter["ids"] = ids;
+      data.filter['ids'] = ids
     }
 
     if (canManage === true) {
-      data.filter["can_manage"] = true;
+      data.filter['can_manage'] = true
     }
 
-    return this.client.search(data);
+    return this.client.search(data)
   }
 
   find(id) {
-    return this.client.find(id, { include: "creator" });
+    return this.client.find(id, { include: 'creator' })
   }
 
   create(data) {
-    return this.client.create(data, { include: "creator" });
+    return this.client.create(data, { include: 'creator' })
   }
 
   update(data) {
-    return this.client.update(data, { include: "creator" });
+    return this.client.update(data, { include: 'creator' })
   }
 
   destroy(id) {
-    return this.client.destroy(id);
+    return this.client.destroy(id)
   }
 }
 
-export default GroupClient;
+export default GroupClient
 ```
 
 

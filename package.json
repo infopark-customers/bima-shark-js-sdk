@@ -3,7 +3,6 @@
   "version": "0.2.0",
   "private": true,
   "main": "dist/bima-shark-sdk.js",
-  "module": "src/index.js",
   "engines": {
     "node": ">= 5.0.0",
     "npm": ">= 5.0.0"
@@ -15,18 +14,21 @@
     "test": "./node_modules/karma/bin/karma start --single-run",
     "watch-test": "./node_modules/karma/bin/karma start"
   },
+  "standard": {
+    "globals": [
+      "fetch"
+    ]
+  },
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
     "jquery-param": "^1.0.1",
-    "uuid": "^3.2.1",
-    "whatwg-fetch": "^2.0.4"
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
     "eslint": "^4.19.1",
-    "eslint-loader": "^2.0.0",
     "fetch-mock": "^6.3.0",
     "jasmine-core": "^3.1.0",
     "jsdoc": "^3.5.5",
@@ -37,6 +39,8 @@
     "karma-jasmine": "^1.1.1",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^3.0.0",
+    "standard": "^11.0.1",
+    "standard-loader": "^6.0.1",
     "webpack": "^4.2.0",
     "webpack-cli": "^2.0.13"
   }
