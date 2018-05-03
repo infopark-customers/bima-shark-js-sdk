@@ -15,7 +15,7 @@ const client = new Client({
 
 function mockBody (body, status = 200) {
   return function (url, options) {
-    if (options.headers.get('Authorization') === `Bearer ${TEST.JWT}`) {
+    if (options.headers['Authorization'] === `Bearer ${TEST.JWT}`) {
       return {
         body: body || options.body,
         status: status

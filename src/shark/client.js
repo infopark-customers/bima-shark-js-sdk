@@ -107,18 +107,20 @@ class Client {
    * @return {promise} the sendRequest promise
    */
   sendRequest (url, options = {}) {
-    const opts = {}
-    const self = this
+    const opts = {
+      headers: {
+        'Content-Type': this.config.contentType
+      },
+      method: (options.method || 'GET').toUpperCase()
+    }
 
-    opts.method = (options.method || 'GET').toUpperCase()
-    opts.headers = new window.Headers({
-      'Content-Type': self.config.contentType
-    })
-    if (options.body) { opts.body = JSON.stringify(options.body) }
+    if (options.body) {
+      opts.body = JSON.stringify(options.body)
+    }
 
     if (this.config.authorizationRequired) {
       return ServiceToken.create().then(jwt => {
-        opts.headers.set('Authorization', `Bearer ${jwt}`)
+        opts.headers['Authorization'] = `Bearer ${jwt}`
         return request(url, opts)
       })
     } else {

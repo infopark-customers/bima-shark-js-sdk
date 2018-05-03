@@ -4,6 +4,9 @@ import Config from 'src/shark/config'
 import Client from 'src/shark/client'
 import ServiceToken from 'src/shark/service_token'
 
+import ClientError from 'src/shark/client_error'
+import ServerError from 'src/shark/server_error'
+
 /*
  * @class Shark
  * @classdesc Namespace for REST client and configuration.
@@ -12,6 +15,9 @@ import ServiceToken from 'src/shark/service_token'
 const Shark = {
   Client: Client,
   ServiceToken: ServiceToken,
+
+  ClientError: ClientError,
+  ServerError: ServerError,
 
   /**
    * Returns the Shark configuration
@@ -41,6 +47,6 @@ const Shark = {
   }
 }
 
-export { Client, ServiceToken }
+export { Client, ServiceToken, ClientError, ServerError }
 
 export default Shark

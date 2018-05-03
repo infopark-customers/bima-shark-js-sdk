@@ -1,5 +1,6 @@
 'use strict'
 
+import Config from 'src/shark/config'
 import ClientError from 'src/shark/client_error'
 import ServerError from 'src/shark/server_error'
 
@@ -52,6 +53,10 @@ function error (e) {
   })
 }
 
+function logDebug (message) {
+  if (Config.debug) { console.log(message) }
+}
+
 /**
  * Requests a URL, returning a promise
  *
@@ -61,32 +66,36 @@ function error (e) {
  * @return {Promise}           The request promise
  */
 export default function request (url, options) {
+  logDebug('Shark.request: ' + url)
+
   return new Promise((resolve, reject) => {
     fetch(url, options)
       .then(parse, error)
       .then(response => {
+        logDebug('Shark.response: ' + JSON.stringify(response))
+
         if (response.ok) {
           return resolve(response.json)
         } else if (response.status < 400) {
           return reject(new ClientError(
             response.status,
-            response.message,
+            response.statusText,
             response.json
           ))
         } else if (response.status < 500) {
           return reject(new ClientError(
             response.status,
-            response.message,
+            response.statusText,
             response.json
           ))
         } else if (response.status < 600) {
           return reject(new ServerError(
             response.status,
-            response.message,
+            response.statusText,
             response.json
           ))
         } else {
-          return reject(new Error(response.message))
+          return reject(new Error(response.statusText))
         }
       })
   })

@@ -8,15 +8,16 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000
 
 export const TEST = {
   BODY: { foo: 1, bar: '12345', baz: ['hello', 'world', '!'] },
-  CLIENT_URL: 'http://localhost:4000/',
-  JWT: '01234567890123456789',
-  SERVICE_TOKEN_URL: 'http://localhost:4001/doorkeeper/service_token'
+  CLIENT_URL: 'https://client.example.org/',
+  JWT: 'json-web-token-0123456789',
+  SERVICE_TOKEN_URL: 'https://myapp.example.org/doorkeeper/service_token'
 }
 
 /*
  * Setup test config
  */
 Shark.configure({
+  debug: false,
   serviceTokenUrl: TEST.SERVICE_TOKEN_URL
 })
 
