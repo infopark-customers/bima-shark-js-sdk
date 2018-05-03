@@ -29,7 +29,7 @@ module.exports = function (config) {
       plugins: webpackConfig.plugins,
 
       performance: {
-        hints: process.env.NODE_ENV === "production" ? "warning" : false
+        hints: false
       },
     },
 

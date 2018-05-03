@@ -15,12 +15,14 @@
     "watch-test": "./node_modules/karma/bin/karma start"
   },
   "standard": {
-    "globals": [ "fetch" ]
+    "globals": [
+      "fetch"
+    ]
   },
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
     "jquery-param": "^1.0.1",
-    "uuid": "^3.2.1",
-    "whatwg-fetch": "^2.0.4"
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

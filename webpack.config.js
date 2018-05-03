@@ -9,7 +9,7 @@ const webpack           = require("webpack"),
 
 module.exports = {
   entry: [
-    "whatwg-fetch",
+    "isomorphic-fetch",
     path.join(__dirname, "src", "index.js"),
   ],
 

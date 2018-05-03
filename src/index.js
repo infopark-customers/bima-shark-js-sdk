@@ -1,7 +1,5 @@
 'use strict'
 
-import 'whatwg-fetch'
-
 import Config from 'src/shark/config'
 import Client from 'src/shark/client'
 import ServiceToken from 'src/shark/service_token'
