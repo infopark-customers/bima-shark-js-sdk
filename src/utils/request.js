@@ -53,8 +53,8 @@ function error (e) {
   })
 }
 
-function logDebug (message) {
-  if (Config.debug) { console.log(message) }
+function logDebug () {
+  if (Config.debug) { console.log.apply(null, arguments) }
 }
 
 /**
