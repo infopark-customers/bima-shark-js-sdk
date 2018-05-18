@@ -1,9 +1,11 @@
 /* eslint-env jasmine */
 'use strict'
 
-import { setup, teardown, TEST } from 'test/test_helper'
+import Config from 'src/shark/config'
 import ServiceToken from 'src/shark/service_token'
 import ServerError from 'src/shark/server_error'
+
+import { setup, teardown, TEST } from 'test/test_helper'
 
 /*
  * Use 'done()' for asynchronous Jasmine testing.
@@ -43,5 +45,18 @@ describe('ServiceToken.create', function () {
         done()
       })
     })
+  })
+})
+
+describe('ServiceToken.reset', function () {
+  const key = `api-service-token/${Config.secret}`
+
+  beforeEach(() => {
+    window.sessionStorage.setItem(key, '0123456789')
+  })
+
+  it('should remove stored service token', function () {
+    ServiceToken.reset()
+    expect(window.sessionStorage.getItem(key)).toEqual(null)
   })
 })
