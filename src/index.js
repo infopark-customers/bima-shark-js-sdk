@@ -32,6 +32,7 @@ const Shark = {
    * @param  {object} [options] The options we want to pass
    */
   configure: function (options) {
+    ServiceToken.reset()
     Object.assign(Shark.config, options)
   },
 

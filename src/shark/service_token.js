@@ -9,7 +9,7 @@ import Config from 'src/shark/config'
  * @classdesc Helper class to request and manage a valid service token.
  */
 class ServiceToken {
-  /*
+  /**
    * @return {Promise} the fetch promise
    * @api public
    */
@@ -32,6 +32,20 @@ class ServiceToken {
     } else {
       return client.requestToken()
     }
+  }
+
+  /**
+   * Remove stored service token
+   *
+   * @api public
+   */
+  static reset () {
+    const client = new ServiceToken({
+      url: Config.serviceTokenUrl,
+      tokenStorageKey: `api-service-token/${Config.secret}`
+    })
+
+    client.remove()
   }
 
   constructor (options) {
