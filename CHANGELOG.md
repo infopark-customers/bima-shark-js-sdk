@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.3.2
+- fix minor logging issue
+
 ### 0.3.1
 - [fix] stored service token was not removed on logout
 - reset stored service token on `Shark.configure`
