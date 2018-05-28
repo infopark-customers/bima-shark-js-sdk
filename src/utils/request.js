@@ -66,13 +66,13 @@ function logDebug () {
  * @return {Promise}           The request promise
  */
 export default function request (url, options) {
-  logDebug('Shark.request: ' + url)
+  logDebug('Shark.request: ', url)
 
   return new Promise((resolve, reject) => {
     fetch(url, options)
       .then(parse, error)
       .then(response => {
-        logDebug('Shark.response: ' + JSON.stringify(response))
+        logDebug('Shark.response: ', JSON.stringify(response))
 
         if (response.ok) {
           return resolve(response.json)
