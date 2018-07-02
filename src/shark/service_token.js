@@ -4,6 +4,8 @@ import { isString } from 'src/utils/typecheck'
 import request from 'src/utils/request'
 import Config from 'src/shark/config'
 
+const TOKEN_STORAGE = {}
+
 /**
  * @class ServiceToken
  * @classdesc Helper class to request and manage a valid service token.
@@ -41,8 +43,7 @@ class ServiceToken {
    */
   static reset () {
     const client = new ServiceToken({
-      url: Config.serviceTokenUrl,
-      tokenStorageKey: `api-service-token/${Config.secret}`
+      url: Config.serviceTokenUrl
     })
 
     client.remove()
@@ -55,8 +56,8 @@ class ServiceToken {
       throw new Error('Parameter url is missing or not a string')
     }
 
-    this.storage = window.sessionStorage
-    this.tokenStorageKey = options.tokenStorageKey
+    this.storage = TOKEN_STORAGE
+    this.tokenStorageKey = `api-service-token/${Config.secret}`
   }
 
   requestToken () {
@@ -81,17 +82,16 @@ class ServiceToken {
   }
 
   lookup () {
-    const tokenString = this.storage.getItem(this.tokenStorageKey)
-    return JSON.parse(tokenString)
+    return this.storage[this.tokenStorageKey]
   }
 
   store (token) {
-    const tokenString = JSON.stringify(token)
-    this.storage.setItem(this.tokenStorageKey, tokenString)
+    this.storage[this.tokenStorageKey] = token
+    return token
   }
 
   remove () {
-    this.storage.removeItem(this.tokenStorageKey)
+    delete this.storage[this.tokenStorageKey]
   }
 
   crsfToken () {
