@@ -20,6 +20,8 @@ module.exports = {
     libraryTarget: "commonjs2"
   },
 
+  target: 'node',
+
   resolve: {
     extensions: [".js"],
     alias: {
@@ -35,14 +37,14 @@ module.exports = {
       {
         enforce: "pre",
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
         use: {
           loader: "standard-loader",
         }
       },
       {
         test: /\.(js|jsx)?$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
         use: {
           loader: "babel-loader",
           options: {
