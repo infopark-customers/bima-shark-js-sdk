@@ -65,7 +65,7 @@ function logDebug () {
  *
  * @return {Promise}           The request promise
  */
-export default function request (url, options) {
+export default function simpleFetch (url, options) {
   logDebug('Shark.request: ', url)
 
   return new Promise((resolve, reject) => {

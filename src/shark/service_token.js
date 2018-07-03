@@ -1,7 +1,7 @@
 'use strict'
 
 import { isString } from 'src/utils/typecheck'
-import request from 'src/utils/request'
+import simpleFetch from 'src/utils/simple_fetch'
 import Config from 'src/shark/config'
 
 const TOKEN_STORAGE = {}
@@ -65,7 +65,7 @@ class ServiceToken {
     const crsfToken = this.crsfToken()
     self.remove()
 
-    return request(this.url,
+    return simpleFetch(this.url,
       {
         credentials: 'same-origin',
         headers: {

@@ -2,7 +2,7 @@
 
 import param from 'jquery-param'
 
-import request from 'src/utils/request'
+import simpleFetch from 'src/utils/simple_fetch'
 import ServiceToken from 'src/shark/service_token'
 
 // TODO hack empty arrays?
@@ -121,11 +121,11 @@ class Client {
     if (this.config.authorizationRequired) {
       return ServiceToken.create().then(jwt => {
         opts.headers['Authorization'] = `Bearer ${jwt}`
-        return request(url, opts)
+        return simpleFetch(url, opts)
       })
     } else {
       opts.credentials = 'same-origin'
-      return request(url, opts)
+      return simpleFetch(url, opts)
     }
   }
 
