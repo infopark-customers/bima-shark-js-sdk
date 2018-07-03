@@ -1,8 +1,11 @@
+/* global Headers */
 'use strict'
 
+import URL from 'url'
 import Config from 'src/shark/config'
-import ClientError from 'src/shark/client_error'
-import ServerError from 'src/shark/server_error'
+
+// const JsonApiError = require('jsonapi-serializer').Error
+import { Error } from 'jsonapi-serializer'
 
 // From https://github.com/github/fetch/issues/203#issuecomment-266034180
 
@@ -18,7 +21,7 @@ function parse (response) {
       // TODO inspect response headers?
       // TODO inspect content length?
 
-      var json = {}
+      let json = {}
       if (text) {
         try {
           json = JSON.parse(text)
@@ -48,7 +51,9 @@ function error (e) {
     return resolve({
       statusText: e.message,
       ok: false,
-      json: { message: e.message }
+      json: {
+        errors: [{ status: 503, title: e.message, detail: e.message }]
+      }
     })
   })
 }
@@ -68,35 +73,48 @@ function logDebug () {
 export default function simpleFetch (url, options) {
   logDebug('Shark.request: ', url)
 
+  if (URL.parse(url).protocol === 'http:') {
+    if (options.headers instanceof Headers) {
+      options.headers.set('x-forwarded-proto', 'https')
+    } else {
+      options.headers['x-forwarded-proto'] = 'https'
+    }
+  }
+
   return new Promise((resolve, reject) => {
     fetch(url, options)
       .then(parse, error)
       .then(response => {
-        logDebug('Shark.response: ', JSON.stringify(response))
-
+        logDebug('Shark.response: ', response)
         if (response.ok) {
           return resolve(response.json)
-        } else if (response.status < 400) {
-          return reject(new ClientError(
-            response.status,
-            response.statusText,
-            response.json
-          ))
-        } else if (response.status < 500) {
-          return reject(new ClientError(
-            response.status,
-            response.statusText,
-            response.json
-          ))
-        } else if (response.status < 600) {
-          return reject(new ServerError(
-            response.status,
-            response.statusText,
-            response.json
-          ))
         } else {
-          return reject(new Error(response.statusText))
+          const error = jsonApiError(response)
+          return reject(error)
         }
       })
   })
+}
+
+function jsonApiError (response) {
+  const json = response.json
+  let errors = []
+
+  if (Array.isArray(json.errors)) {
+    errors = json.errors
+  } else {
+    // This handles "legacy" errors from our services that haven't changed to
+    // JSONAPI-compliant errors yet.
+    let errorDetails = []
+    if (json.messages) {
+      errorDetails = json.messages
+    } else if (json.message) {
+      errorDetails = [json.message]
+    }
+    errors = errorDetails.map(detail => {
+      return { status: response.status, title: response.statusText, detail: detail }
+    })
+  }
+
+  return new Error(errors)
 }
