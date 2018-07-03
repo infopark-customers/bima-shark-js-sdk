@@ -1,5 +1,6 @@
 "use strict";
 
+// require('/Users/natalka/Projects/bima-shark-js-sdk/dist/bima-shark-sdk.js')
 /**
  * https://stackoverflow.com/questions/44541561/webpack-output-is-empty-object
  **/
@@ -35,14 +36,14 @@ module.exports = {
       {
         enforce: "pre",
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules|dist)/,
         use: {
           loader: "standard-loader",
         }
       },
       {
         test: /\.(js|jsx)?$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules|dist)/,
         use: {
           loader: "babel-loader",
           options: {
