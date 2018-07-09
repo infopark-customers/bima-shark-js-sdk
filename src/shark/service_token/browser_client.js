@@ -7,63 +7,56 @@ import Config from 'src/shark/config'
 const TOKEN_STORAGE = {}
 
 /**
- * @class ServiceToken
- * @classdesc Helper class to request and manage a valid service token.
+ * @class ServiceTokenClient
+ * @classdesc Helper class to request and manage a valid service token in a browser environment.
+ *
+ * @param {object} [options] the options
+ *   - url {string}
  */
-class ServiceToken {
-  /**
-   * @return {Promise} the fetch promise
-   * @api public
-   */
-  static create () {
-    const client = new ServiceToken({
-      url: Config.serviceTokenUrl,
-      tokenStorageKey: `api-service-token/${Config.secret}`
-    })
-
-    const token = client.lookup()
-
-    if (token && token.expires_at) {
-      let now = new Date()
-      let date = new Date(token.expires_at)
-      if (date < now) {
-        return client.requestToken()
-      } else {
-        return new Promise((resolve, reject) => { resolve(token.jwt) })
-      }
-    } else {
-      return client.requestToken()
-    }
-  }
-
+export default class ServiceTokenClient {
   /**
    * Remove stored service token
-   *
-   * @api public
    */
   static reset () {
-    const client = new ServiceToken({
+    const client = new ServiceTokenClient({
       url: Config.serviceTokenUrl
     })
 
     client.remove()
   }
 
-  constructor (options) {
-    if (isString(options.url)) {
-      this.url = options.url
-    } else {
-      throw new Error('Parameter url is missing or not a string')
-    }
-
+  constructor (options = {}) {
+    this.url = options.url || Config.serviceTokenUrl
     this.storage = TOKEN_STORAGE
     this.tokenStorageKey = `api-service-token/${Config.secret}`
+
+    if (!isString(this.url)) {
+      throw new Error('Parameter `url` is missing or not a string')
+    }
+  }
+  /**
+   * @return {Promise} the fetch promise
+   */
+  createServiceToken () {
+    const token = this.lookup()
+
+    if (token && token.expires_at) {
+      let now = new Date()
+      let date = new Date(token.expires_at)
+      if (date < now) {
+        return this.__request()
+      } else {
+        return new Promise((resolve, reject) => { resolve(token.jwt) })
+      }
+    } else {
+      return this.__request()
+    }
   }
 
-  requestToken () {
+  __request () {
     const self = this
     const crsfToken = this.crsfToken()
-    self.remove()
+    this.remove()
 
     return simpleFetch(this.url,
       {
@@ -103,5 +96,3 @@ class ServiceToken {
     }
   }
 }
-
-export default ServiceToken

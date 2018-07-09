@@ -3,7 +3,7 @@
 /*
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
  */
-function ServerError (status, message, json, fileName, lineNumber) {
+function SharkError (status, message, json, fileName, lineNumber) {
   var instance = new Error(message, fileName, lineNumber)
   instance.status = status
   instance.json = json
@@ -11,7 +11,7 @@ function ServerError (status, message, json, fileName, lineNumber) {
   return instance
 }
 
-ServerError.prototype = Object.create(Error.prototype, {
+SharkError.prototype = Object.create(Error.prototype, {
   constructor: {
     value: Error,
     enumerable: false,
@@ -21,7 +21,7 @@ ServerError.prototype = Object.create(Error.prototype, {
 })
 
 if (Object.setPrototypeOf) {
-  Object.setPrototypeOf(ServerError, Error)
+  Object.setPrototypeOf(SharkError, Error)
 }
 
-export default ServerError
+export default SharkError

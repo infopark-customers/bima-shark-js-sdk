@@ -3,7 +3,7 @@
 import param from 'jquery-param'
 
 import simpleFetch from 'src/utils/simple_fetch'
-import ServiceToken from 'src/shark/service_token'
+import ServiceTokenClient from 'src/shark/service_token/browser_client'
 
 // TODO hack empty arrays?
 
@@ -13,7 +13,7 @@ import ServiceToken from 'src/shark/service_token'
  *
  * @throws Will raise error if baseUrl is invalid
  */
-class Client {
+export default class Client {
   constructor (options = {}) {
     this.name = options.name
     this.baseUrl = options.url
@@ -119,7 +119,8 @@ class Client {
     }
 
     if (this.config.authorizationRequired) {
-      return ServiceToken.create().then(jwt => {
+      const tokenClient = new ServiceTokenClient()
+      return tokenClient.createServiceToken().then(jwt => {
         opts.headers['Authorization'] = `Bearer ${jwt}`
         return simpleFetch(url, opts)
       })
@@ -140,5 +141,3 @@ class Client {
     return url
   }
 }
-
-export default Client
