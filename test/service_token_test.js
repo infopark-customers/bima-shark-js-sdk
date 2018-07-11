@@ -50,13 +50,14 @@ describe('ServiceToken.create', function () {
 
 describe('ServiceToken.reset', function () {
   const key = `api-service-token/${Config.secret}`
+  const subject = new ServiceToken({ url: Config.serviceTokenUrl })
 
   beforeEach(() => {
-    window.sessionStorage.setItem(key, '0123456789')
+    subject.storage[key] = '0123456789'
   })
 
   it('should remove stored service token', function () {
     ServiceToken.reset()
-    expect(window.sessionStorage.getItem(key)).toEqual(null)
+    expect(subject.storage[key]).toEqual(undefined)
   })
 })
