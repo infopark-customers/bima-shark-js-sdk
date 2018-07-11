@@ -7,6 +7,8 @@ import ServiceToken from 'src/shark/service_token'
 import ClientError from 'src/shark/client_error'
 import ServerError from 'src/shark/server_error'
 
+import NotificationsClient from 'src/shark/clients/notifications_client'
+
 /*
  * @class Shark
  * @classdesc Namespace for REST client and configuration.
@@ -18,6 +20,8 @@ const Shark = {
 
   ClientError: ClientError,
   ServerError: ServerError,
+
+  NotificationsClient: NotificationsClient,
 
   /**
    * Returns the Shark configuration
@@ -44,10 +48,11 @@ const Shark = {
    * @return {Client}           A basic Shark client
    */
   createClient: function (options) {
+    console.log('<3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3  createClient')
     return new Client(options)
   }
 }
 
-export { Client, ServiceToken, ClientError, ServerError }
+export { Client, ServiceToken, ClientError, ServerError, NotificationsClient }
 
 export default Shark
