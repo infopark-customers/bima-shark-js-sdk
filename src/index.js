@@ -48,7 +48,6 @@ const Shark = {
    * @return {Client}           A basic Shark client
    */
   createClient: function (options) {
-    console.log('<3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3  createClient')
     return new Client(options)
   }
 }
