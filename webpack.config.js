@@ -21,6 +21,8 @@ module.exports = {
     libraryTarget: "commonjs2"
   },
 
+  target: 'node',
+
   resolve: {
     extensions: [".js"],
     alias: {
