@@ -1,6 +1,5 @@
 "use strict";
 
-// require('/Users/natalka/Projects/bima-shark-js-sdk/dist/bima-shark-sdk.js')
 /**
  * https://stackoverflow.com/questions/44541561/webpack-output-is-empty-object
  **/
