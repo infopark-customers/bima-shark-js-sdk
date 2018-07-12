@@ -37,14 +37,14 @@ module.exports = {
       {
         enforce: "pre",
         test: /\.js$/,
-        exclude: /(node_modules)/,
+        exclude: /(node_modules|dist)/,
         use: {
           loader: "standard-loader",
         }
       },
       {
         test: /\.(js|jsx)?$/,
-        exclude: /(node_modules)/,
+        exclude: /(node_modules|dist)/,
         use: {
           loader: "babel-loader",
           options: {
