@@ -3,10 +3,13 @@
 import Config from 'src/shark/config'
 import Client from 'src/shark/client'
 
-import BrowserServiceTokenClient from 'src/shark/service_token/node_client'
-import NodeServiceTokenClient from 'src/shark/service_token/browser_client'
+import NodeServiceTokenClient from 'src/shark/service_token/node_client'
+import BrowserServiceTokenClient from 'src/shark/service_token/browser_client'
 
 import SharkError from 'src/shark/error'
+
+import NotificationsClient from 'src/shark/clients/notifications_client'
+import ConsentServiceClient from 'src/shark/clients/consentservice_client'
 
 const ServiceToken = Config.nodeProcess ? NodeServiceTokenClient : BrowserServiceTokenClient
 
@@ -19,6 +22,9 @@ const Shark = {
   Client: Client,
   ServiceToken: ServiceToken,
   Error: SharkError,
+
+  ConsentServiceClient: ConsentServiceClient,
+  NotificationsClient: NotificationsClient,
 
   /**
    * Returns the Shark configuration
@@ -52,7 +58,9 @@ const Shark = {
 export {
   Client,
   ServiceToken,
-  SharkError
+  SharkError,
+  ConsentServiceClient,
+  NotificationsClient
 }
 
 export default Shark
