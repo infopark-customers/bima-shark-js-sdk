@@ -3,7 +3,7 @@
 'use strict'
 
 import fetchMock from 'fetch-mock'
-import ServiceTokenClient from 'src/shark/service_token/node_client.js'
+import ServiceTokenClient from 'src/shark/service_token/node_client'
 
 const baseUrl = 'https://doorkeeper.example.org'
 const userId = 'doorkeeper-user-id'
@@ -77,13 +77,13 @@ describe('DoorkeeperClient', () => {
   describe('#verifyServiceToken', () => {
     describe('on success', () => {
       beforeEach(() => {
-        fetchMock.get(`${baseUrl}/api/users/authenticate?service_token=${serviceToken}`,
+        fetchMock.get(`${baseUrl}/api/users/authenticate?include=permission&service_token=${serviceToken}`,
           mockBody(BODY)
         )
       })
 
       it('should return json', (done) => {
-        const promise = client.verifyServiceToken({ serviceToken: serviceToken })
+        const promise = client.verifyServiceToken({ serviceToken: serviceToken, include: 'permission' })
         promise.then(body => {
           expect(body.id).to.eql(BODY.data.id)
           expect(body.firstName).to.eql(BODY.data.attributes.first_name)

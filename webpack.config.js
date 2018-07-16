@@ -1,16 +1,16 @@
-'use strict';
+'use strict'
 
 /**
  * https://stackoverflow.com/questions/44541561/webpack-output-is-empty-object
  **/
-const webpack           = require('webpack'),
-      path              = require('path'),
-      sdkVersion        = require('./package.json').version;
+const webpack = require('webpack')
+const path = require('path')
+const sdkVersion = require('./package.json').version
 
 module.exports = {
   entry: [
     'isomorphic-fetch',
-    path.join(__dirname, 'src', 'index.js'),
+    path.join(__dirname, 'src', 'index.js')
   ],
 
   output: {
@@ -25,10 +25,10 @@ module.exports = {
   resolve: {
     extensions: ['.js'],
     alias: {
-      'dist': __dirname + '/dist',
-      'node_modules': __dirname + '/node_modules',
-      'src': __dirname + '/src',
-      'test': __dirname + '/test',
+      'dist': path.join(__dirname, '/dist'),
+      'node_modules': path.join(__dirname, '/node_modules'),
+      'src': path.join(__dirname, '/src'),
+      'test': path.join(__dirname, '/test')
     }
   },
 
@@ -39,7 +39,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /(node_modules|dist)/,
         use: {
-          loader: 'standard-loader',
+          loader: 'standard-loader'
         }
       },
       {
@@ -48,7 +48,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env'],
+            presets: ['env']
           }
         }
       }
@@ -64,6 +64,6 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.BannerPlugin('BImA-Shark JS-SDK v' + sdkVersion),
+    new webpack.BannerPlugin('BImA-Shark JS-SDK v' + sdkVersion)
   ]
-};
+}

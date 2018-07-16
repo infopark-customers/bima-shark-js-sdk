@@ -1,8 +1,6 @@
-'use strict';
+'use strict'
 
-const webpackConfig = require('./webpack.config.js');
-const path = require('path');
-const webpack = require('webpack');
+const webpackConfig = require('./webpack.config.js')
 
 module.exports = function (config) {
   config.set({
@@ -30,7 +28,7 @@ module.exports = function (config) {
 
       performance: {
         hints: false
-      },
+      }
     },
 
     webpackServer: {
@@ -59,13 +57,12 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    singleRun: false,
-  });
+    singleRun: false
+  })
 
   if (process.env.TRAVIS) {
-    config.browsers = ['Chrome_without_sandbox', 'Firefox'];
+    config.browsers = ['Chrome_without_sandbox', 'Firefox']
+  } else {
+    config.browsers = ['Chrome', 'Firefox']
   }
-  else {
-    config.browsers = ['Chrome', 'Firefox'];
-  }
-};
+}

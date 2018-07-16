@@ -1,5 +1,6 @@
 'use strict'
 
+import param from 'jquery-param'
 import { Deserializer } from 'jsonapi-serializer'
 import { isString } from 'src/utils/typecheck'
 import signedFetch from 'src/utils/signed_fetch'
@@ -9,6 +10,11 @@ const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
 /**
  * @class ServiceTokenClient
  * @classdesc Helper class to request and manage a valid service token in a NodeJS environment.
+ *
+ * @param {object} [options] the options
+ *   - accessKey {string}
+ *   - secretKey {string}
+ *   - baseUrl {string}
  */
 export default class ServiceTokenClient {
   /**
@@ -59,7 +65,11 @@ export default class ServiceTokenClient {
    * @return {Promise} the fetch promise
    */
   verifyServiceToken (params, options = {}) {
-    const url = `${this.baseUrl}/api/users/authenticate?service_token=${params.serviceToken}`
+    const authenticateParams = Object.assign({}, params)
+    authenticateParams.service_token = authenticateParams.serviceToken
+    delete authenticateParams.serviceToken
+
+    const url = `${this.baseUrl}/api/users/authenticate?${param(authenticateParams)}`
     const requestOptions = Object.assign({
       method: 'GET'
     }, options)
@@ -80,8 +90,6 @@ export default class ServiceTokenClient {
 
     return signedFetch(url, requestOptions).then(json => {
       return deserializer.deserialize(json)
-    }).then(serviceToken => {
-      return serviceToken
     })
   }
 }

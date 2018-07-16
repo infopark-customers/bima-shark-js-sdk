@@ -37,7 +37,7 @@ export default class Client {
    * @return {promise} The request promise.
    */
   search (parameters = {}) {
-    const url = this.buildUrl(null, parameters)
+    const url = this.__buildUrl(null, parameters)
     return this.sendRequest(url)
   }
 
@@ -48,7 +48,7 @@ export default class Client {
    * @return {promise} The request promise.
    */
   find (id, parameters = {}) {
-    const url = this.buildUrl(id, parameters)
+    const url = this.__buildUrl(id, parameters)
     return this.sendRequest(url)
   }
 
@@ -59,7 +59,7 @@ export default class Client {
    * @return {promise} The request promise.
    */
   create (data, parameters = {}) {
-    const url = this.buildUrl(null, parameters)
+    const url = this.__buildUrl(null, parameters)
 
     return this.sendRequest(url, {
       body: data,
@@ -75,7 +75,7 @@ export default class Client {
    * @return {promise} The request promise.
    */
   update (id, data, parameters = {}) {
-    const url = this.buildUrl(id, parameters)
+    const url = this.__buildUrl(id, parameters)
 
     return this.sendRequest(url, {
       body: data,
@@ -90,7 +90,7 @@ export default class Client {
    * @return {promise} The request promise.
    */
   destroy (id, parameters = {}) {
-    const url = this.buildUrl(id, parameters)
+    const url = this.__buildUrl(id, parameters)
     return this.sendRequest(url, {
       method: 'DELETE'
     })
@@ -130,7 +130,7 @@ export default class Client {
     }
   }
 
-  buildUrl (id, parameters) {
+  __buildUrl (id, parameters) {
     let url = this.baseUrl
     let queryString = param(parameters)
 

@@ -3,8 +3,6 @@
 
 import URL from 'url'
 import Config from 'src/shark/config'
-
-// const JsonApiError = require('jsonapi-serializer').Error
 import { Error } from 'jsonapi-serializer'
 
 // From https://github.com/github/fetch/issues/203#issuecomment-266034180
