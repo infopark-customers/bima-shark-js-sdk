@@ -8,6 +8,7 @@ import ClientError from 'src/shark/client_error'
 import ServerError from 'src/shark/server_error'
 
 import NotificationsClient from 'src/shark/clients/notifications_client'
+import ConsentServiceClient from 'src/shark/clients/consentservice_client'
 
 /*
  * @class Shark
@@ -22,6 +23,7 @@ const Shark = {
   ServerError: ServerError,
 
   NotificationsClient: NotificationsClient,
+  ConsentServiceClient: ConsentServiceClient,
 
   /**
    * Returns the Shark configuration
@@ -52,6 +54,13 @@ const Shark = {
   }
 }
 
-export { Client, ServiceToken, ClientError, ServerError, NotificationsClient }
+export {
+  Client,
+  ServiceToken,
+  ClientError,
+  ServerError,
+  NotificationsClient,
+  ConsentServiceClient
+}
 
 export default Shark

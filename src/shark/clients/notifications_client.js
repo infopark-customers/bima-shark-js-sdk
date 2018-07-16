@@ -1,3 +1,5 @@
+'use strict'
+
 import Client from 'src/shark/client'
 
 class NotificationsClient {
