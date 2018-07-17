@@ -11,7 +11,7 @@ import SharkError from 'src/shark/error'
 import NotificationsClient from 'src/shark/clients/notifications_client'
 import ConsentServiceClient from 'src/shark/clients/consentservice_client'
 
-const ServiceToken = Config.nodeProcess ? NodeServiceTokenClient : BrowserServiceTokenClient
+const ServiceTokenClient = Config.nodeProcess ? NodeServiceTokenClient : BrowserServiceTokenClient
 
 /*
  * @class Shark
@@ -20,11 +20,11 @@ const ServiceToken = Config.nodeProcess ? NodeServiceTokenClient : BrowserServic
  */
 const Shark = {
   Client: Client,
-  ServiceToken: ServiceToken,
   Error: SharkError,
 
   ConsentServiceClient: ConsentServiceClient,
   NotificationsClient: NotificationsClient,
+  ServiceTokenClient: ServiceTokenClient,
 
   /**
    * Returns the Shark configuration
@@ -39,7 +39,7 @@ const Shark = {
    * @param  {object} [options] The options we want to pass
    */
   configure: (options) => {
-    ServiceToken.reset()
+    ServiceTokenClient.reset()
     Object.assign(Shark.config, options)
   },
 
@@ -57,10 +57,10 @@ const Shark = {
 
 export {
   Client,
-  ServiceToken,
   SharkError,
   ConsentServiceClient,
-  NotificationsClient
+  NotificationsClient,
+  ServiceTokenClient
 }
 
 export default Shark

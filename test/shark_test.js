@@ -2,7 +2,7 @@
 /* global expect */
 'use strict'
 
-import Shark, { Client, ServiceToken } from 'src/index'
+import Shark, { Client, ServiceTokenClient } from 'src/index'
 
 describe('default export Shark', () => {
   it('should be an Object', () => {
@@ -55,8 +55,8 @@ describe('export Client', () => {
   })
 })
 
-describe('export ServiceToken', () => {
+describe('export ServiceTokenClient', () => {
   it('should be a function', () => {
-    expect(typeof ServiceToken).to.eql('function')
+    expect(typeof ServiceTokenClient).to.eql('function')
   })
 })
