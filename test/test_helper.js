@@ -1,10 +1,11 @@
-/* eslint-env jasmine */
+/* eslint-env mocha */
 'use strict'
 
 import fetchMock from 'fetch-mock'
 import Shark from 'src/index'
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000
+// jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000
+mocha.setup({ timeout: 500 })
 
 export const TEST = {
   BODY: { foo: 1, bar: '12345', baz: ['hello', 'world', '!'] },

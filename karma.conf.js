@@ -1,26 +1,24 @@
-"use strict";
+'use strict'
 
-const webpackConfig = require("./webpack.config.js");
-const path = require("path");
-const webpack = require("webpack");
+const webpackConfig = require('./webpack.config.js')
 
 module.exports = function (config) {
   config.set({
-    basePath: "",
-    frameworks: ["jasmine"],
+    basePath: '',
+    frameworks: ['mocha', 'chai'],
     files: [
-      "test/**/*_test.js"
+      'test/**/*_test.js'
     ],
 
     preprocessors: {
-      "src/**/*.js": ["webpack", "sourcemap"],
-      "test/**/*_test.js": ["webpack", "sourcemap"]
+      'src/**/*.js': ['webpack', 'sourcemap'],
+      'test/**/*_test.js': ['webpack', 'sourcemap']
     },
 
     webpack: {
-      devtool: "inline-source-map",
+      devtool: 'inline-source-map',
 
-      mode: "development",
+      mode: 'development',
 
       module: webpackConfig.module,
 
@@ -30,7 +28,7 @@ module.exports = function (config) {
 
       performance: {
         hints: false
-      },
+      }
     },
 
     webpackServer: {
@@ -38,32 +36,33 @@ module.exports = function (config) {
     },
 
     plugins: [
-      "karma-webpack",
-      "karma-jasmine",
-      "karma-sourcemap-loader",
-      "karma-chrome-launcher",
-      "karma-firefox-launcher"
+      'karma-webpack',
+      'karma-chai',
+      'karma-mocha',
+      'karma-mocha-reporter',
+      'karma-sourcemap-loader',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher'
     ],
 
     customLaunchers: {
       Chrome_without_sandbox: {
-        base: "Chrome",
-        flags: ["--no-sandbox"]
+        base: 'Chrome',
+        flags: ['--no-sandbox']
       }
     },
 
-    reporters: ["progress"],
+    reporters: ['mocha', 'progress'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    singleRun: false,
-  });
+    singleRun: false
+  })
 
   if (process.env.TRAVIS) {
-    config.browsers = ["Chrome_without_sandbox", "Firefox"];
+    config.browsers = ['Chrome_without_sandbox', 'Firefox']
+  } else {
+    config.browsers = ['Chrome', 'Firefox']
   }
-  else {
-    config.browsers = ["Chrome", "Firefox"];
-  }
-};
+}

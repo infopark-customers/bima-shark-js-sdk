@@ -1,54 +1,54 @@
-"use strict";
+'use strict'
 
 /**
  * https://stackoverflow.com/questions/44541561/webpack-output-is-empty-object
  **/
-const webpack           = require("webpack"),
-      path              = require("path"),
-      sdkVersion        = require("./package.json").version;
+const webpack = require('webpack')
+const path = require('path')
+const sdkVersion = require('./package.json').version
 
 module.exports = {
   entry: [
-    "isomorphic-fetch",
-    path.join(__dirname, "src", "index.js"),
+    'isomorphic-fetch',
+    path.join(__dirname, 'src', 'index.js')
   ],
 
   output: {
-    path: path.join(__dirname, "dist"),
-    filename: "bima-shark-sdk.js",
-    library: "Shark",
-    libraryTarget: "commonjs2"
+    path: path.join(__dirname, 'dist'),
+    filename: 'bima-shark-sdk.js',
+    library: 'Shark',
+    libraryTarget: 'commonjs2'
   },
 
   target: 'node',
 
   resolve: {
-    extensions: [".js"],
+    extensions: ['.js'],
     alias: {
-      "dist": __dirname + "/dist",
-      "node_modules": __dirname + "/node_modules",
-      "src": __dirname + "/src",
-      "test": __dirname + "/test",
+      'dist': path.join(__dirname, '/dist'),
+      'node_modules': path.join(__dirname, '/node_modules'),
+      'src': path.join(__dirname, '/src'),
+      'test': path.join(__dirname, '/test')
     }
   },
 
   module: {
     rules: [
       {
-        enforce: "pre",
+        enforce: 'pre',
         test: /\.js$/,
         exclude: /(node_modules|dist)/,
         use: {
-          loader: "standard-loader",
+          loader: 'standard-loader'
         }
       },
       {
         test: /\.(js|jsx)?$/,
         exclude: /(node_modules|dist)/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["env"],
+            presets: ['env']
           }
         }
       }
@@ -60,10 +60,10 @@ module.exports = {
   },
 
   performance: {
-    hints: process.env.NODE_ENV === "production" ? "warning" : false
+    hints: process.env.NODE_ENV === 'production' ? 'warning' : false
   },
 
   plugins: [
-    new webpack.BannerPlugin("BImA-Shark JS-SDK v" + sdkVersion),
+    new webpack.BannerPlugin('BImA-Shark JS-SDK v' + sdkVersion)
   ]
-};
+}
