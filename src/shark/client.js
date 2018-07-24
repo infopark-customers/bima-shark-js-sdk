@@ -2,8 +2,8 @@
 
 import param from 'jquery-param'
 
-import request from 'src/utils/request'
-import ServiceToken from 'src/shark/service_token'
+import simpleFetch from 'src/utils/simple_fetch'
+import ServiceTokenClient from 'src/shark/service_token/browser_client'
 
 // TODO hack empty arrays?
 
@@ -13,7 +13,7 @@ import ServiceToken from 'src/shark/service_token'
  *
  * @throws Will raise error if baseUrl is invalid
  */
-class Client {
+export default class Client {
   constructor (options = {}) {
     this.name = options.name
     this.baseUrl = options.url
@@ -37,7 +37,7 @@ class Client {
    * @return {promise} The request promise.
    */
   search (parameters = {}) {
-    const url = this.buildUrl(null, parameters)
+    const url = this.__buildUrl(null, parameters)
     return this.sendRequest(url)
   }
 
@@ -48,7 +48,7 @@ class Client {
    * @return {promise} The request promise.
    */
   find (id, parameters = {}) {
-    const url = this.buildUrl(id, parameters)
+    const url = this.__buildUrl(id, parameters)
     return this.sendRequest(url)
   }
 
@@ -59,7 +59,7 @@ class Client {
    * @return {promise} The request promise.
    */
   create (data, parameters = {}) {
-    const url = this.buildUrl(null, parameters)
+    const url = this.__buildUrl(null, parameters)
 
     return this.sendRequest(url, {
       body: data,
@@ -75,7 +75,7 @@ class Client {
    * @return {promise} The request promise.
    */
   update (id, data, parameters = {}) {
-    const url = this.buildUrl(id, parameters)
+    const url = this.__buildUrl(id, parameters)
 
     return this.sendRequest(url, {
       body: data,
@@ -90,7 +90,7 @@ class Client {
    * @return {promise} The request promise.
    */
   destroy (id, parameters = {}) {
-    const url = this.buildUrl(id, parameters)
+    const url = this.__buildUrl(id, parameters)
     return this.sendRequest(url, {
       method: 'DELETE'
     })
@@ -119,17 +119,18 @@ class Client {
     }
 
     if (this.config.authorizationRequired) {
-      return ServiceToken.create().then(jwt => {
+      const tokenClient = new ServiceTokenClient()
+      return tokenClient.createServiceToken().then(jwt => {
         opts.headers['Authorization'] = `Bearer ${jwt}`
-        return request(url, opts)
+        return simpleFetch(url, opts)
       })
     } else {
       opts.credentials = 'same-origin'
-      return request(url, opts)
+      return simpleFetch(url, opts)
     }
   }
 
-  buildUrl (id, parameters) {
+  __buildUrl (id, parameters) {
     let url = this.baseUrl
     let queryString = param(parameters)
 
@@ -140,5 +141,3 @@ class Client {
     return url
   }
 }
-
-export default Client

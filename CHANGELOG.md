@@ -1,5 +1,12 @@
 # Changelog
 
+### 0.4.0
+- [new] added `ConsentServiceClient`
+- [new] added `NotificationsClient`
+- [break] `ServiceToken` was renamed to `ServiceTokenClient`
+- [new] `ServiceTokenClient` also works for NodeJS
+  - uses different implementations for `ServiceTokenClient`
+
 ### 0.3.2
 - fix minor logging issue
 
