@@ -2,12 +2,10 @@
 
 import Config from 'src/shark/config'
 import Client from 'src/shark/client'
+import SharkError from 'src/shark/error'
 
 import NodeServiceTokenClient from 'src/shark/service_token/node_client'
 import BrowserServiceTokenClient from 'src/shark/service_token/browser_client'
-
-import SharkError from 'src/shark/error'
-
 import NotificationsClient from 'src/shark/clients/notifications_client'
 import ConsentServiceClient from 'src/shark/clients/consentservice_client'
 
