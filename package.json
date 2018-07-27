@@ -1,7 +1,7 @@
 {
   "name": "bima-shark-sdk",
   "version": "0.4.0",
-  "private": true,
+  "private": false,
   "main": "dist/bima-shark-sdk.js",
   "engines": {
     "node": ">= 5.0.0",
