@@ -7,7 +7,7 @@ import SharkError from 'src/shark/error'
 import NodeServiceTokenClient from 'src/shark/service_token/node_client'
 import BrowserServiceTokenClient from 'src/shark/service_token/browser_client'
 import NotificationsClient from 'src/shark/clients/notifications_client'
-import ConsentServiceClient from 'src/shark/clients/consentservice_client'
+import ConsentClient from 'src/shark/clients/consent_client'
 
 const ServiceTokenClient = Config.nodeProcess ? NodeServiceTokenClient : BrowserServiceTokenClient
 
@@ -20,7 +20,7 @@ const Shark = {
   Client: Client,
   Error: SharkError,
 
-  ConsentServiceClient: ConsentServiceClient,
+  ConsentClient: ConsentClient,
   NotificationsClient: NotificationsClient,
   ServiceTokenClient: ServiceTokenClient,
 
@@ -56,7 +56,7 @@ const Shark = {
 export {
   Client,
   SharkError,
-  ConsentServiceClient,
+  ConsentClient,
   NotificationsClient,
   ServiceTokenClient
 }
