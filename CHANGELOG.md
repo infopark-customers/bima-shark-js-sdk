@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.5.0
+- [new] added `ConsentChangesClient`
+- [new] renamed `ConsentServiceClient` to `ConsentClient`
+
 ### 0.4.0
 - [new] added `ConsentServiceClient`
 - [new] added `NotificationsClient`
