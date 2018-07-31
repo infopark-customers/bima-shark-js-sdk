@@ -8,7 +8,7 @@ This is the Javascript SDK for the BImA applications.
 #### In Node.JS environments
 
 ```
-npm install --save "git+ssh://git@github.com:infopark-customers/bima-shark-js-sdk.git#master"
+npm install --save bima-shark-sdk
 ```
 
 ### In browser enviroments

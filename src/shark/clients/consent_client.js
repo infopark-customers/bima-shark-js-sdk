@@ -2,10 +2,10 @@
 
 import Client from 'src/shark/client'
 
-class ConsentServiceClient {
+class ConsentClient {
   constructor (url) {
     this.client = new Client({
-      name: 'ConsentServiceClient',
+      name: 'ConsentClient',
       url: `${url}/consents`,
       contentType: 'application/vnd.api+json'
     })
@@ -28,4 +28,4 @@ class ConsentServiceClient {
   }
 }
 
-export default ConsentServiceClient
+export default ConsentClient
