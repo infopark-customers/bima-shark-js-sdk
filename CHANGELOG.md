@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.6.0
+- [new] added `ActivityClient`
+
 ### 0.5.0
 - [new] added `ConsentChangesClient`
 - [new] renamed `ConsentServiceClient` to `ConsentClient`
