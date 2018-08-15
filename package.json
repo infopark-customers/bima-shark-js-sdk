@@ -2,6 +2,11 @@
   "name": "bima-shark-sdk",
   "version": "0.6.0",
   "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/infopark-customers/bima-shark-js-sdk"
+  },
   "main": "dist/bima-shark-sdk.js",
   "engines": {
     "node": ">= 5.0.0",
@@ -20,8 +25,8 @@
     ]
   },
   "dependencies": {
+    "humps": "^2.0.1",
     "jquery-param": "^1.0.1",
-    "jsonapi-serializer": "^3.5.6",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
