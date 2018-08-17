@@ -1,9 +1,8 @@
 'use strict'
 
-import param from 'jquery-param'
-
-import simpleFetch from 'src/utils/simple_fetch'
-import ServiceTokenClient from 'src/shark/service_token/browser_client'
+const param = require('jquery-param')
+const simpleFetch = require('../utils/simple_fetch')
+const ServiceTokenClient = require('./service_token/browser_client')
 
 // TODO hack empty arrays?
 
@@ -13,7 +12,7 @@ import ServiceTokenClient from 'src/shark/service_token/browser_client'
  *
  * @throws Will raise error if baseUrl is invalid
  */
-export default class Client {
+class Client {
   constructor (options = {}) {
     this.name = options.name
     this.baseUrl = options.url
@@ -141,3 +140,5 @@ export default class Client {
     return url
   }
 }
+
+module.exports = Client

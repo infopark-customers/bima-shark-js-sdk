@@ -1,15 +1,15 @@
 'use strict'
 
-import Config from 'src/shark/config'
-import Client from 'src/shark/client'
-import SharkError from 'src/shark/error'
+const Config = require('./shark/config')
+const Client = require('./shark/client')
+const SharkError = require('./shark/error')
 
-import NodeServiceTokenClient from 'src/shark/service_token/node_client'
-import BrowserServiceTokenClient from 'src/shark/service_token/browser_client'
-import NotificationsClient from 'src/shark/clients/notifications_client'
-import ConsentClient from 'src/shark/clients/consent_client'
-import ConsentChangesClient from 'src/shark/clients/consent_changes_client'
-import ActivityClient from 'src/shark/clients/activity_client'
+const NodeServiceTokenClient = require('./shark/service_token/node_client')
+const BrowserServiceTokenClient = require('./shark/service_token/browser_client')
+const NotificationsClient = require('./shark/clients/notifications_client')
+const ConsentClient = require('./shark/clients/consent_client')
+const ConsentChangesClient = require('./shark/clients/consent_changes_client')
+const ActivityClient = require('./shark/clients/activity_client')
 
 const ServiceTokenClient = Config.nodeProcess ? NodeServiceTokenClient : BrowserServiceTokenClient
 
@@ -57,14 +57,4 @@ const Shark = {
   }
 }
 
-export {
-  Client,
-  SharkError,
-  ConsentClient,
-  ConsentChangesClient,
-  NotificationsClient,
-  ServiceTokenClient,
-  ActivityClient
-}
-
-export default Shark
+module.exports = Shark

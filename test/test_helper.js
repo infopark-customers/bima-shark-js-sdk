@@ -1,19 +1,25 @@
 /* eslint-env mocha */
 'use strict'
 
-import fetchMock from 'fetch-mock'
-import Shark from 'src/index'
+const fetchMock = require('fetch-mock')
+const Shark = require('../src/index')
 
-mocha.setup({ timeout: 500 })
+Shark.configure({
+  debug: false,
+  serviceTokenUrl: 'https://myapp.example.org/doorkeeper/service_token'
+})
 
-export const TEST = {
+/*
+ * API request mocks
+ */
+const TEST = {
   BODY: { foo: 1, bar: '12345', baz: ['hello', 'world', '!'] },
   CLIENT_URL: 'https://client.example.org/',
   JWT: 'json-web-token-0123456789',
-  SERVICE_TOKEN_URL: 'https://myapp.example.org/doorkeeper/service_token'
+  SERVICE_TOKEN_URL: Shark.config.serviceTokenUrl
 }
 
-export const SERVICE_TOKEN_RESPONSE_BODY = {
+const SERVICE_TOKEN_RESPONSE_BODY = {
   data: {
     type: 'users',
     id: '5490143e69e49d0c8f9fc6bc',
@@ -23,19 +29,7 @@ export const SERVICE_TOKEN_RESPONSE_BODY = {
     }
   }
 }
-
-/*
- * Setup test config
- */
-Shark.configure({
-  debug: false,
-  serviceTokenUrl: TEST.SERVICE_TOKEN_URL
-})
-
-/*
- * API request mocks
- */
-export const setup = {
+const setup = {
   serviceTokenSuccess: () => {
     beforeEach(() => {
       fetchMock.post(TEST.SERVICE_TOKEN_URL, {
@@ -59,14 +53,15 @@ export const setup = {
   }
 }
 
-export function teardown () {
+function teardown () {
   afterEach(() => {
     fetchMock.restore()
   })
 }
 
-export default {
+module.exports = {
+  SERVICE_TOKEN_RESPONSE_BODY,
+  TEST,
   setup,
-  teardown,
-  TEST
+  teardown
 }

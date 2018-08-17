@@ -1,6 +1,6 @@
 'use strict'
 
-import Client from 'src/shark/client'
+const Client = require('../client')
 
 class ConsentClient {
   constructor (url) {
@@ -28,4 +28,4 @@ class ConsentClient {
   }
 }
 
-export default ConsentClient
+module.exports = ConsentClient

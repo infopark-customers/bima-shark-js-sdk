@@ -1,6 +1,6 @@
 'use strict'
 
-import Client from 'src/shark/client'
+const Client = require('../client')
 
 class NotificationsClient {
   constructor (url) {
@@ -40,4 +40,4 @@ class NotificationsClient {
   }
 }
 
-export default NotificationsClient
+module.exports = NotificationsClient

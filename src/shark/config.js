@@ -1,6 +1,6 @@
 'use strict'
 
-import uuidv1 from 'uuid/v1'
+const uuidv1 = require('uuid/v1')
 
 const Config = {
   debug: false,
@@ -9,4 +9,4 @@ const Config = {
   serviceTokenUrl: '/doorkeeper/service_token'
 }
 
-export default Config
+module.exports = Config

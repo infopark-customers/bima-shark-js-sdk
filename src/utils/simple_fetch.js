@@ -1,14 +1,13 @@
 /* global Headers */
 'use strict'
 
-import URL from 'url'
-import Config from 'src/shark/config'
-import Error from 'src/jsonapi-serializer/error'
-
-// From https://github.com/github/fetch/issues/203#issuecomment-266034180
+const URL = require('url')
+const Config = require('../shark/config')
+const Error = require('../jsonapi-serializer/error')
 
 /**
  * Parses the JSON returned by a network request.
+ * Inspired by https://github.com/github/fetch/issues/203#issuecomment-266034180
  *
  * @param  {object} response A response from a network request
  * @return {object} The parsed JSON, status from the response
@@ -68,7 +67,7 @@ function logDebug () {
  *
  * @return {Promise}           The request promise
  */
-export default function simpleFetch (url, options) {
+function simpleFetch (url, options) {
   logDebug('[Shark] request: ', url)
 
   if (URL.parse(url).protocol === 'http:') {
@@ -119,3 +118,5 @@ function jsonApiError (response) {
 
   return new Error(errors)
 }
+
+module.exports = simpleFetch

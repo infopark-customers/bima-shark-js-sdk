@@ -1,10 +1,10 @@
 /* eslint-env mocha */
-/* global expect */
 'use strict'
 
-import fetchMock from 'fetch-mock'
-import ServiceTokenClient from 'src/shark/service_token/node_client'
-const BODY = require('test/test_helper').SERVICE_TOKEN_RESPONSE_BODY
+const { expect } = require('chai')
+const fetchMock = require('fetch-mock')
+const ServiceTokenClient = require('../../src/shark/service_token/node_client')
+const BODY = require('../test_helper').SERVICE_TOKEN_RESPONSE_BODY
 
 const baseUrl = 'https://doorkeeper.example.org'
 const userId = 'doorkeeper-user-id'

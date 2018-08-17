@@ -1,7 +1,7 @@
 'use strict'
 
-import humps from 'humps'
-import { isArray, isObject } from 'src/utils/typecheck'
+const humps = require('humps')
+const { isArray, isObject } = require('../utils/typecheck')
 
 /**
  * @class Deserializer

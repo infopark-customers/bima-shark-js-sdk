@@ -1,8 +1,8 @@
 'use strict'
 
-import { isString } from 'src/utils/typecheck'
-import simpleFetch from 'src/utils/simple_fetch'
-import Config from 'src/shark/config'
+const { isString } = require('../../utils/typecheck')
+const simpleFetch = require('../../utils/simple_fetch')
+const Config = require('../config')
 
 const TOKEN_STORAGE = {}
 
@@ -13,7 +13,7 @@ const TOKEN_STORAGE = {}
  * @param {object} [options] the options
  *   - url {string}
  */
-export default class ServiceTokenClient {
+class ServiceTokenClient {
   /**
    * Remove stored service token
    */
@@ -96,3 +96,5 @@ export default class ServiceTokenClient {
     }
   }
 }
+
+module.exports = ServiceTokenClient

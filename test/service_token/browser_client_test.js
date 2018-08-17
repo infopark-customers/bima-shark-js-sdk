@@ -1,11 +1,11 @@
 /* eslint-env mocha */
-/* global expect */
 'use strict'
 
-import Config from 'src/shark/config'
-import ServiceTokenClient from 'src/shark/service_token/browser_client'
+const { expect } = require('chai')
 
-import { setup, teardown, TEST } from 'test/test_helper'
+const Config = require('../../src/shark/config')
+const ServiceTokenClient = require('../../src/shark/service_token/browser_client')
+const { setup, teardown, TEST } = require('../test_helper')
 
 const client = new ServiceTokenClient()
 

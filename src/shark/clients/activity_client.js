@@ -1,6 +1,6 @@
 'use strict'
 
-import Client from 'src/shark/client'
+const Client = require('../client')
 
 class ActivityClient {
   constructor (url) {
@@ -32,4 +32,4 @@ class ActivityClient {
   }
 }
 
-export default ActivityClient
+module.exports = ActivityClient

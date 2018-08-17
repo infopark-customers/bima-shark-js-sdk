@@ -1,8 +1,10 @@
 /* eslint-env mocha */
-/* global expect */
 'use strict'
 
-import Shark, { Client, ServiceTokenClient } from 'src/index'
+const { expect } = require('chai')
+
+const Shark = require('../src/index')
+const { Client, ServiceTokenClient } = Shark
 
 describe('default export Shark', () => {
   it('should be an Object', () => {

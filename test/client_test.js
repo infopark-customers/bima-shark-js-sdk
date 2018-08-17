@@ -1,10 +1,10 @@
 /* eslint-env mocha */
-/* global expect */
 'use strict'
 
-import fetchMock from 'fetch-mock'
-import { setup, teardown, TEST } from 'test/test_helper'
-import Client from 'src/shark/client'
+const { expect } = require('chai')
+const fetchMock = require('fetch-mock')
+const { setup, teardown, TEST } = require('./test_helper')
+const Client = require('../src/shark/client')
 
 const client = new Client({
   name: 'TestClient',
