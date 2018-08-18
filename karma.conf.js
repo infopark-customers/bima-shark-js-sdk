@@ -45,14 +45,7 @@ module.exports = function (config) {
       'karma-firefox-launcher'
     ],
 
-    customLaunchers: {
-      Chrome_without_sandbox: {
-        base: 'Chrome',
-        flags: ['--no-sandbox']
-      }
-    },
-
-    reporters: ['mocha', 'progress'],
+    reporters: ['mocha'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -61,7 +54,7 @@ module.exports = function (config) {
   })
 
   if (process.env.TRAVIS) {
-    config.browsers = ['Chrome_without_sandbox', 'Firefox']
+    config.browsers = ['Firefox']
   } else {
     config.browsers = ['Chrome', 'Firefox']
   }

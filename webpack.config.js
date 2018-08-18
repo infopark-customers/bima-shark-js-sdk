@@ -9,7 +9,6 @@ const sdkVersion = require('./package.json').version
 
 module.exports = {
   entry: [
-    'isomorphic-fetch',
     path.join(__dirname, 'src', 'index.js')
   ],
 
@@ -31,6 +30,8 @@ module.exports = {
       'test': path.join(__dirname, '/test')
     }
   },
+
+  mode: 'production',
 
   module: {
     rules: [

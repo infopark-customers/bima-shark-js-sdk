@@ -1,7 +1,7 @@
 'use strict'
 
 import param from 'jquery-param'
-import { Deserializer } from 'jsonapi-serializer'
+import Deserializer from 'src/jsonapi-serializer/deserializer'
 import { isString } from 'src/utils/typecheck'
 import signedFetch from 'src/utils/signed_fetch'
 

@@ -5,15 +5,17 @@ This is the Javascript SDK for the BImA applications.
 
 ### Installation
 
-#### In Node.JS environments
-
 ```
 npm install --save bima-shark-sdk
 ```
 
-### In browser enviroments
+Add your own `fetch` library.
 
-Copy ` dist/bima-shark-sdk.js ` into your app.
+* for browsers use [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch) as polyfill for Internet Explorer
+* in AWS Lambda functions use [node-fetch](https://www.npmjs.com/package/node-fetch)
+
+> In browser enviroments
+> copy ` dist/bima-shark-sdk.js ` into your app.
 
 
 ### Usage

@@ -4,6 +4,7 @@
 
 import fetchMock from 'fetch-mock'
 import ServiceTokenClient from 'src/shark/service_token/node_client'
+const BODY = require('test/test_helper').SERVICE_TOKEN_RESPONSE_BODY
 
 const baseUrl = 'https://doorkeeper.example.org'
 const userId = 'doorkeeper-user-id'
@@ -14,16 +15,6 @@ const client = new ServiceTokenClient({
   secretKey: '0123456789',
   baseUrl: baseUrl
 })
-const BODY = {
-  data: {
-    type: 'users',
-    id: '5490143e69e49d0c8f9fc6bc',
-    attributes: {
-      'first_name': 'Roger',
-      'last_name': 'Rabbit'
-    }
-  }
-}
 
 function mockBody (body, status = 200) {
   const jsonBody = JSON.stringify(body)

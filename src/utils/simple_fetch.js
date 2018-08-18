@@ -3,7 +3,7 @@
 
 import URL from 'url'
 import Config from 'src/shark/config'
-import { Error } from 'jsonapi-serializer'
+import Error from 'src/jsonapi-serializer/error'
 
 // From https://github.com/github/fetch/issues/203#issuecomment-266034180
 
@@ -14,8 +14,8 @@ import { Error } from 'jsonapi-serializer'
  * @return {object} The parsed JSON, status from the response
  */
 function parse (response) {
-  return new Promise((resolve) => response.text()
-    .then(text => {
+  return new Promise(resolve => {
+    return response.text().then(text => {
       // TODO inspect response headers?
       // TODO inspect content length?
 
@@ -35,7 +35,7 @@ function parse (response) {
         json: json
       })
     })
-  )
+  })
 }
 
 /**
@@ -45,7 +45,7 @@ function parse (response) {
  * @return {object}
  */
 function error (e) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     return resolve({
       statusText: e.message,
       ok: false,
@@ -69,7 +69,7 @@ function logDebug () {
  * @return {Promise}           The request promise
  */
 export default function simpleFetch (url, options) {
-  logDebug('Shark.request: ', url)
+  logDebug('[Shark] request: ', url)
 
   if (URL.parse(url).protocol === 'http:') {
     if (options.headers instanceof Headers) {
@@ -83,7 +83,7 @@ export default function simpleFetch (url, options) {
     fetch(url, options)
       .then(parse, error)
       .then(response => {
-        logDebug('Shark.response: ', response)
+        logDebug('[Shark] response: ', response)
         if (response.ok) {
           return resolve(response.json)
         } else {
@@ -108,6 +108,9 @@ function jsonApiError (response) {
       errorDetails = json.messages
     } else if (json.message) {
       errorDetails = [json.message]
+    } else {
+      console.log('[Shark] unhandled response type: ', response)
+      errorDetails = ['Unhandled error']
     }
     errors = errorDetails.map(detail => {
       return { status: response.status, title: response.statusText, detail: detail }
