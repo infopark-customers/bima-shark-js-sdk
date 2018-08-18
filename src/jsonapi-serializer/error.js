@@ -1,12 +1,12 @@
 'use strict'
 
 function ErrorDocument (errors) {
-  var jsonapi = {
+  const jsonapi = {
     errors: []
   }
 
   errors.forEach(function (error) {
-    var opts = {}
+    const opts = {}
 
     if (error.id) { opts.id = error.id }
     if (error.status) { opts.status = error.status }

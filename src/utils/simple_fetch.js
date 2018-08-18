@@ -14,8 +14,8 @@ import Error from 'src/jsonapi-serializer/error'
  * @return {object} The parsed JSON, status from the response
  */
 function parse (response) {
-  return new Promise(resolve =>
-    response.text().then(text => {
+  return new Promise(resolve => {
+    return response.text().then(text => {
       // TODO inspect response headers?
       // TODO inspect content length?
 
@@ -35,7 +35,7 @@ function parse (response) {
         json: json
       })
     })
-  )
+  })
 }
 
 /**

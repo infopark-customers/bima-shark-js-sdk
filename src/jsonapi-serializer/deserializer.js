@@ -14,15 +14,11 @@ import { isArray, isObject } from 'src/utils/typecheck'
  */
 class Deserializer {
   constructor (opts) {
-    if (!opts) {
-      this.opts = {}
-    } else {
-      this.opts = opts
-    }
+    this.opts = opts || {}
   }
 
   deserialize (jsonapi) {
-    if (Array.isArray(jsonapi.data)) {
+    if (isArray(jsonapi.data)) {
       return this.__collection(jsonapi)
     } else {
       return this.__resource(jsonapi)
@@ -59,12 +55,18 @@ class Resource {
   __extractAttributes (data) {
     const resource = this.__keyForAttribute(data.attributes || {})
 
-    if ('id' in data) { resource[this.opts.id || 'id'] = data.id }
+    if ('id' in data) {
+      resource[this.opts.id || 'id'] = data.id
+    }
 
     if (this.opts.typeAsAttribute) {
-      if ('type' in data) { resource.type = data.type }
+      if ('type' in data) {
+        resource.type = data.type
+      }
     }
-    if ('meta' in data) { resource.meta = this.keyForAttribute(data.meta || {}) }
+    if ('meta' in data) {
+      resource.meta = this.keyForAttribute(data.meta || {})
+    }
 
     return resource
   }
