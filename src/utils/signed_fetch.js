@@ -1,7 +1,7 @@
-/* global Headers */
 'use strict'
 
 const crypto = require('crypto')
+const { Headers } = require('node-fetch')
 const URL = require('url')
 const { isString } = require('./typecheck')
 const simpleFetch = require('./simple_fetch')

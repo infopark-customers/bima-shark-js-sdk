@@ -2,12 +2,16 @@
 'use strict'
 
 const { expect } = require('chai')
+const jsdom = require('jsdom-global')
 
 const Config = require('../../src/shark/config')
 const ServiceTokenClient = require('../../src/shark/service_token/browser_client')
 const { setup, teardown, TEST } = require('../test_helper')
 
 const client = new ServiceTokenClient()
+
+before(() => { jsdom() })
+after(() => { jsdom() })
 
 describe('ServiceTokenClient#createServiceToken', () => {
   teardown()
@@ -35,7 +39,7 @@ describe('ServiceTokenClient#createServiceToken', () => {
     it('should create a Promise that is rejected', (done) => {
       const promise = client.createServiceToken()
       promise.then(token => {
-        done.fail('ServiceTokenClient.create() was resolved, but it should fail!')
+        done(new Error('ServiceTokenClient.create() was resolved, but it should fail!'))
       }, error => {
         expect(Array.isArray(error.errors)).to.eql(true)
         expect(error.errors[0].status).to.eql(500)
