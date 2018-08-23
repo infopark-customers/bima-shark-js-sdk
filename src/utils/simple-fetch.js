@@ -1,8 +1,7 @@
-/* global Headers */
 'use strict'
 
-const URL = require('url')
-const Config = require('../shark/config')
+const { fetch, Headers } = require('./shark-fetch')
+const Logger = require('../logger')
 const Error = require('../jsonapi-serializer/error')
 
 /**
@@ -55,10 +54,6 @@ function error (e) {
   })
 }
 
-function logDebug () {
-  if (Config.debug) { console.log.apply(null, arguments) }
-}
-
 /**
  * Requests a URL, returning a promise
  *
@@ -68,9 +63,9 @@ function logDebug () {
  * @return {Promise}           The request promise
  */
 function simpleFetch (url, options) {
-  logDebug('[Shark] request: ', url)
+  Logger.debugLog('request: ', url)
 
-  if (URL.parse(url).protocol === 'http:') {
+  if (url.startsWith('http:')) {
     if (options.headers instanceof Headers) {
       options.headers.set('x-forwarded-proto', 'https')
     } else {
@@ -82,7 +77,7 @@ function simpleFetch (url, options) {
     fetch(url, options)
       .then(parse, error)
       .then(response => {
-        logDebug('[Shark] response: ', response)
+        Logger.debugLog('response: ', response)
         if (response.ok) {
           return resolve(response.json)
         } else {
@@ -108,7 +103,7 @@ function jsonApiError (response) {
     } else if (json.message) {
       errorDetails = [json.message]
     } else {
-      console.log('[Shark] unhandled response type: ', response)
+      Logger.log('Unhandled response type: ', response)
       errorDetails = ['Unhandled error']
     }
     errors = errorDetails.map(detail => {

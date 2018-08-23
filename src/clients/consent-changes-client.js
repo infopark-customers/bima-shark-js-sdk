@@ -1,6 +1,6 @@
 'use strict'
 
-const Client = require('../client')
+const Client = require('./base-client')
 
 class ConsentChangesClient {
   constructor (url) {

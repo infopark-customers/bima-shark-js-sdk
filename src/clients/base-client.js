@@ -1,8 +1,9 @@
 'use strict'
 
 const param = require('jquery-param')
-const simpleFetch = require('../utils/simple_fetch')
-const ServiceTokenClient = require('./service_token/browser_client')
+const { isString } = require('../utils/typecheck')
+const simpleFetch = require('../utils/simple-fetch')
+const ServiceTokenClient = require('../service-token/browser')
 
 // TODO hack empty arrays?
 
@@ -21,7 +22,8 @@ class Client {
       contentType: options.contentType || 'application/vnd.api+json'
     }
 
-    if (this.baseUrl && typeof this.baseUrl === 'string') {
+    // TODO use isString from typecheck
+    if (this.baseUrl && isString(this.baseUrl)) {
       if (this.baseUrl[0] === '/') {
         this.config.authorizationRequired = false
       }
@@ -119,8 +121,8 @@ class Client {
 
     if (this.config.authorizationRequired) {
       const tokenClient = new ServiceTokenClient()
-      return tokenClient.createServiceToken().then(jwt => {
-        opts.headers['Authorization'] = `Bearer ${jwt}`
+      return tokenClient.createServiceToken().then(token => {
+        opts.headers['Authorization'] = `Bearer ${token.jwt}`
         return simpleFetch(url, opts)
       })
     } else {

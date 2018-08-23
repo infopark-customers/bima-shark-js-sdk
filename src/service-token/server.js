@@ -1,9 +1,9 @@
 'use strict'
 
 const param = require('jquery-param')
-const Deserializer = require('../../jsonapi-serializer/deserializer')
-const { isString } = require('../../utils/typecheck')
-const signedFetch = require('../../utils/signed_fetch')
+const Deserializer = require('../jsonapi-serializer/deserializer')
+const { isString } = require('../utils/typecheck')
+const signedFetch = require('../utils/signed-fetch')
 
 const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
 
