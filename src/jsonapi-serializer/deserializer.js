@@ -18,7 +18,9 @@ class Deserializer {
   }
 
   deserialize (jsonapi) {
-    if (isArray(jsonapi.data)) {
+    if (jsonapi.data === undefined) {
+      throw new Error('Cannot deserialize JSON without field `data`')
+    } else if (isArray(jsonapi.data)) {
       return this.__collection(jsonapi)
     } else {
       return this.__resource(jsonapi)
