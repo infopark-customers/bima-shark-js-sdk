@@ -9,7 +9,7 @@ const sdkVersion = require('./package.json').version
 
 module.exports = {
   entry: [
-    path.join(__dirname, 'src', 'index.js')
+    path.join(__dirname, 'shark-browser.js')
   ],
 
   output: {
@@ -18,8 +18,6 @@ module.exports = {
     library: 'Shark',
     libraryTarget: 'commonjs2'
   },
-
-  target: 'node',
 
   resolve: {
     extensions: ['.js'],
@@ -61,7 +59,7 @@ module.exports = {
   },
 
   performance: {
-    hints: process.env.NODE_ENV === 'production' ? 'warning' : false
+    hints: 'warning'
   },
 
   plugins: [

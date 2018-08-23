@@ -1,5 +1,11 @@
 # Changelog
 
+### 0.7.0
+- BIG optimization in terms of package size and dependencies
+- pure NPM package now => `npm run build` is not required anymore
+- [new] added `UserClient`
+- [break] removed `Shark.createClient`
+
 ### 0.6.0
 - [new] added `ActivityClient`
 
