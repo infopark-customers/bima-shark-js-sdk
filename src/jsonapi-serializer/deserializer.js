@@ -1,7 +1,7 @@
 'use strict'
 
-import humps from 'humps'
-import { isArray, isObject } from 'src/utils/typecheck'
+const humps = require('humps')
+const { isArray, isObject } = require('../utils/typecheck')
 
 /**
  * @class Deserializer
@@ -18,7 +18,9 @@ class Deserializer {
   }
 
   deserialize (jsonapi) {
-    if (isArray(jsonapi.data)) {
+    if (jsonapi.data === undefined) {
+      throw new Error('Cannot deserialize JSON without field `data`')
+    } else if (isArray(jsonapi.data)) {
       return this.__collection(jsonapi)
     } else {
       return this.__resource(jsonapi)

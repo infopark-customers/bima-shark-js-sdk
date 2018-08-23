@@ -9,104 +9,41 @@ This is the Javascript SDK for the BImA applications.
 npm install --save bima-shark-sdk
 ```
 
+For local development, when testing your package against our applications
+```
+# replace with your own absolute path
+npm install --save /User/jdahlke/.../bima-shark-js-sdk
+```
+
+
 Add your own `fetch` library.
 
 * for browsers use [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch) as polyfill for Internet Explorer
 * in AWS Lambda functions use [node-fetch](https://www.npmjs.com/package/node-fetch)
 
-> In browser enviroments
-> copy ` dist/bima-shark-sdk.js ` into your app.
-
+> In browser enviroments:
+> - run `npm run build`
+> - copy ` dist/bima-shark-sdk.js ` into your app.
 
 ### Usage
 
 #### Configuration (optional)
 
 ```
+import Shark from 'bima-shark-sdk'
+
 Shark.configure({
   debug: false,             // log request and response, when true
   secret: 'random-id',      // user specific secret e.g. id
   serviceTokenUrl: '/doorkeeper/service_token'
 })
+
+import { UserClient } from 'bima-shark-sdk'
 ```
-
-#### Basic Client
-
-```
-import Shark from 'bima-shark-sdk'
-
-var client = Shark.createClient({
-  name: 'GroupClient',
-  url: 'https://contactservice.bundesimmo.de/api/groups',
-  contentType: 'application/vnd.api+json',
-})
-```
-
-
-#### Example Client with customization
-
-```
-import Shark from 'bima-shark-sdk'
-
-class GroupClient {
-  constructor() {
-    this.client = new Shark.Client({
-      name: 'GroupClient',
-      url: 'https://contactservice.bundesimmo.de/api/groups',
-      contentType: 'application/vnd.api+json',
-    })
-  }
-
-  search(options = {}) {
-    const ids = options.ids || null
-    const canManage = options.canManage || null
-    const data = { filter: {}, include: 'creator' }
-
-    if (ids !== null && ids.length === 0) {
-      return new Promise((resolve, reject) => { resolve(null) })
-    } else if (ids !== null) {
-      data.filter['ids'] = ids
-    }
-
-    if (canManage === true) {
-      data.filter['can_manage'] = true
-    }
-
-    return this.client.search(data)
-  }
-
-  find(id) {
-    return this.client.find(id, { include: 'creator' })
-  }
-
-  create(data) {
-    return this.client.create(data, { include: 'creator' })
-  }
-
-  update(data) {
-    return this.client.update(data, { include: 'creator' })
-  }
-
-  destroy(id) {
-    return this.client.destroy(id)
-  }
-}
-
-export default GroupClient
-```
-
-
-### Docs
-
-All methods in SDK are documented with [JSDoc](http://usejsdoc.org/).
-You can generate the doc files locally with ` npm run docs ` and have a full-HTML documentation of the SDK in ` /docs `.
-
-Note: If you don't have installed JSDoc already, just run ` npm install -g jsdoc `.
-
 
 ### Testing
 
-This SDK uses [Jasmine](https://jasmine.github.io/) as test framework. Server responses are mocked with [fetch-mock](http://www.wheresrhys.co.uk/fetch-mock/).
+This SDK uses [Mocha](https://mochajs.org/) as test framework. Server responses are mocked with [nock](https://www.npmjs.com/package/nock).
 
 ```
 npm test

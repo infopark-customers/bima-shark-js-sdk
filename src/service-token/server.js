@@ -1,9 +1,9 @@
 'use strict'
 
-import param from 'jquery-param'
-import Deserializer from 'src/jsonapi-serializer/deserializer'
-import { isString } from 'src/utils/typecheck'
-import signedFetch from 'src/utils/signed_fetch'
+const param = require('jquery-param')
+const Deserializer = require('../jsonapi-serializer/deserializer')
+const { isString } = require('../utils/typecheck')
+const signedFetch = require('../utils/signed-fetch')
 
 const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
 
@@ -16,7 +16,7 @@ const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
  *   - secretKey {string}
  *   - baseUrl {string}
  */
-export default class ServiceTokenClient {
+class ServiceTokenClient {
   /**
    * Remove stored service token
    */
@@ -93,3 +93,5 @@ export default class ServiceTokenClient {
     })
   }
 }
+
+module.exports = ServiceTokenClient

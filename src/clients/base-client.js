@@ -1,9 +1,9 @@
 'use strict'
 
-import param from 'jquery-param'
-
-import simpleFetch from 'src/utils/simple_fetch'
-import ServiceTokenClient from 'src/shark/service_token/browser_client'
+const param = require('jquery-param')
+const { isString } = require('../utils/typecheck')
+const simpleFetch = require('../utils/simple-fetch')
+const ServiceTokenClient = require('../service-token/browser')
 
 // TODO hack empty arrays?
 
@@ -13,7 +13,7 @@ import ServiceTokenClient from 'src/shark/service_token/browser_client'
  *
  * @throws Will raise error if baseUrl is invalid
  */
-export default class Client {
+class Client {
   constructor (options = {}) {
     this.name = options.name
     this.baseUrl = options.url
@@ -22,7 +22,7 @@ export default class Client {
       contentType: options.contentType || 'application/vnd.api+json'
     }
 
-    if (this.baseUrl && typeof this.baseUrl === 'string') {
+    if (this.baseUrl && isString(this.baseUrl)) {
       if (this.baseUrl[0] === '/') {
         this.config.authorizationRequired = false
       }
@@ -120,8 +120,8 @@ export default class Client {
 
     if (this.config.authorizationRequired) {
       const tokenClient = new ServiceTokenClient()
-      return tokenClient.createServiceToken().then(jwt => {
-        opts.headers['Authorization'] = `Bearer ${jwt}`
+      return tokenClient.createServiceToken().then(token => {
+        opts.headers['Authorization'] = `Bearer ${token.jwt}`
         return simpleFetch(url, opts)
       })
     } else {
@@ -141,3 +141,5 @@ export default class Client {
     return url
   }
 }
+
+module.exports = Client

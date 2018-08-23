@@ -1,11 +1,11 @@
-/* global Headers */
 'use strict'
 
-import crypto from 'crypto'
-import URL from 'url'
+const crypto = require('crypto')
+const URL = require('url')
 
-import { isString } from 'src/utils/typecheck'
-import simpleFetch from 'src/utils/simple_fetch'
+const { Headers } = require('./shark-fetch')
+const { isString } = require('./typecheck')
+const simpleFetch = require('./simple-fetch')
 
 function md5Base64digest (data) {
   return crypto.createHash('md5')
@@ -128,9 +128,11 @@ class SignedRequest {
   }
 }
 
-export default function signedFetch (url, options = {}) {
+function signedFetch (url, options = {}) {
   const signedRequestOptions = Object.assign({ url: url }, options)
   const signedRequest = new SignedRequest(signedRequestOptions)
 
   return signedRequest.fetch()
 }
+
+module.exports = signedFetch

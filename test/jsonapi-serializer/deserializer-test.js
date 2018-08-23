@@ -1,9 +1,10 @@
 /* eslint-env mocha */
-/* global expect */
 'use strict'
 
-import Deserializer from 'src/jsonapi-serializer/deserializer'
-const BODY = require('test/test_helper').SERVICE_TOKEN_RESPONSE_BODY
+const { expect } = require('chai')
+
+const Deserializer = require('../../src/jsonapi-serializer/deserializer')
+const BODY = require('../test-helper').SERVICE_TOKEN_RESPONSE_BODY
 
 describe('Deserializer', () => {
   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
