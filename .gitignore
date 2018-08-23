@@ -1,5 +1,6 @@
 .tmp
 npm-debug.log
 
+dist/*
 docs/*
 node_modules/

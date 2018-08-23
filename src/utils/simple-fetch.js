@@ -1,21 +1,19 @@
-/* global Headers */
 'use strict'
 
-import URL from 'url'
-import Config from 'src/shark/config'
-import { Error } from 'jsonapi-serializer'
-
-// From https://github.com/github/fetch/issues/203#issuecomment-266034180
+const { fetch, Headers } = require('./shark-fetch')
+const Logger = require('../logger')
+const Error = require('../jsonapi-serializer/error')
 
 /**
  * Parses the JSON returned by a network request.
+ * Inspired by https://github.com/github/fetch/issues/203#issuecomment-266034180
  *
  * @param  {object} response A response from a network request
  * @return {object} The parsed JSON, status from the response
  */
 function parse (response) {
-  return new Promise((resolve) => response.text()
-    .then(text => {
+  return new Promise(resolve => {
+    return response.text().then(text => {
       // TODO inspect response headers?
       // TODO inspect content length?
 
@@ -35,7 +33,7 @@ function parse (response) {
         json: json
       })
     })
-  )
+  })
 }
 
 /**
@@ -45,7 +43,7 @@ function parse (response) {
  * @return {object}
  */
 function error (e) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     return resolve({
       statusText: e.message,
       ok: false,
@@ -56,10 +54,6 @@ function error (e) {
   })
 }
 
-function logDebug () {
-  if (Config.debug) { console.log.apply(null, arguments) }
-}
-
 /**
  * Requests a URL, returning a promise
  *
@@ -68,10 +62,10 @@ function logDebug () {
  *
  * @return {Promise}           The request promise
  */
-export default function simpleFetch (url, options) {
-  logDebug('Shark.request: ', url)
+function simpleFetch (url, options) {
+  Logger.debugLog('request: ', url)
 
-  if (URL.parse(url).protocol === 'http:') {
+  if (url.startsWith('http:')) {
     if (options.headers instanceof Headers) {
       options.headers.set('x-forwarded-proto', 'https')
     } else {
@@ -83,7 +77,7 @@ export default function simpleFetch (url, options) {
     fetch(url, options)
       .then(parse, error)
       .then(response => {
-        logDebug('Shark.response: ', response)
+        Logger.debugLog('response: ', response)
         if (response.ok) {
           return resolve(response.json)
         } else {
@@ -108,6 +102,9 @@ function jsonApiError (response) {
       errorDetails = json.messages
     } else if (json.message) {
       errorDetails = [json.message]
+    } else {
+      Logger.log('Unhandled response type: ', response)
+      errorDetails = ['Unhandled error']
     }
     errors = errorDetails.map(detail => {
       return { status: response.status, title: response.statusText, detail: detail }
@@ -116,3 +113,5 @@ function jsonApiError (response) {
 
   return new Error(errors)
 }
+
+module.exports = simpleFetch

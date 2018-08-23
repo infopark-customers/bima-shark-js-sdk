@@ -1,12 +1,17 @@
-export const isArray = (value) => {
+'use strict'
+
+module.exports.isArray = (value) => {
   return Array.isArray(value)
 }
 
-export const isString = (value) => {
-  return typeof value === 'string' || value instanceof String
+module.exports.isFunction = (value) => {
+  return typeof value === 'function'
 }
 
-export default {
-  isArray,
-  isString
+module.exports.isObject = (value) => {
+  return value !== null && typeof value === 'object'
+}
+
+module.exports.isString = (value) => {
+  return typeof value === 'string' || value instanceof String
 }

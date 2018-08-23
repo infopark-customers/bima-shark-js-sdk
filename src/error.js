@@ -24,4 +24,4 @@ if (Object.setPrototypeOf) {
   Object.setPrototypeOf(SharkError, Error)
 }
 
-export default SharkError
+module.exports = SharkError
