@@ -9,6 +9,13 @@ This is the Javascript SDK for the BImA applications.
 npm install --save bima-shark-sdk
 ```
 
+For local development, when testing your package against our applications
+```
+# replace with your own absolute path
+npm install --save /User/jdahlke/.../bima-shark-js-sdk
+```
+
+
 Add your own `fetch` library.
 
 * for browsers use [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch) as polyfill for Internet Explorer
@@ -24,7 +31,6 @@ Add your own `fetch` library.
 
 ```
 import Shark from 'bima-shark-sdk'
-
 
 Shark.configure({
   debug: false,             // log request and response, when true

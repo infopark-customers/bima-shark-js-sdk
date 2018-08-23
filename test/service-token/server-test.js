@@ -5,7 +5,6 @@ const { expect } = require('chai')
 const nock = require('nock')
 
 const {
-  JWT,
   SERVICE_TOKEN_RESPONSE_BODY
 } = require('../test-helper')
 

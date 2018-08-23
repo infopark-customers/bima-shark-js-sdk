@@ -151,7 +151,7 @@ describe('Client with successful service token', () => {
         mockFetch({
           method: 'POST',
           host: CLIENT_URL,
-          responseBody: BODY,
+          responseBody: BODY
         })
       })
 
@@ -172,7 +172,7 @@ describe('Client with successful service token', () => {
           method: 'PUT',
           host: CLIENT_URL,
           path: '/1',
-          responseBody: BODY,
+          responseBody: BODY
         })
       })
 
@@ -193,7 +193,7 @@ describe('Client with successful service token', () => {
           method: 'DELETE',
           host: CLIENT_URL,
           path: '/1',
-          responseBody: { message: 'Object deleted' },
+          responseBody: { message: 'Object deleted' }
         })
       })
 

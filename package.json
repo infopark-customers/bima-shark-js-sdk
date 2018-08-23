@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "webpack --mode production",
-    "test": "NODE_ENV=test mocha 'test/**/*test.js' --reporter spec --timeout 500"
+    "test": "NODE_ENV=test mocha 'test/**/*test.js' --reporter spec --timeout 2000"
   },
   "standard": {
     "globals": [

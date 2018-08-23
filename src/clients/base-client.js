@@ -22,7 +22,6 @@ class Client {
       contentType: options.contentType || 'application/vnd.api+json'
     }
 
-    // TODO use isString from typecheck
     if (this.baseUrl && isString(this.baseUrl)) {
       if (this.baseUrl[0] === '/') {
         this.config.authorizationRequired = false
