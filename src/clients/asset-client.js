@@ -14,7 +14,7 @@ class AssetClient {
   }
 
   create (params) {
-    return this.__createOrUpdate(params)
+    return this.__createOrUpdate('POST', `${this.client.baseUrl}/assets`, params)
   }
 
   destroy (id) {
@@ -32,7 +32,7 @@ class AssetClient {
   }
 
   update (params) {
-    return this.__createOrUpdate(params)
+    return this.__createOrUpdate('PUT', `${this.client.baseUrl}/assets/${params.id}`, params)
   }
 
   download (id) {
@@ -43,13 +43,9 @@ class AssetClient {
     return this.client.sendRequest(`${this.client.baseUrl}/${id}/inline`)
   }
 
-  __createOrUpdate (params) {
-    const id = params.id
+  __createOrUpdate (method, url, params) {
     const data = params.data
     const file = params.file
-
-    const url = id ? `${this.client.baseUrl}/assets/${id}` : `${this.client.baseUrl}/assets`
-    const method = id ? 'PUT' : 'POST'
 
     return this.client.sendRequest(url, {
       method: method,
