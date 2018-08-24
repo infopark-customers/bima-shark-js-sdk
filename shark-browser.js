@@ -18,6 +18,7 @@ const Shark = require('./src/shark')
 
 Shark.Client = require('./src/clients/base-client')
 Shark.ActivityClient = require('./src/clients/activity-client')
+Shark.AssetClient = require('./src/clients/asset-client')
 Shark.ConsentClient = require('./src/clients/consent-client')
 Shark.ConsentChangesClient = require('./src/clients/consent-changes-client')
 Shark.NotificationsClient = require('./src/clients/notifications-client')
