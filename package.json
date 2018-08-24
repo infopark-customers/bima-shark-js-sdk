@@ -47,7 +47,7 @@
     "request": "^2.88.0",
     "standard": "^11.0.1",
     "standard-loader": "^6.0.1",
-    "webpack": "^4.2.0",
+    "webpack": "^4.17.1",
     "webpack-cli": "^2.0.13"
   }
 }
