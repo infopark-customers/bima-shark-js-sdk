@@ -8,35 +8,33 @@ class AssetClient {
   constructor (url) {
     this.client = new Client({
       name: 'AssetClient',
-      url: url,
+      url: `${url}/assets`,
       contentType: 'application/vnd.api+json'
     })
   }
 
   create (params) {
-    return this.__createOrUpdate('POST', `${this.client.baseUrl}/assets`, params)
+    return this.__createOrUpdate('POST', `${this.client.baseUrl}`, params)
   }
 
-  destroy (id) {
-    return this.client.sendRequest(`${this.client.baseUrl}/assets/${id}`, {
-      method: 'DELETE'
-    })
+  destroy (id, parameters = {}) {
+    return this.client.destroy(id, parameters)
   }
 
-  index () {
-    return this.client.sendRequest(`${this.client.baseUrl}/assets`)
+  search (parameters = {}) {
+    return this.client.search(parameters)
   }
 
-  show (id) {
-    return this.client.sendRequest(`${this.client.baseUrl}/assets/${id}`)
+  find (id, parameters = {}) {
+    return this.client.find(id, parameters)
   }
 
   update (params) {
-    return this.__createOrUpdate('PUT', `${this.client.baseUrl}/assets/${params.id}`, params)
+    return this.__createOrUpdate('PUT', `${this.client.baseUrl}/${params.id}`, params)
   }
 
   download (id) {
-    return this.client.sendRequest(`${this.client.baseUrl}/${id}`)
+    return this.client.sendRequest(`${this.client.baseUrl}/${id}/download`)
   }
 
   display (id) {
