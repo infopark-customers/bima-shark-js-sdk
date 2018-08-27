@@ -58,9 +58,24 @@ class AssetClient {
           'Content-Type': fileMimeType || ''
         },
         body: file
+      }).then(() => {
+        return this.__formatAssetUploadResponse(response)
       })
     })
   }
+
+  __formatAssetUploadResponse (response)  {
+    const data = response.data
+    const baseUrl = `${this.client.baseUrl}/${data.id}`
+
+    data.attributes['uploaded-at'] = Math.floor(Date.now() / 1000)
+    data.links.download = `${baseUrl}/download`
+    data.links.show = `${baseUrl}/inline`
+    delete data.attributes['expires-at']
+
+    return response
+  }
+
 }
 
 module.exports = AssetClient
