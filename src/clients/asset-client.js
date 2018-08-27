@@ -34,12 +34,16 @@ class AssetClient {
     return this.__createOrUpdate('PUT', `${this.client.baseUrl}/${params.id}`, file)
   }
 
-  download (id) {
-    return this.client.sendRequest(`${this.client.baseUrl}/${id}/download`)
+  getTemporaryDownloadUrl (id) {
+    return this.find(id).then(asset => {
+      return asset.data.links.download
+    })
   }
 
-  display (id) {
-    return this.client.sendRequest(`${this.client.baseUrl}/${id}/inline`)
+  getTemporaryDisplayUrl (id) {
+    return this.find(id).then(asset => {
+      return asset.data.links.show
+    })
   }
 
   __createOrUpdate (method, url, file) {
