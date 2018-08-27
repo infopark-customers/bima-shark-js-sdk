@@ -5,16 +5,17 @@ const simpleFetch = require('../utils/simple-fetch')
 const mime = require('mime-types')
 
 class AssetClient {
-  constructor (url) {
+  constructor (url, directory) {
     this.client = new Client({
       name: 'AssetClient',
       url: `${url}/assets`,
       contentType: 'application/vnd.api+json'
     })
+    this.directory = directory
   }
 
-  create (params) {
-    return this.__createOrUpdate('POST', `${this.client.baseUrl}`, params)
+  create (file) {
+    return this.__createOrUpdate('POST', `${this.client.baseUrl}`, file)
   }
 
   destroy (id, parameters = {}) {
@@ -29,8 +30,8 @@ class AssetClient {
     return this.client.find(id, parameters)
   }
 
-  update (params) {
-    return this.__createOrUpdate('PUT', `${this.client.baseUrl}/${params.id}`, params)
+  update (file) {
+    return this.__createOrUpdate('PUT', `${this.client.baseUrl}/${params.id}`, file)
   }
 
   download (id) {
@@ -41,9 +42,16 @@ class AssetClient {
     return this.client.sendRequest(`${this.client.baseUrl}/${id}/inline`)
   }
 
-  __createOrUpdate (method, url, params) {
-    const data = params.data
-    const file = params.file
+  __createOrUpdate (method, url, file) {
+    const data = {
+      data: {
+        type: "assets",
+        attributes: {
+          filename: file.name,
+          directory: this.directory
+        }
+      }
+    }
 
     return this.client.sendRequest(url, {
       method: method,
