@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.8.0
+- [new] added `AssetClient`
+
 ### 0.7.0
 - BIG optimization in terms of package size and dependencies
 - pure NPM package now => `npm run build` is not required anymore
