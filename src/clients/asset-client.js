@@ -61,6 +61,7 @@ class AssetClient {
       method: method,
       body: data
     }).then(response => {
+      const id = response.data.id
       const uploadUrl = response.data.links.upload
       const fileMimeType = mime.lookup(file)
 
@@ -71,21 +72,11 @@ class AssetClient {
         },
         body: file
       }).then(() => {
-        return this.__formatAssetUploadResponse(response)
+        return this.find(id).then(asset => {
+          return asset
+        })
       })
     })
-  }
-
-  __formatAssetUploadResponse (response) {
-    const data = response.data
-    const baseUrl = `${this.client.baseUrl}/${data.id}`
-
-    data.attributes['uploaded-at'] = Math.floor(Date.now() / 1000)
-    data.links.download = `${baseUrl}/download`
-    data.links.show = `${baseUrl}/inline`
-    delete data.attributes['expires-at']
-
-    return response
   }
 }
 
