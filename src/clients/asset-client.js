@@ -30,8 +30,8 @@ class AssetClient {
     return this.client.find(id, parameters)
   }
 
-  update (file) {
-    return this.__createOrUpdate('PUT', `${this.client.baseUrl}/${params.id}`, file)
+  update (file, id) {
+    return this.__createOrUpdate('PUT', `${this.client.baseUrl}/${id}`, file)
   }
 
   getTemporaryDownloadUrl (id) {
@@ -49,7 +49,7 @@ class AssetClient {
   __createOrUpdate (method, url, file) {
     const data = {
       data: {
-        type: "assets",
+        type: 'assets',
         attributes: {
           filename: file.name,
           directory: this.directory
@@ -76,7 +76,7 @@ class AssetClient {
     })
   }
 
-  __formatAssetUploadResponse (response)  {
+  __formatAssetUploadResponse (response) {
     const data = response.data
     const baseUrl = `${this.client.baseUrl}/${data.id}`
 
@@ -87,7 +87,6 @@ class AssetClient {
 
     return response
   }
-
 }
 
 module.exports = AssetClient
