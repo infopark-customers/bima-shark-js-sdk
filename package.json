@@ -1,6 +1,6 @@
 {
   "name": "bima-shark-sdk",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "private": false,
   "license": "MIT",
   "repository": {
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "webpack --mode production",
-    "test": "NODE_ENV=test mocha 'test/**/*test.js' --reporter spec --timeout 2000"
+    "test": "standard && NODE_ENV=test mocha 'test/**/*test.js' --reporter spec --timeout 2000"
   },
   "standard": {
     "globals": [
@@ -28,6 +28,7 @@
   "dependencies": {
     "humps": "^2.0.1",
     "jquery-param": "^1.0.1",
+    "mime-types": "^2.1.19",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
@@ -46,7 +47,7 @@
     "request": "^2.88.0",
     "standard": "^11.0.1",
     "standard-loader": "^6.0.1",
-    "webpack": "^4.2.0",
+    "webpack": "^4.17.1",
     "webpack-cli": "^2.0.13"
   }
 }
