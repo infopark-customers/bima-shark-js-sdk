@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.9.0
+- [new] added `SubscriptionClient`
+
 ### 0.8.0
 - [new] added `AssetClient`
 
