@@ -20,7 +20,6 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js'],
     alias: {
       'dist': path.join(__dirname, '/dist'),
       'node_modules': path.join(__dirname, '/node_modules'),
