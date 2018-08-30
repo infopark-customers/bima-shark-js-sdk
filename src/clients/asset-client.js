@@ -2,7 +2,7 @@
 
 const Client = require('./base-client')
 const simpleFetch = require('../utils/simple-fetch')
-const mime = require('mime-types')
+const mime = require('mime/lite')
 
 class AssetClient {
   constructor (url, directory) {
@@ -63,7 +63,7 @@ class AssetClient {
     }).then(response => {
       const id = response.data.id
       const uploadUrl = response.data.links.upload
-      const fileMimeType = mime.lookup(file)
+      const fileMimeType = mime.getType(file.name)
 
       return simpleFetch(uploadUrl, {
         method: 'PUT',
