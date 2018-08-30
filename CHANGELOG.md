@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.10.0
+- [new] added `AppClient`
+- use `mime` instead of `mime-types`
+
 ### 0.9.0
 - [new] added `SubscriptionClient`
 
