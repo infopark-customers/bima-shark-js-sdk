@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.11.0
+- [new] added `ContactClient`
+
 ### 0.10.0
 - [new] added `AppClient`
 - use `mime` instead of `mime-types`
