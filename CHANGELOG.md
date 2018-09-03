@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.11.1
+- [fix] `ContactClient` update method type
+
 ### 0.11.0
 - [new] added `ContactClient`
 
