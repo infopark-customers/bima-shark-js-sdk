@@ -130,6 +130,14 @@ class Client {
     }
   }
 
+  /**
+   * Uploads file and returns promise.
+   *
+   * @param {string} url the url
+   * @param {FormData} data the FormData object with file
+   *
+   * @return {promise} the uploadFile promise
+   */
   uploadFile (url, data) {
     const opts = {
       headers: {},
