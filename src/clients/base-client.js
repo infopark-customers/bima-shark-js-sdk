@@ -130,6 +130,25 @@ class Client {
     }
   }
 
+  uploadFile (url, data) {
+    const opts = {
+      headers: {},
+      body: data,
+      method: 'POST'
+    }
+
+    if (this.config.authorizationRequired) {
+      const tokenClient = new ServiceTokenClient()
+      return tokenClient.createServiceToken().then(token => {
+        opts.headers['Authorization'] = `Bearer ${token.jwt}`
+        return simpleFetch(url, opts)
+      })
+    } else {
+      opts.credentials = 'same-origin'
+      return simpleFetch(url, opts)
+    }
+  }
+
   __buildUrl (id, parameters) {
     let url = this.baseUrl
     let queryString = param(parameters)

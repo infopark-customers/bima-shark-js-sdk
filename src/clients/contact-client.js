@@ -35,10 +35,7 @@ class ContactClient {
   }
 
   uploadAvatar (id, data) {
-    return this.client.sendRequest(`${this.client.baseUrl}/${id}/avatar`, {
-      body: data,
-      method: 'POST'
-    })
+    return this.client.uploadFile(`${this.client.baseUrl}/${id}/avatar`, data)
   }
 
   deleteAvatar (id) {
