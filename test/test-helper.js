@@ -50,9 +50,11 @@ function setupTokenSuccess () {
   nock(`${url.protocol}//${url.host}`)
     .post(URL.parse(SERVICE_TOKEN_URL).path)
     .reply(200, {
-      attributes: {
-        jwt: JWT,
-        expires_at: new Date()
+      data: {
+        attributes: {
+          jwt: JWT,
+          expires_at: new Date()
+        }
       }
     })
 }
