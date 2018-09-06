@@ -133,12 +133,13 @@ class Client {
   /**
    * Uploads file and returns promise.
    *
-   * @param {string} url the url
+   * @param {string} path the path
    * @param {FormData} data the FormData object with file
    *
    * @return {promise} the uploadFile promise
    */
-  uploadFile (url, data) {
+  uploadFile (path, data, parameters = {}) {
+    const url = this.__buildUrl(path, parameters)
     const opts = {
       headers: {},
       body: data,
@@ -157,12 +158,15 @@ class Client {
     }
   }
 
-  __buildUrl (id, parameters) {
+  __buildUrl (path, parameters) {
     let url = this.baseUrl
+    let urlPath = path || ''
     let queryString = param(parameters)
 
     if (url.slice(-1) !== '/') { url += '/' }
-    if (id) { url += id }
+    urlPath = urlPath.toString()
+    if (urlPath[0] === '/') { urlPath = urlPath.slice(1) }
+    url += urlPath
     if (queryString.length > 0) { url += `?${queryString}` }
 
     return url

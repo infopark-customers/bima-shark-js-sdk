@@ -35,7 +35,7 @@ class ContactClient {
   }
 
   uploadAvatar (id, data) {
-    return this.client.uploadFile(`${this.client.baseUrl}/${id}/avatar`, data)
+    return this.client.uploadFile(`${id}/avatar`, data)
   }
 
   deleteAvatar (id) {
