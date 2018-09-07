@@ -130,12 +130,43 @@ class Client {
     }
   }
 
-  __buildUrl (id, parameters) {
+  /**
+   * Uploads file and returns promise.
+   *
+   * @param {string} path the path
+   * @param {FormData} data the FormData object with file
+   *
+   * @return {promise} the uploadFile promise
+   */
+  uploadFile (path, data, parameters = {}) {
+    const url = this.__buildUrl(path, parameters)
+    const opts = {
+      headers: {},
+      body: data,
+      method: 'POST'
+    }
+
+    if (this.config.authorizationRequired) {
+      const tokenClient = new ServiceTokenClient()
+      return tokenClient.createServiceToken().then(token => {
+        opts.headers['Authorization'] = `Bearer ${token.jwt}`
+        return simpleFetch(url, opts)
+      })
+    } else {
+      opts.credentials = 'same-origin'
+      return simpleFetch(url, opts)
+    }
+  }
+
+  __buildUrl (path, parameters) {
     let url = this.baseUrl
+    let urlPath = path || ''
     let queryString = param(parameters)
 
     if (url.slice(-1) !== '/') { url += '/' }
-    if (id) { url += id }
+    urlPath = urlPath.toString()
+    if (urlPath[0] === '/') { urlPath = urlPath.slice(1) }
+    url += urlPath
     if (queryString.length > 0) { url += `?${queryString}` }
 
     return url
