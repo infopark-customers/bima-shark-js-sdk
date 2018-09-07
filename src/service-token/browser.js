@@ -59,7 +59,8 @@ class ServiceTokenClient {
         method: 'POST'
       })
       .then(json => {
-        const token = deserializer.deserialize({ data: json })
+        const data = json.data ? json : { data: json }
+        const token = deserializer.deserialize(data)
         Cache.store(cacheKey, token)
         return token
       })

@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.12.0
+- [new] added `DescriptionClient`
+- [new] added `uploadFile` in `BaseClient`
+- [new] made `__buildUrl` accept path parameters (used in `uploadFile`)
+
 ### 0.11.1
 - [fix] `ContactClient` update method type
 
