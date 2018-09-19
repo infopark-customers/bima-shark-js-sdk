@@ -14,12 +14,12 @@ class AssetClient {
     this.directory = directory
   }
 
-  create (file, parameters = {}) {
+  create (file, options = {}) {
     return this.__createOrUpdate({
       method: 'POST',
       url: `${this.client.baseUrl}`,
       file: file,
-      onProgress: parameters.onProgress
+      onProgress: options.onProgress
     })
   }
 
@@ -35,12 +35,12 @@ class AssetClient {
     return this.client.find(id, parameters)
   }
 
-  update (file, id, parameters = {}) {
+  update (file, id, options = {}) {
     return this.__createOrUpdate({
       method: 'PUT',
       url: `${this.client.baseUrl}/${id}`,
       file: file,
-      onProgress: parameters.onProgress
+      onProgress: options.onProgress
     })
   }
 
@@ -56,8 +56,8 @@ class AssetClient {
     })
   }
 
-  __createOrUpdate (parameters = {}) {
-    const fileName = parameters.file.name
+  __createOrUpdate (options = {}) {
+    const fileName = options.file.name
     const data = {
       data: {
         type: 'assets',
@@ -68,8 +68,8 @@ class AssetClient {
       }
     }
 
-    return this.client.sendRequest(parameters.url, {
-      method: parameters.method,
+    return this.client.sendRequest(options.url, {
+      method: options.method,
       body: data
     }).then(response => {
       const id = response.data.id
@@ -79,8 +79,8 @@ class AssetClient {
       return uploadFile({
         uploadUrl: uploadUrl,
         fileMimeType: fileMimeType,
-        file: parameters.file,
-        onProgress: parameters.onProgress
+        file: options.file,
+        onProgress: options.onProgress
       }).then(() => {
         return this.find(id).then(asset => {
           return asset
