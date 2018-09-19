@@ -12,6 +12,15 @@ Object.assign(sharkFetch, {
 })
 
 /*
+ * Configure shark-upload-file with Browser implementation
+ */
+const { uploadFileBrowser } = require('./src/utils/upload-file')
+const sharkUploadFile = require('./src/utils/shark-upload-file')
+Object.assign(sharkUploadFile, {
+  uploadFile: uploadFileBrowser
+})
+
+/*
  * Expose Shark clients
  */
 const Shark = require('./src/shark')
