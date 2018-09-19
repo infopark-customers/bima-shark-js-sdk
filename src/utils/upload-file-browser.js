@@ -1,7 +1,5 @@
 'use strict'
 
-const { simpleFetch } = require('./simple-fetch')
-
 module.exports.uploadFileBrowser = (options = {}) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
@@ -17,15 +15,5 @@ module.exports.uploadFileBrowser = (options = {}) => {
       }
     }
     xhr.send(options.file)
-  })
-}
-
-module.exports.uploadFileNode = (options = {}) => {
-  return simpleFetch(options.uploadUrl, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': options.fileMimeType || ''
-    },
-    body: options.file
   })
 }
