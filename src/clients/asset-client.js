@@ -1,7 +1,7 @@
 'use strict'
 
 const Client = require('./base-client')
-const simpleFetch = require('../utils/simple-fetch')
+const uploadFile = require('../utils/shark-upload-file')
 const mime = require('mime/lite')
 
 class AssetClient {
@@ -14,8 +14,13 @@ class AssetClient {
     this.directory = directory
   }
 
-  create (file) {
-    return this.__createOrUpdate('POST', `${this.client.baseUrl}`, file)
+  create (file, parameters = {}) {
+    return this.__createOrUpdate({
+      method: 'POST',
+      url: `${this.client.baseUrl}`,
+      file: file,
+      onProgress: parameters.onProgress
+    })
   }
 
   destroy (id, parameters = {}) {
@@ -30,8 +35,13 @@ class AssetClient {
     return this.client.find(id, parameters)
   }
 
-  update (file, id) {
-    return this.__createOrUpdate('PUT', `${this.client.baseUrl}/${id}`, file)
+  update (file, id, parameters = {}) {
+    return this.__createOrUpdate({
+      method: 'PUT',
+      url: `${this.client.baseUrl}/${id}`,
+      file: file,
+      onProgress: parameters.onProgress
+    })
   }
 
   getTemporaryDownloadUrl (id) {
@@ -46,31 +56,31 @@ class AssetClient {
     })
   }
 
-  __createOrUpdate (method, url, file) {
+  __createOrUpdate (parameters = {}) {
+    const fileName = parameters.file.name
     const data = {
       data: {
         type: 'assets',
         attributes: {
-          filename: file.name,
+          filename: fileName,
           directory: this.directory
         }
       }
     }
 
-    return this.client.sendRequest(url, {
-      method: method,
+    return this.client.sendRequest(parameters.url, {
+      method: parameters.method,
       body: data
     }).then(response => {
       const id = response.data.id
       const uploadUrl = response.data.links.upload
-      const fileMimeType = mime.getType(file.name)
+      const fileMimeType = mime.getType(fileName)
 
-      return simpleFetch(uploadUrl, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': fileMimeType || ''
-        },
-        body: file
+      return uploadFile({
+        uploadUrl: uploadUrl,
+        fileMimeType: fileMimeType,
+        file: parameters.file,
+        onProgress: parameters.onProgress
       }).then(() => {
         return this.find(id).then(asset => {
           return asset
