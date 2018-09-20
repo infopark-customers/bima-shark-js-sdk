@@ -20,7 +20,9 @@
   "standard": {
     "globals": [
       "fetch",
-      "XMLHttpRequest"
+      "XMLHttpRequest",
+      "FormData",
+      "File"
     ],
     "ignore": [
       "/dist/*.js"
