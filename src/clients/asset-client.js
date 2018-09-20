@@ -1,7 +1,7 @@
 'use strict'
 
 const Client = require('./base-client')
-const uploadFile = require('../utils/shark-upload-file')
+const { uploadFile } = require('../utils/shark-upload-file')
 const mime = require('mime/lite')
 
 class AssetClient {
