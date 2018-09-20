@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports.uploadFileBrowser = (options = {}) => {
+const uploadFileBrowser = (options = {}) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
     xhr.open('PUT', options.uploadUrl)
@@ -17,3 +17,5 @@ module.exports.uploadFileBrowser = (options = {}) => {
     xhr.send(options.file)
   })
 }
+
+module.exports = uploadFileBrowser
