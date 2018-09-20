@@ -1,5 +1,7 @@
 'use strict'
 
+const { jsonApiError } = require('./simple-fetch')
+
 const uploadFileBrowser = (options = {}) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
@@ -11,7 +13,8 @@ const uploadFileBrowser = (options = {}) => {
       if (xhr.status >= 200 && xhr.status < 300) {
         resolve(xhr.response)
       } else {
-        reject(xhr.statusText)
+        const error = jsonApiError(xhr)
+        return reject(error)
       }
     }
     xhr.send(options.file)

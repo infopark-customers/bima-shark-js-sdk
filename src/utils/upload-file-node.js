@@ -1,6 +1,6 @@
 'use strict'
 
-const simpleFetch = require('./simple-fetch')
+const { simpleFetch } = require('./simple-fetch')
 
 const uploadFileNode = (options = {}) => {
   return simpleFetch(options.uploadUrl, {
