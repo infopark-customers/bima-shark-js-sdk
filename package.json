@@ -19,7 +19,6 @@
   },
   "standard": {
     "globals": [
-      "fetch"
     ],
     "ignore": [
       "/dist/*.js"

@@ -252,6 +252,30 @@ describe('Client with successful service token', () => {
       })
     })
   })
+
+  describe('#uploadFile', () => {
+    describe('on success 204 without body', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'POST',
+          host: CLIENT_URL,
+          path: '/1/file',
+          responseBody: null,
+          status: 204
+        })
+      })
+
+      it('should return empty body', (done) => {
+        const formData = new window.FormData()
+        formData.append('file', new window.File([''], 'filename', { type: 'text/html' }))
+        const promise = client.uploadFile('1/file', formData)
+        promise.then(body => {
+          expect(body).to.eql({})
+          done()
+        })
+      })
+    })
+  })
 })
 
 describe('Client with failed service tokens', () => {
