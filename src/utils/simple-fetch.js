@@ -114,4 +114,7 @@ function jsonApiError (response) {
   return new Error(errors)
 }
 
-module.exports = simpleFetch
+module.exports = {
+  simpleFetch,
+  jsonApiError
+}
