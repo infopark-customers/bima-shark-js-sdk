@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.13.0
+- [new] `create` and `update` in `AssetClient` accept progress function
+
 ### 0.12.0
 - [new] added `DescriptionClient`
 - [new] added `uploadFile` in `BaseClient`
