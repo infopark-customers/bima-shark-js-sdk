@@ -24,7 +24,7 @@ describe('#uploadFile', () => {
 
   it('returns empty body', () => {
     const fileMimeType = 'text/html'
-    const file = new File([''], 'filename', { type: fileMimeType })
+    const file = new window.File([''], 'filename', { type: fileMimeType })
     const promise = sharkUploadFile.uploadFile({
       uploadUrl: `${UPLOAD_URL}/uploads`,
       fileMimeType: fileMimeType,

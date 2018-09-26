@@ -266,8 +266,8 @@ describe('Client with successful service token', () => {
       })
 
       it('should return empty body', (done) => {
-        const formData = new FormData()
-        formData.append('file', new File([''], 'filename', { type: 'text/html' }))
+        const formData = new window.FormData()
+        formData.append('file', new window.File([''], 'filename', { type: 'text/html' }))
         const promise = client.uploadFile('1/file', formData)
         promise.then(body => {
           expect(body).to.eql({})
