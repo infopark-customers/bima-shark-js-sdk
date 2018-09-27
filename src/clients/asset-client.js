@@ -19,7 +19,8 @@ class AssetClient {
       method: 'POST',
       url: `${this.client.baseUrl}`,
       file: file,
-      onProgress: options.onProgress
+      onProgress: options.onProgress,
+      doAbort: options.doAbort
     })
   }
 
@@ -40,7 +41,8 @@ class AssetClient {
       method: 'PUT',
       url: `${this.client.baseUrl}/${id}`,
       file: file,
-      onProgress: options.onProgress
+      onProgress: options.onProgress,
+      doAbort: options.doAbort
     })
   }
 
@@ -80,7 +82,8 @@ class AssetClient {
         uploadUrl: uploadUrl,
         fileMimeType: fileMimeType,
         file: options.file,
-        onProgress: options.onProgress
+        onProgress: options.onProgress,
+        doAbort: options.doAbort
       }).then(() => {
         return this.find(id).then(asset => {
           return asset
