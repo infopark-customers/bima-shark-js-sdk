@@ -21,8 +21,8 @@ class AssetClient {
   /**
    *
    * @param {File} file A file object.
-   * @param {Object} options An options object allowing to specify onProgress and doAbort functions.
-   * onProgress handles upload progress in app utilizing this client. doAbort function returning true/false indicating the need to abort upload.
+   * @param {Object} options An options object allowing to specify onProgress and doCancel functions.
+   * onProgress handles upload progress in app utilizing this client. doCancel function returning true/false indicating the need to abort upload.
    *
    * @return {Promise} The request promise.
    */
@@ -32,7 +32,7 @@ class AssetClient {
       url: `${this.client.baseUrl}`,
       file: file,
       onProgress: options.onProgress,
-      doAbort: options.doAbort
+      doCancel: options.doCancel
     })
   }
 
@@ -72,8 +72,8 @@ class AssetClient {
    *
    * @param {File} file A file object.
    * @param {String} id An id of asset to update.
-   * @param {Object} options An options object allowing to specify onProgress and doAbort functions.
-   * onProgress handles upload progress in app utilizing this client. doAbort function returning true/false indicating the need to abort upload.
+   * @param {Object} options An options object allowing to specify onProgress and doCancel functions.
+   * onProgress handles upload progress in app utilizing this client. doCancel function returning true/false indicating the need to abort upload.
    *
    * @return {Promise} The request promise.
    */
@@ -83,7 +83,7 @@ class AssetClient {
       url: `${this.client.baseUrl}/${id}`,
       file: file,
       onProgress: options.onProgress,
-      doAbort: options.doAbort
+      doCancel: options.doCancel
     })
   }
 
@@ -91,7 +91,7 @@ class AssetClient {
    *
    * @param {String} id An id of asset to get the temporary download url of.
    *
-   * @return {URL} The asset temporary download url.
+   * @return {Promise} A promise that resolves to a temporary asset download url.
    */
   getTemporaryDownloadUrl (id) {
     return this.find(id).then(asset => {
@@ -103,7 +103,7 @@ class AssetClient {
    *
    * @param {String} id An id of asset to get the temporary show url of.
    *
-   * @return {URL} The asset temporary show url.
+   * @return {Promise} A promise that resolves to a temporary asset show url.
    */
   getTemporaryDisplayUrl (id) {
     return this.find(id).then(asset => {
@@ -136,7 +136,7 @@ class AssetClient {
         fileMimeType: fileMimeType,
         file: options.file,
         onProgress: options.onProgress,
-        doAbort: options.doAbort
+        doCancel: options.doCancel
       }).then(() => {
         return this.find(id).then(asset => {
           return asset

@@ -10,11 +10,11 @@ const uploadFileBrowser = (options = {}) => {
     xhr.setRequestHeader('Content-Type', options.fileMimeType || '')
     xhr.responseType = 'json'
     xhr.upload.onprogress = (e) => {
-      if (isFunction(options.doAbort) && options.doAbort()) {
+      if (isFunction(options.doCancel) && options.doCancel()) {
         xhr.abort()
         return
       }
-      if (options.onProgress) {
+      if (isFunction(options.onProgress)) {
         options.onProgress(e)
       }
     }
