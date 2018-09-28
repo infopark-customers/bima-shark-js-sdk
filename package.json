@@ -1,6 +1,6 @@
 {
   "name": "bima-shark-sdk",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "private": false,
   "license": "MIT",
   "repository": {
@@ -18,8 +18,7 @@
     "test": "standard && NODE_ENV=test mocha 'test/**/*test.js' --reporter spec --timeout 2000"
   },
   "standard": {
-    "globals": [
-    ],
+    "globals": [],
     "ignore": [
       "/dist/*.js"
     ]

@@ -1,6 +1,7 @@
 'use strict'
 
 const { jsonApiError } = require('./simple-fetch')
+const { isFunction } = require('./typecheck')
 
 const uploadFileBrowser = (options = {}) => {
   return new Promise((resolve, reject) => {
@@ -8,10 +9,18 @@ const uploadFileBrowser = (options = {}) => {
     xhr.open('PUT', options.uploadUrl)
     xhr.setRequestHeader('Content-Type', options.fileMimeType || '')
     xhr.responseType = 'json'
-    xhr.upload.onprogress = options.onProgress
+    xhr.upload.onprogress = (e) => {
+      if (isFunction(options.doCancel) && options.doCancel()) {
+        xhr.abort()
+        return
+      }
+      if (isFunction(options.onProgress)) {
+        options.onProgress(e)
+      }
+    }
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(xhr.response)
+        return resolve(xhr.response)
       } else {
         const error = jsonApiError(xhr)
         return reject(error)

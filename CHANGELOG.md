@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.13.1
+- [new] added possibility to cancel upload in `AssetClient` by passing `doCancel` function
+
 ### 0.13.0
 - [new] `create` and `update` in `AssetClient` accept progress function
 
