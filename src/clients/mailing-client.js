@@ -4,7 +4,6 @@ const Client = require('./base-server-client')
 
 class MailingClient {
   constructor (url, options = {}) {
-
     this.client = new Client({
       name: 'MailingClient',
       url: `${url}/v1/mails`,
