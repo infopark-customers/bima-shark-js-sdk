@@ -3,9 +3,7 @@
 const param = require('jquery-param')
 const { isString } = require('../utils/typecheck')
 const { simpleFetch } = require('../utils/simple-fetch')
-const ServiceTokenClient = require('../service-token/browser')
-
-// TODO hack empty arrays?
+const ServiceTokenClient = require('../service-token/server')
 
 /**
  * @class Client
@@ -17,7 +15,11 @@ class Client {
   constructor (options = {}) {
     this.name = options.name
     this.baseUrl = options.url
+
     this.config = {
+      accessKey: options.accessKey,
+      secretKey: options.secretKey,
+      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
       authorizationRequired: true,
       contentType: options.contentType || 'application/vnd.api+json'
     }
@@ -119,8 +121,13 @@ class Client {
     }
 
     if (this.config.authorizationRequired) {
-      const tokenClient = new ServiceTokenClient()
-      return tokenClient.createServiceToken().then(token => {
+      const tokenClient = new ServiceTokenClient({
+        accessKey: this.config.accessKey,
+        secretKey: this.config.secretKey,
+        baseUrl: this.config.doorkeeperBaseUrl
+      })
+
+      return tokenClient.createServiceToken({}).then(token => {
         opts.headers['Authorization'] = `Bearer ${token.jwt}`
         return simpleFetch(url, opts)
       })
@@ -147,8 +154,13 @@ class Client {
     }
 
     if (this.config.authorizationRequired) {
-      const tokenClient = new ServiceTokenClient()
-      return tokenClient.createServiceToken().then(token => {
+      const tokenClient = new ServiceTokenClient({
+        accessKey: this.config.accessKey,
+        secretKey: this.config.secretKey,
+        baseUrl: this.config.doorkeeperBaseUrl
+      })
+
+      return tokenClient.createServiceToken({}).then(token => {
         opts.headers['Authorization'] = `Bearer ${token.jwt}`
         return simpleFetch(url, opts)
       })

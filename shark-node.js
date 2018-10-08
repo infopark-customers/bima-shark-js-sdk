@@ -29,5 +29,6 @@ Object.assign(sharkUploadFile, {
 const Shark = require('./src/shark')
 
 Shark.ServiceTokenClient = require('./src/service-token/server')
+Shark.MailingClient = require('./src/clients/mailing-client')
 
 module.exports = Shark
