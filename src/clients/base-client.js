@@ -85,6 +85,22 @@ class Client {
 
   /**
    * @param  {integer} [id] The resource id.
+   * @param  {object} [data] The data object / attribute hash.
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  patch (id, data, parameters = {}) {
+    const url = this.__buildUrl(id, parameters)
+
+    return this.sendRequest(url, {
+      body: data,
+      method: 'PATCH'
+    })
+  }
+
+  /**
+   * @param  {integer} [id] The resource id.
    * @param  {object} [parameters] The query parameters as an object (optional).
    *
    * @return {promise} The request promise.
