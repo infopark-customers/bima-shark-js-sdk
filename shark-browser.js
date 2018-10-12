@@ -21,6 +21,18 @@ Object.assign(sharkUploadFile, {
 })
 
 /*
+ *  Expose util functions
+ */
+
+const { simpleFetch } = require('./src/utils/simple-fetch')
+const {
+  isArray,
+  isFunction,
+  isObject,
+  isString,
+} = require('./src/utils/typecheck')
+
+/*
  * Expose Shark clients
  */
 const Shark = require('./src/shark')
@@ -37,5 +49,10 @@ Shark.NotificationsClient = require('./src/clients/notifications-client')
 Shark.ServiceTokenClient = require('./src/service-token/browser')
 Shark.SubscriptionClient = require('./src/clients/subscription-client')
 Shark.UserClient = require('./src/clients/user-client')
+Shark.fetch = simpleFetch
+Shark.isArray = isArray
+Shark.isFunction = isFunction
+Shark.isObject = isObject
+Shark.isString = isString
 
 module.exports = Shark
