@@ -23,11 +23,8 @@ class ContactClient {
     return this.client.create(data, parameters)
   }
 
-  update (id, data) {
-    return this.client.sendRequest(`${this.client.baseUrl}/${id}`, {
-      body: data,
-      method: 'PATCH'
-    })
+  update (id, data, parameters = {}) {
+    return this.client.patch(id, data, parameters)
   }
 
   destroy (id, parameters = {}) {
