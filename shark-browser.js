@@ -29,7 +29,7 @@ const {
   isArray,
   isFunction,
   isObject,
-  isString,
+  isString
 } = require('./src/utils/typecheck')
 
 /*
