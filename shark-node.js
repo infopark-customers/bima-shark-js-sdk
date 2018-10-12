@@ -24,10 +24,16 @@ Object.assign(sharkUploadFile, {
 })
 
 /*
- * Expose Shark clients
+ * Expose Shark API
  */
 const Shark = require('./src/shark')
+const { isArray, isFunction, isObject, isString } = require('./src/utils/typecheck')
 
 Shark.ServiceTokenClient = require('./src/service-token/server')
+Shark.fetch = require('./src/utils/simple-fetch').simpleFetch
+Shark.isArray = isArray
+Shark.isFunction = isFunction
+Shark.isObject = isObject
+Shark.isString = isString
 
 module.exports = Shark

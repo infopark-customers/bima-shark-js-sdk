@@ -2,11 +2,11 @@
 
 const Client = require('./base-client')
 
-class ContactClient {
+class GroupClient {
   constructor (url) {
     this.client = new Client({
-      name: 'ContactClient',
-      url: `${url}/api/contacts`,
+      name: 'GroupClient',
+      url: `${url}/api/groups`,
       contentType: 'application/vnd.api+json'
     })
   }
@@ -30,22 +30,6 @@ class ContactClient {
   destroy (id, parameters = {}) {
     return this.client.destroy(id, parameters)
   }
-
-  uploadAvatar (id, data) {
-    return this.client.uploadFile(`${id}/avatar`, data)
-  }
-
-  deleteAvatar (id) {
-    return this.client.sendRequest(`${this.client.baseUrl}/${id}/avatar`, {
-      method: 'DELETE'
-    })
-  }
-
-  toggleGravatar (id) {
-    return this.client.sendRequest(`${this.client.baseUrl}/${id}/toggle_gravatar`, {
-      method: 'PUT'
-    })
-  }
 }
 
-module.exports = ContactClient
+module.exports = GroupClient

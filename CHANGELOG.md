@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.14.0
+- [new] added `GroupClient`
+- [new] exposed `simpleFetch` as `fetch`
+- [new] exposed type checks `isArray`, `isFunction`, `isObject`, `isString`
+
 ### 0.13.1
 - [new] added possibility to cancel upload in `AssetClient` by passing `doCancel` function
 
