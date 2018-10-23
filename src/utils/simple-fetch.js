@@ -63,7 +63,7 @@ function error (e) {
  * @return {Promise}           The request promise
  */
 function simpleFetch (url, options) {
-  Logger.debugLog('request: ', url)
+  Logger.debugLog('request: ', url, options)
 
   if (url.startsWith('http:')) {
     if (options.headers instanceof Headers) {
