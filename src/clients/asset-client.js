@@ -32,7 +32,8 @@ class AssetClient {
       url: `${this.client.baseUrl}`,
       file: file,
       onProgress: options.onProgress,
-      doCancel: options.doCancel
+      doCancel: options.doCancel,
+      versions: options.versions
     })
   }
 
@@ -83,7 +84,8 @@ class AssetClient {
       url: `${this.client.baseUrl}/${id}`,
       file: file,
       onProgress: options.onProgress,
-      doCancel: options.doCancel
+      doCancel: options.doCancel,
+      versions: options.versions
     })
   }
 
@@ -113,12 +115,15 @@ class AssetClient {
 
   __createOrUpdate (options = {}) {
     const fileName = options.file.name
+    const versions = options.versions
+
     const data = {
       data: {
         type: 'assets',
         attributes: {
           filename: fileName,
-          directory: this.directory
+          directory: this.directory,
+          versions: versions
         }
       }
     }
@@ -136,7 +141,8 @@ class AssetClient {
         fileMimeType: fileMimeType,
         file: options.file,
         onProgress: options.onProgress,
-        doCancel: options.doCancel
+        doCancel: options.doCancel,
+        versions: options.versions
       }).then(() => {
         return this.find(id).then(asset => {
           return asset
