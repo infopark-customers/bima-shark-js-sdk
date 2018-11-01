@@ -29,7 +29,7 @@ class Client {
         this.config.authorizationRequired = false
       }
     } else {
-      throw new Error('Parameter baseUrl is missing or not a string')
+      throw new Error('Parameter url is missing or not a string')
     }
   }
 
