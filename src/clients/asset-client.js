@@ -33,7 +33,7 @@ class AssetClient {
       file: file,
       onProgress: options.onProgress,
       doCancel: options.doCancel,
-      versions: options.versions
+      variations: options.variations
     })
   }
 
@@ -85,7 +85,7 @@ class AssetClient {
       file: file,
       onProgress: options.onProgress,
       doCancel: options.doCancel,
-      versions: options.versions
+      variations: options.variations
     })
   }
 
@@ -115,7 +115,7 @@ class AssetClient {
 
   __createOrUpdate (options = {}) {
     const fileName = options.file.name
-    const versions = options.versions
+    const variations = options.variations
 
     const data = {
       data: {
@@ -123,7 +123,7 @@ class AssetClient {
         attributes: {
           filename: fileName,
           directory: this.directory,
-          versions: versions
+          variations: variations
         }
       }
     }
@@ -142,7 +142,7 @@ class AssetClient {
         file: options.file,
         onProgress: options.onProgress,
         doCancel: options.doCancel,
-        versions: options.versions
+        variations: options.variations
       }).then(() => {
         return this.find(id).then(asset => {
           return asset

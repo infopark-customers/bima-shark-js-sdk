@@ -1,17 +1,18 @@
 'use strict'
 
 const { simpleFetch } = require('./simple-fetch')
+const isEmpty = require('is-empty')
 
 const uploadFileNode = (options = {}) => {
-  const metadataHeader = 'x-amz-meta-'
-  const versions = options.versions
+  const metadataHeader = 'x-amz-meta-variation-'
+  const variations = options.variations
   const headers = new Headers()
 
   headers.set('Content-Type', options.fileMimeType || '')
 
-  if (typeof versions !== 'undefined') {
-    Object.keys(versions).forEach(name => {
-      headers.set(`${metadataHeader}${name}`, versions[name])
+  if (!isEmpty(variations)) {
+    Object.keys(variations).forEach(name => {
+      headers.set(`${metadataHeader}${name}`, variations[name])
     })
   }
 

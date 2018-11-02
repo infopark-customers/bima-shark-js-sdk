@@ -4,17 +4,17 @@ const { jsonApiError } = require('./simple-fetch')
 const { isFunction } = require('./typecheck')
 
 const uploadFileBrowser = (options = {}) => {
-  const metadataHeader = 'x-amz-meta-'
-  const versions = options.versions
+  const metadataHeader = 'x-amz-meta-variation-'
+  const variations = options.variations
 
   return new Promise((resolve, reject) => {
     const xhr = new window.XMLHttpRequest()
     xhr.open('PUT', options.uploadUrl)
     xhr.setRequestHeader('Content-Type', options.fileMimeType || '')
 
-    if (typeof versions !== 'undefined') {
-      Object.keys(versions).forEach(name => {
-        xhr.setRequestHeader(`${metadataHeader}${name}`, versions[name])
+    if (!isEmpty(variations)) {
+      Object.keys(variations).forEach(name => {
+        xhr.setRequestHeader(`${metadataHeader}${name}`, variations[name])
       })
     }
 
