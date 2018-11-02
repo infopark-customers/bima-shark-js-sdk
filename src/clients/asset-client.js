@@ -123,8 +123,6 @@ class AssetClient {
       return Object.assign(accumulator, object)
     }, {})
 
-    console.log(variations)
-
     const data = {
       data: {
         type: 'assets',
