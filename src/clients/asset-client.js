@@ -115,11 +115,15 @@ class AssetClient {
 
   __createOrUpdate (options = {}) {
     const fileName = options.file.name
-    const variations = {}
+    const variations = Object.keys(options.variations).map(key => {
+      return {
+        [key]: JSON.stringify(options.variations[key])
+      }
+    }).reduce((accumulator, object) => {
+      return Object.assign(accumulator, object)
+    }, {})
 
-    Object.keys(options.variations).forEach(key => {
-      variations[key] = JSON.stringify(options.variations[key])
-    })
+    console.log(variations)
 
     const data = {
       data: {
