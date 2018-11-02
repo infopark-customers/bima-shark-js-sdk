@@ -2,6 +2,7 @@
 
 const { jsonApiError } = require('./simple-fetch')
 const { isFunction } = require('./typecheck')
+const isEmpty = require('is-empty')
 
 const uploadFileBrowser = (options = {}) => {
   const metadataHeader = 'x-amz-meta-variation-'

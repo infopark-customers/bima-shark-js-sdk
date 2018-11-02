@@ -115,7 +115,11 @@ class AssetClient {
 
   __createOrUpdate (options = {}) {
     const fileName = options.file.name
-    const variations = options.variations
+    const variations = {}
+
+    Object.keys(options.variations).forEach(key => {
+      variations[key] = JSON.stringify(options.variations[key])
+    })
 
     const data = {
       data: {
@@ -142,7 +146,7 @@ class AssetClient {
         file: options.file,
         onProgress: options.onProgress,
         doCancel: options.doCancel,
-        variations: options.variations
+        variations: variations
       }).then(() => {
         return this.find(id).then(asset => {
           return asset
