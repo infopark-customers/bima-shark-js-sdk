@@ -30,7 +30,7 @@ const Shark = require('./src/shark')
 const { isArray, isFunction, isObject, isString } = require('./src/utils/typecheck')
 
 Shark.ServiceTokenClient = require('./src/service-token/server')
-Shark.fetch = require('./src/utils/simple-fetch').simpleFetch
+Shark.fetch = require('./src/utils/simple-fetch')
 Shark.isArray = isArray
 Shark.isFunction = isFunction
 Shark.isObject = isObject
