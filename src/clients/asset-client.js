@@ -19,11 +19,20 @@ class AssetClient {
   }
 
   /**
-   *
+   * @example
+   *  client.create(file, {
+   *    onProgress: (?) => { console.log('in progress') },
+   *    doCancel: (?) => { return (condition ? true : false) },
+   *    variations: {
+   *     marginal: ['-resize', '230x'],
+   *     common: ['-resize', '2048>', '-strip', '-interlace', 'Plane', '-quality', '100']
+   *    }
+   *  })
    * @param {File} file A file object.
-   * @param {Object} options An options object allowing to specify onProgress and doCancel functions.
-   * onProgress handles upload progress in app utilizing this client. doCancel function returning true/false indicating the need to abort upload.
-   *
+   * @param {Object} options An options object allowing to specify onProgress and doCancel functions and variations for image assets.
+   * onProgress handles upload progress in an app using this client.
+   * doCancle function returning true/false indicating if upload should be cancelled.
+   * variations define imagemagic transformation for image assets
    * @return {Promise} The request promise.
    */
   create (file, options = {}) {
@@ -70,12 +79,21 @@ class AssetClient {
   }
 
   /**
-   *
+   * @example
+   *  client.update(file, id, {
+   *    onProgress: (?) => { console.log('in progress') },
+   *    doCancel: (?) => { return (condition ? true : false) },
+   *    variations: {
+   *     marginal: ['-resize', '230x'],
+   *     common: ['-resize', '2048>', '-strip', '-interlace', 'Plane', '-quality', '100']
+   *    }
+   *  })
    * @param {File} file A file object.
    * @param {String} id An id of asset to update.
-   * @param {Object} options An options object allowing to specify onProgress and doCancel functions.
-   * onProgress handles upload progress in app utilizing this client. doCancel function returning true/false indicating the need to abort upload.
-   *
+   * @param {Object} options An options object allowing to specify onProgress and doCancel functions and variations for image assets.
+   * onProgress handles upload progress in an app using this client.
+   * doCancle function returning true/false indicating if upload should be cancelled.
+   * variations define imagemagic transformation for image assets
    * @return {Promise} The request promise.
    */
   update (file, id, options = {}) {
