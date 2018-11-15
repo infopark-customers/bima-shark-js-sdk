@@ -14,8 +14,9 @@ const uploadFileBrowser = (options = {}) => {
     xhr.setRequestHeader('Content-Type', options.fileMimeType || '')
 
     if (!isEmpty(variations)) {
-      Object.keys(variations).forEach(name => {
-        xhr.setRequestHeader(`${metadataHeader}${name}`, variations[name])
+      variations.forEach(variation => {
+        const name = Object.keys(variation)[0]
+        xhr.setRequestHeader(`${metadataHeader}${name}`, variation[name])
       })
     }
 

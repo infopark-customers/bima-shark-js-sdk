@@ -11,7 +11,8 @@ const uploadFileNode = (options = {}) => {
   headers.set('Content-Type', options.fileMimeType || '')
 
   if (!isEmpty(variations)) {
-    Object.keys(variations).forEach(name => {
+    variations.forEach(variation => {
+      const name = Object.keys(variation)[0]
       headers.set(`${metadataHeader}${name}`, variations[name])
     })
   }

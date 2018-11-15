@@ -119,9 +119,7 @@ class AssetClient {
       return {
         [key]: JSON.stringify(options.variations[key])
       }
-    }).reduce((accumulator, object) => {
-      return Object.assign(accumulator, object)
-    }, {})
+    })
 
     const data = {
       data: {
