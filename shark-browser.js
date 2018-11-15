@@ -3,6 +3,9 @@
 /*
  * Configure shark-fetch with Browser implementation
  */
+if (!window.fetch) {
+  console.error('[Shark] No implementation of window.fetch found. Please add a polyfill like `whatwg-fetch`.')
+}
 const sharkFetch = require('./src/utils/shark-fetch')
 Object.assign(sharkFetch, {
   fetch: window.fetch,
@@ -39,7 +42,7 @@ Shark.NotificationsClient = require('./src/clients/notifications-client')
 Shark.ServiceTokenClient = require('./src/service-token/browser')
 Shark.SubscriptionClient = require('./src/clients/subscription-client')
 Shark.UserClient = require('./src/clients/user-client')
-Shark.fetch = require('./src/utils/simple-fetch').simpleFetch
+Shark.fetch = require('./src/utils/simple-fetch')
 Shark.isArray = isArray
 Shark.isFunction = isFunction
 Shark.isObject = isObject

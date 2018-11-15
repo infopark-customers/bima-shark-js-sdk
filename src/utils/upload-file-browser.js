@@ -1,6 +1,6 @@
 'use strict'
 
-const { jsonApiError } = require('./simple-fetch')
+const { jsonApiError } = require('./response-helper')
 const { isFunction } = require('./typecheck')
 const isEmpty = require('is-empty')
 

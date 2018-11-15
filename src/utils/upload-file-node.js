@@ -1,7 +1,7 @@
 'use strict'
 
-const { simpleFetch } = require('./simple-fetch')
 const isEmpty = require('is-empty')
+const simpleFetch = require('./simple-fetch')
 
 const uploadFileNode = (options = {}) => {
   const metadataHeader = 'x-amz-meta-variation-'
