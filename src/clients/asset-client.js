@@ -42,7 +42,7 @@ class AssetClient {
       file: file,
       onProgress: options.onProgress,
       doCancel: options.doCancel,
-      variations: options.variations
+      variations: options.variations || {}
     })
   }
 
@@ -103,7 +103,7 @@ class AssetClient {
       file: file,
       onProgress: options.onProgress,
       doCancel: options.doCancel,
-      variations: options.variations
+      variations: options.variations || {}
     })
   }
 
