@@ -186,6 +186,27 @@ describe('Client with successful service token', () => {
     })
   })
 
+  describe('#patch', () => {
+    describe('on success', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'PATCH',
+          host: CLIENT_URL,
+          path: '/1?include=contacts',
+          responseBody: BODY
+        })
+      })
+
+      it('should return json', (done) => {
+        const promise = client.patch(1, BODY, { include: 'contacts' })
+        promise.then(body => {
+          expect(body).to.eql(BODY)
+          done()
+        })
+      })
+    })
+  })
+
   describe('#destroy', () => {
     describe('on success 200 with body', () => {
       beforeEach(() => {
