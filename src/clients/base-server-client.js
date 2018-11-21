@@ -2,7 +2,7 @@
 
 const param = require('jquery-param')
 const { isString } = require('../utils/typecheck')
-const { simpleFetch } = require('../utils/simple-fetch')
+const simpleFetch = require('../utils/simple-fetch')
 const ServiceTokenClient = require('../service-token/server')
 
 /**
