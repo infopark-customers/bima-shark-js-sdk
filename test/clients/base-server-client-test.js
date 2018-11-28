@@ -258,32 +258,6 @@ describe('ServerClient with successful service token', () => {
         })
       })
     })
-
-    describe('on success 204 with body', () => {
-      beforeEach(() => {
-        mockFetch({
-          method: 'DELETE',
-          host: CLIENT_URL,
-          path: '/1',
-          responseBody: { message: 'Object deleted' },
-          status: 204
-        })
-      })
-
-      // in browser fetch throws TypeError
-      // in node.js it works
-      it('should not reject with a TypeError', (done) => {
-        const promise = client.destroy(1)
-        promise.then(body => {
-          expect(body).to.eql({ message: 'Object deleted' })
-          done()
-        }, error => {
-          expect(Array.isArray(error.errors)).to.eql(true)
-          expect(error.errors[0].status).to.eql(503)
-          done(new Error('client#destroy() failed, but it should resolve!'))
-        })
-      })
-    })
   })
 })
 
