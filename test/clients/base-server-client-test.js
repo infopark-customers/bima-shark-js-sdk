@@ -4,18 +4,12 @@
 const { expect } = require('chai')
 const nock = require('nock')
 
-const doorkeeperBaseUrl = 'https://doorkeeper.example.org'
-
 const {
   BODY,
-  // SERVICE_TOKEN_URL,
-  // DOORKEEPER_SERVICE_TOKEN_URL,
-  // SERVICE_TOKEN_RESPONSE_BODY,
-  DOORKEEPER_SERVICE_TOKEN_RESPONSE_BODY,
+  SERVICE_TOKEN_RESPONSE_BODY,
   CLIENT_URL,
+  DOORKEEPER_BASE_URL,
   JWT,
-  // setupTokenSuccess,
-  // setupTokenError,
   teardown
 } = require('../test-helper')
 
@@ -27,10 +21,10 @@ const client = new Client({
   contentType: 'application/vnd.api+json',
   accessKey: 'doorkeeper_client_access_key',
   secretKey: '0123456789',
-  doorkeeperBaseUrl: doorkeeperBaseUrl
+  doorkeeperBaseUrl: DOORKEEPER_BASE_URL
 })
 
-function mockServiceTokenFetch (options) {
+function mockServiceTokenFetchSuccess (options) {
   const {
     host,
     path,
@@ -39,14 +33,9 @@ function mockServiceTokenFetch (options) {
   } = options
 
   nock(host)
-    // .matchHeader('Authorization', /^APIAuth-HMAC-SHA1 doorkeeper_client_access_key:/)
+    .matchHeader('Authorization', /^APIAuth-HMAC-SHA1 doorkeeper_client_access_key:/)
     .intercept(path, method)
     .reply(200, responseBody)
-    .log((data) => console.log(data))
-  // nock(host)
-  //   .intercept(DOORKEEPER_SERVICE_TOKEN_URL, 'POST')
-  //   .reply(401, { message: 'Access forbidden' })
-  //   .log((data) => console.log(data))
 }
 
 function mockFetch (options) {
@@ -69,11 +58,11 @@ function mockFetch (options) {
 
 describe('ServerClient with successful service token', () => {
   beforeEach(() => {
-    mockServiceTokenFetch({
+    mockServiceTokenFetchSuccess({
       method: 'POST',
-      host: doorkeeperBaseUrl,
+      host: DOORKEEPER_BASE_URL,
       path: '/api/tokens/service_token',
-      responseBody: DOORKEEPER_SERVICE_TOKEN_RESPONSE_BODY
+      responseBody: SERVICE_TOKEN_RESPONSE_BODY
     })
   })
   afterEach(() => {
@@ -260,44 +249,3 @@ describe('ServerClient with successful service token', () => {
     })
   })
 })
-
-// describe('Client with failed service tokens', () => {
-//   beforeEach(() => {
-//     setupTokenError()
-//   })
-//   afterEach(() => {
-//     teardown()
-//   })
-//
-//   describe('#find', () => {
-//     describe('on success', () => {
-//       beforeEach(() => {
-//         mockFetch({
-//           host: CLIENT_URL,
-//           path: '/1',
-//           responseBody: BODY
-//         })
-//       })
-//
-//       it('should reject with JSONAPI error object', (done) => {
-//         const promise = client.find(1)
-//         promise.then(body => {
-//           done.fail('client#find() was resolved, but it should fail!')
-//         }, error => {
-//           expect(Array.isArray(error.errors)).to.eql(true)
-//           expect(error.errors[0].status).to.eql(500)
-//           expect(error.errors[0].detail).to.eql('internal server error')
-//           done()
-//         })
-//       })
-//     })
-//   })
-// })
-
-// describe('Client without authentication', () => {
-//   describe('#find', () => {
-//     describe('on success', () => {
-//       it('cannot be tested with node-fetch')
-//     })
-//   })
-// })

@@ -5,13 +5,11 @@ const { isString } = require('../utils/typecheck')
 const simpleFetch = require('../utils/simple-fetch')
 const ServiceTokenClient = require('../service-token/server')
 
-// TODO check config
-
 /**
  * @class Client
  * @classdesc Basic REST client that can be instantiated for different models.
  *
- * @throws Will raise error if baseUrl is invalid
+ * @throws Will raise error if baseUrl, doorkeeperBaseUrl, accessKey or secretKey is invalid
  */
 class Client {
   constructor (options = {}) {
@@ -26,12 +24,17 @@ class Client {
       contentType: options.contentType || 'application/vnd.api+json'
     }
 
-    if (this.baseUrl && isString(this.baseUrl)) {
-      if (this.baseUrl[0] === '/') {
-        this.config.authorizationRequired = false
-      }
-    } else {
-      throw new Error('Parameter url is missing or not a string')
+    if (!isString(this.baseUrl)) {
+      throw new Error('Parameter `url` is missing or not a string')
+    }
+    if (!isString(this.config.doorkeeperBaseUrl)) {
+      throw new Error('Parameter `doorkeeperBaseUrl` is missing or not a string')
+    }
+    if (!isString(this.config.accessKey)) {
+      throw new Error('Parameter `accessKey` is missing or not a string')
+    }
+    if (!isString(this.config.secretKey)) {
+      throw new Error('Parameter `secretKey` is missing or not a string')
     }
   }
 
