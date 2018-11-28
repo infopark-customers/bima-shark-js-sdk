@@ -5,6 +5,8 @@ const { isString } = require('../utils/typecheck')
 const simpleFetch = require('../utils/simple-fetch')
 const ServiceTokenClient = require('../service-token/server')
 
+// TODO check config
+
 /**
  * @class Client
  * @classdesc Basic REST client that can be instantiated for different models.
@@ -118,39 +120,6 @@ class Client {
 
     if (options.body) {
       opts.body = JSON.stringify(options.body)
-    }
-
-    if (this.config.authorizationRequired) {
-      const tokenClient = new ServiceTokenClient({
-        accessKey: this.config.accessKey,
-        secretKey: this.config.secretKey,
-        baseUrl: this.config.doorkeeperBaseUrl
-      })
-
-      return tokenClient.createServiceToken({}).then(token => {
-        opts.headers['Authorization'] = `Bearer ${token.jwt}`
-        return simpleFetch(url, opts)
-      })
-    } else {
-      opts.credentials = 'same-origin'
-      return simpleFetch(url, opts)
-    }
-  }
-
-  /**
-   * Uploads file and returns promise.
-   *
-   * @param {string} path the path
-   * @param {FormData} data the FormData object with file
-   *
-   * @return {promise} the uploadFile promise
-   */
-  uploadFile (path, data, parameters = {}) {
-    const url = this.__buildUrl(path, parameters)
-    const opts = {
-      headers: {},
-      body: data,
-      method: 'POST'
     }
 
     if (this.config.authorizationRequired) {
