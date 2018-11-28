@@ -34,6 +34,7 @@ const BODY = {
 const CLIENT_URL = 'https://client.example.org/'
 const JWT = 'json-web-token-0123456789'
 const SERVICE_TOKEN_URL = Config.serviceTokenUrl
+const DOORKEEPER_SERVICE_TOKEN_URL = '/api/tokens/service_token'
 const SERVICE_TOKEN_RESPONSE_BODY = {
   data: {
     type: 'users',
@@ -41,6 +42,15 @@ const SERVICE_TOKEN_RESPONSE_BODY = {
     attributes: {
       'first_name': 'Roger',
       'last_name': 'Rabbit'
+    }
+  }
+}
+
+const DOORKEEPER_SERVICE_TOKEN_RESPONSE_BODY = {
+  data: {
+    attributes: {
+      jwt: JWT,
+      expires_at: new Date()
     }
   }
 }
@@ -57,6 +67,7 @@ function setupTokenSuccess () {
         }
       }
     })
+    .log((data) => console.log(data))
 }
 
 function setupTokenError () {
@@ -75,7 +86,9 @@ module.exports = {
   CLIENT_URL,
   JWT,
   SERVICE_TOKEN_URL,
+  DOORKEEPER_SERVICE_TOKEN_URL,
   SERVICE_TOKEN_RESPONSE_BODY,
+  DOORKEEPER_SERVICE_TOKEN_RESPONSE_BODY,
   setupTokenSuccess,
   setupTokenError,
   teardown

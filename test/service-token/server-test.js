@@ -56,6 +56,7 @@ describe('ServiceToken', () => {
         })
       })
 
+      /* TODO should return token with JWT */
       it('should return json', (done) => {
         const promise = client.createServiceToken({ userId: userId })
         promise.then(body => {
