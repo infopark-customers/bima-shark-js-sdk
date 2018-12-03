@@ -13,7 +13,7 @@ const {
   teardown
 } = require('../test-helper')
 
-const Client = require('../../src/clients/base-client')
+const Client = require('../../src/clients/base-browser-client')
 
 const client = new Client({
   name: 'TestClient',

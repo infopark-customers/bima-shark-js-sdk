@@ -1,6 +1,6 @@
 'use strict'
 
-const Client = require('./base-server-client')
+const Client = require('./base-node-client')
 
 class MailingClient {
   constructor (url, options = {}) {

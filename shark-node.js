@@ -3,7 +3,7 @@
 // TODO https://github.com/qubyte/fetch-ponyfill/blob/master/fetch-node.js
 
 /*
- * Configure shark-fetch with Browser implementation
+ * Configure shark-fetch with Node.js implementation
  */
 const sharkFetch = require('./src/utils/shark-fetch')
 const nodeFetch = require('node-fetch')
@@ -15,7 +15,7 @@ Object.assign(sharkFetch, {
 })
 
 /*
- * Configure shark-upload-file with Browser implementation
+ * Configure shark-upload-file with Node.js implementation
  */
 const uploadFileNode = require('./src/utils/upload-file-node')
 const sharkUploadFile = require('./src/utils/shark-upload-file')
