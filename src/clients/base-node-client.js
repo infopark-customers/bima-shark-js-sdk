@@ -4,7 +4,7 @@ const { isString } = require('../utils/typecheck')
 const simpleFetch = require('../utils/simple-fetch')
 
 const BaseClient = require('./base-client')
-const ServiceTokenClient = require('../service-token/server')
+const ServiceTokenClient = require('../service-token/node')
 
 /**
  * @class Client

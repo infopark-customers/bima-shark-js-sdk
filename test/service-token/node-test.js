@@ -11,7 +11,7 @@ const {
   JWT
 } = require('../test-helper')
 
-const ServiceToken = require('../../src/service-token/server')
+const ServiceToken = require('../../src/service-token/node')
 
 const userId = 'doorkeeper-user-id'
 const serviceToken = 'doorkeeper-service-token'

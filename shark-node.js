@@ -29,7 +29,7 @@ Object.assign(sharkUploadFile, {
 const Shark = require('./src/shark')
 const { isArray, isFunction, isObject, isString } = require('./src/utils/typecheck')
 
-Shark.ServiceTokenClient = require('./src/service-token/server')
+Shark.ServiceTokenClient = require('./src/service-token/node')
 Shark.MailingClient = require('./src/clients/mailing-client')
 
 Shark.fetch = require('./src/utils/simple-fetch')
