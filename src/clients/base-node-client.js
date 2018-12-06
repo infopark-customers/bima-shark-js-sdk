@@ -23,7 +23,6 @@ class Client extends BaseClient {
       accessKey: options.accessKey,
       secretKey: options.secretKey,
       doorkeeperBaseUrl: options.doorkeeperBaseUrl,
-      authorizationRequired: true,
       contentType: options.contentType || 'application/vnd.api+json'
     }
 
@@ -63,21 +62,16 @@ class Client extends BaseClient {
       opts.body = JSON.stringify(options.body)
     }
 
-    if (this.config.authorizationRequired) {
-      const tokenClient = new ServiceTokenClient({
-        accessKey: this.config.accessKey,
-        secretKey: this.config.secretKey,
-        baseUrl: this.config.doorkeeperBaseUrl
-      })
+    const tokenClient = new ServiceTokenClient({
+      accessKey: this.config.accessKey,
+      secretKey: this.config.secretKey,
+      baseUrl: this.config.doorkeeperBaseUrl
+    })
 
-      return tokenClient.createServiceToken({}).then(token => {
-        opts.headers['Authorization'] = `Bearer ${token.jwt}`
-        return simpleFetch(url, opts)
-      })
-    } else {
-      opts.credentials = 'same-origin'
+    return tokenClient.createServiceToken({}).then(token => {
+      opts.headers['Authorization'] = `Bearer ${token.jwt}`
       return simpleFetch(url, opts)
-    }
+    })
   }
 }
 
