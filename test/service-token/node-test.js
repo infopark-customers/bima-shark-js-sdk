@@ -5,19 +5,21 @@ const { expect } = require('chai')
 const nock = require('nock')
 
 const {
-  SERVICE_TOKEN_RESPONSE_BODY
+  DOORKEEPER_BASE_URL,
+  SERVICE_TOKEN_RESPONSE_BODY,
+  USER_RESPONSE_BODY,
+  JWT
 } = require('../test-helper')
 
-const ServiceToken = require('../../src/service-token/server')
+const ServiceToken = require('../../src/service-token/node')
 
-const baseUrl = 'https://doorkeeper.example.org'
 const userId = 'doorkeeper-user-id'
 const serviceToken = 'doorkeeper-service-token'
 
 const client = new ServiceToken({
   accessKey: 'doorkeeper_client_access_key',
   secretKey: '0123456789',
-  baseUrl: baseUrl
+  baseUrl: DOORKEEPER_BASE_URL
 })
 
 function mockFetch (options) {
@@ -41,7 +43,7 @@ function mockFetch (options) {
 describe('ServiceToken', () => {
   describe('#baseUrl', () => {
     it('should be a valid url', () => {
-      expect(client.baseUrl).to.eql(baseUrl)
+      expect(client.baseUrl).to.eql(DOORKEEPER_BASE_URL)
     })
   })
 
@@ -50,7 +52,7 @@ describe('ServiceToken', () => {
       beforeEach(() => {
         mockFetch({
           method: 'POST',
-          host: baseUrl,
+          host: DOORKEEPER_BASE_URL,
           path: '/api/tokens/service_token',
           responseBody: SERVICE_TOKEN_RESPONSE_BODY
         })
@@ -59,9 +61,7 @@ describe('ServiceToken', () => {
       it('should return json', (done) => {
         const promise = client.createServiceToken({ userId: userId })
         promise.then(body => {
-          expect(body.id).to.eql(SERVICE_TOKEN_RESPONSE_BODY.data.id)
-          expect(body.firstName).to.eql(SERVICE_TOKEN_RESPONSE_BODY.data.attributes.first_name)
-          expect(body.lastName).to.eql(SERVICE_TOKEN_RESPONSE_BODY.data.attributes.last_name)
+          expect(body.jwt).to.eql(JWT)
           done()
         })
       })
@@ -72,18 +72,18 @@ describe('ServiceToken', () => {
     describe('on success', () => {
       beforeEach(() => {
         mockFetch({
-          host: baseUrl,
+          host: DOORKEEPER_BASE_URL,
           path: `/api/users/authenticate?include=permission&service_token=${serviceToken}`,
-          responseBody: SERVICE_TOKEN_RESPONSE_BODY
+          responseBody: USER_RESPONSE_BODY
         })
       })
 
       it('should return json', (done) => {
         const promise = client.verifyServiceToken({ serviceToken: serviceToken, include: 'permission' })
         promise.then(body => {
-          expect(body.id).to.eql(SERVICE_TOKEN_RESPONSE_BODY.data.id)
-          expect(body.firstName).to.eql(SERVICE_TOKEN_RESPONSE_BODY.data.attributes.first_name)
-          expect(body.lastName).to.eql(SERVICE_TOKEN_RESPONSE_BODY.data.attributes.last_name)
+          expect(body.id).to.eql(USER_RESPONSE_BODY.data.id)
+          expect(body.firstName).to.eql(USER_RESPONSE_BODY.data.attributes.first_name)
+          expect(body.lastName).to.eql(USER_RESPONSE_BODY.data.attributes.last_name)
           done()
         })
       })

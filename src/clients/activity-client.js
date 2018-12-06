@@ -1,6 +1,6 @@
 'use strict'
 
-const Client = require('./base-client')
+const Client = require('./base-browser-client')
 
 class ActivityClient {
   constructor (url) {

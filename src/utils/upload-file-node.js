@@ -2,6 +2,7 @@
 
 const isEmpty = require('is-empty')
 const simpleFetch = require('./simple-fetch')
+const { Headers } = require('./shark-fetch')
 
 const uploadFileNode = (options = {}) => {
   const metadataHeader = 'x-amz-meta-variation-'
