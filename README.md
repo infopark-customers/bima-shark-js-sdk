@@ -15,7 +15,6 @@ For local development, when testing your package against our applications
 npm install --save /User/jdahlke/.../bima-shark-js-sdk
 ```
 
-
 Add your own `fetch` library.
 
 * for browsers use [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch) as polyfill for Internet Explorer

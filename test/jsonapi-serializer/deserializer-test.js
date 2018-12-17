@@ -4,7 +4,7 @@
 const { expect } = require('chai')
 
 const Deserializer = require('../../src/jsonapi-serializer/deserializer')
-const BODY = require('../test-helper').SERVICE_TOKEN_RESPONSE_BODY
+const BODY = require('../test-helper').USER_RESPONSE_BODY
 
 describe('Deserializer', () => {
   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })

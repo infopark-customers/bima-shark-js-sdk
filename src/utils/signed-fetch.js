@@ -5,7 +5,7 @@ const URL = require('url')
 
 const { Headers } = require('./shark-fetch')
 const { isString } = require('./typecheck')
-const { simpleFetch } = require('./simple-fetch')
+const simpleFetch = require('./simple-fetch')
 
 function md5Base64digest (data) {
   return crypto.createHash('md5')
