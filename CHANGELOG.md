@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.15.0
+
+- [new] added `MailingClient`
+
 ### 0.14.0
 - [new] added `GroupClient`
 - [new] exposed `simpleFetch` as `fetch`
