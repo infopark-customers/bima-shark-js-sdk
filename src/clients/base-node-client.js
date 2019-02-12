@@ -68,7 +68,7 @@ class Client extends BaseClient {
       baseUrl: this.config.doorkeeperBaseUrl
     })
 
-    return tokenClient.createServiceToken({}).then(token => {
+    return tokenClient.createServiceToken().then(token => {
       opts.headers['Authorization'] = `Bearer ${token.jwt}`
       return simpleFetch(url, opts)
     })

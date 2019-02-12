@@ -45,7 +45,7 @@ class ServiceTokenClient {
    *
    * @return {Promise} the fetch promise
    */
-  createServiceToken (params, options = {}) {
+  createServiceToken (params = {}, options = {}) {
     const url = `${this.baseUrl}/api/tokens/service_token`
     const { userId, customClaims } = params
     const requestOptions = Object.assign({
