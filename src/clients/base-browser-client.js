@@ -1,7 +1,5 @@
 'use strict'
 
-const param = require('jquery-param')
-
 const { isString } = require('../utils/typecheck')
 const simpleFetch = require('../utils/simple-fetch')
 
@@ -96,20 +94,6 @@ class Client extends BaseClient {
       opts.credentials = 'same-origin'
       return simpleFetch(url, opts)
     }
-  }
-
-  __buildUrl (path, parameters) {
-    let url = this.baseUrl
-    let urlPath = path || ''
-    let queryString = param(parameters)
-
-    if (url.slice(-1) !== '/') { url += '/' }
-    urlPath = urlPath.toString()
-    if (urlPath[0] === '/') { urlPath = urlPath.slice(1) }
-    url += urlPath
-    if (queryString.length > 0) { url += `?${queryString}` }
-
-    return url
   }
 }
 
