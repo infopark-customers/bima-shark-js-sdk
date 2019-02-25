@@ -42,6 +42,7 @@ Shark.NotificationsClient = require('./src/clients/notifications-client')
 Shark.ServiceTokenClient = require('./src/service-token/browser')
 Shark.SubscriptionClient = require('./src/clients/subscription-client')
 Shark.UserClient = require('./src/clients/user-client')
+Shark.NickClient = require('./src/clients/nick-client')
 Shark.fetch = require('./src/utils/simple-fetch')
 Shark.isArray = isArray
 Shark.isFunction = isFunction
