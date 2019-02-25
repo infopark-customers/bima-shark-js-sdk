@@ -35,6 +35,18 @@ class NotificationsClient {
     })
   }
 
+  readAndRedirect (id) {
+    return this.client.sendRequest(`${this.client.baseUrl}/${id}/read_and_redirect`, {
+      method: 'PATCH'
+    })
+  }
+
+  readAllAndRedirect () {
+    return this.client.sendRequest(`${this.client.baseUrl}/read_all_and_redirect`, {
+      method: 'PATCH'
+    })
+  }
+
   destroy (id) {
     return this.client.destroy(id)
   }
