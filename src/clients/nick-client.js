@@ -11,28 +11,28 @@ class NickClient {
     })
   }
 
-  index (type) {
-    let url = `${this.client.baseUrl}/${type}`
+  index (type, parameters = {}) {
+    let url = this.client.buildUrl(type, parameters)
     return this.client.sendRequest(url, { method: 'GET' })
   }
 
-  find (type, id) {
-    let url = `${this.client.baseUrl}/${type}/${id}`
+  find (type, id, parameters = {}) {
+    let url = this.client.buildUrl(`${type}/${id}`, parameters)
     return this.client.sendRequest(url, { method: 'GET' })
   }
 
-  create (type, data) {
-    let url = `${this.client.baseUrl}/${type}`
+  create (type, data, parameters = {}) {
+    let url = this.client.buildUrl(type, parameters)
     return this.client.sendRequest(url, { body: data, method: 'POST' })
   }
 
-  update (type, id, data) {
-    let url = `${this.client.baseUrl}/${type}/${id}`
+  update (type, id, data, parameters = {}) {
+    let url = this.client.buildUrl(`${type}/${id}`, parameters)
     return this.client.sendRequest(url, { body: data, method: 'PUT' })
   }
 
   destroy (type, id, parameters = {}) {
-    let url = `${this.client.baseUrl}/${type}/${id}`
+    let url = this.client.buildUrl(`${type}/${id}`, parameters)
     return this.sendRequest(url, { method: 'DELETE' })
   }
 }

@@ -98,7 +98,7 @@ class Client extends BaseClient {
     }
   }
 
-  __buildUrl (path, parameters) {
+  buildUrl (path, parameters) {
     let url = this.baseUrl
     let urlPath = path || ''
     let queryString = param(parameters)
