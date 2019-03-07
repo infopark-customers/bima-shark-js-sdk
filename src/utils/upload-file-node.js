@@ -1,12 +1,12 @@
 'use strict'
 
 const simpleFetch = require('./simple-fetch')
-const { Headers } = require('./shark-fetch')
+const { Headers } = require('../proxy')
 
 const uploadFileNode = (options = {}) => {
   const headers = new Headers()
 
-  headers.set('Content-Type', options.fileMimeType || '')
+  headers.set('content-type', options.fileMimeType || '')
 
   return simpleFetch(options.uploadUrl, {
     method: 'PUT',

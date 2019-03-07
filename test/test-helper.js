@@ -6,14 +6,13 @@ const jsdom = require('jsdom-global')
 const nock = require('nock')
 
 const Config = require('../src/config')
-const sharkFetch = require('../src/utils/shark-fetch')
+const proxy = require('../src/proxy')
 const nodeFetch = require('node-fetch')
-Object.assign(sharkFetch, {
-  fetch: nodeFetch,
-  Headers: nodeFetch.Headers,
-  Request: nodeFetch.Request,
-  Response: nodeFetch.Response
-})
+
+proxy.fetch = nodeFetch
+proxy.Headers = nodeFetch.Headers
+proxy.Request = nodeFetch.Request
+proxy.Response = nodeFetch.Response
 
 Object.assign(Config, {
   debug: false,

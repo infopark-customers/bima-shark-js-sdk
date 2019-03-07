@@ -1,27 +1,21 @@
 'use strict'
 
-/*
- * Configure shark-fetch with Browser implementation
- */
 if (!window.fetch) {
-  console.error('[Shark] No implementation of window.fetch found. Please add a polyfill like `whatwg-fetch`.')
+  console.error('[Shark] No implementation of window.fetch found.')
+  console.error('[Shark] Please add a polyfill like `whatwg-fetch`.')
 }
-const sharkFetch = require('./src/utils/shark-fetch')
-Object.assign(sharkFetch, {
-  fetch: window.fetch,
-  Headers: window.Headers,
-  Request: window.Request,
-  Response: window.Response
-})
 
 /*
- * Configure shark-upload-file with Browser implementation
+ * Configure proxy with Node.js implementation details
  */
-const uploadFileBrowser = require('./src/utils/upload-file-browser')
-const sharkUploadFile = require('./src/utils/shark-upload-file')
-Object.assign(sharkUploadFile, {
-  uploadFile: uploadFileBrowser
-})
+const proxy = require('./src/proxy')
+
+proxy.fetch = window.fetch
+proxy.Headers = window.Headers
+proxy.Request = window.Request
+proxy.Response = window.Response
+
+proxy.uploadFile = require('./src/utils/upload-file-browser')
 
 /*
  * Expose Shark API

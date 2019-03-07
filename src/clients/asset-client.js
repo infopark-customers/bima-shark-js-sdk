@@ -1,7 +1,7 @@
 'use strict'
 
 const Client = require('./base-browser-client')
-const { uploadFile } = require('../utils/shark-upload-file')
+const { uploadFile } = require('../proxy')
 const mime = require('mime/lite')
 
 /**

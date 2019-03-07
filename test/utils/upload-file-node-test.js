@@ -3,11 +3,7 @@
 
 const { expect } = require('chai')
 const nock = require('nock')
-const uploadFileNode = require('../../src/utils/upload-file-node')
-const sharkUploadFile = require('../../src/utils/shark-upload-file')
-Object.assign(sharkUploadFile, {
-  uploadFile: uploadFileNode
-})
+const uploadFile = require('../../src/utils/upload-file-node')
 
 const UPLOAD_URL = 'https://upload-url.example.com'
 
@@ -25,7 +21,7 @@ describe('#uploadFile', () => {
   it('returns empty body', () => {
     const fileMimeType = 'text/html'
     const file = new window.File([''], 'filename', { type: fileMimeType })
-    const promise = sharkUploadFile.uploadFile({
+    const promise = uploadFile({
       uploadUrl: `${UPLOAD_URL}/uploads`,
       fileMimeType: fileMimeType,
       file: file
