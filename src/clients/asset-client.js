@@ -9,12 +9,13 @@ const mime = require('mime/lite')
  * @classdesc Asset Service client.
  */
 class AssetClient {
-  constructor (url, directory) {
+  constructor (url, directory, options = {}) {
     this.client = new Client({
       name: 'AssetClient',
       url: `${url}/assets`,
-      contentType: 'application/vnd.api+json'
+      serviceTokenClient: options.serviceTokenClient
     })
+
     this.directory = directory
   }
 

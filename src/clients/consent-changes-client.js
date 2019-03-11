@@ -3,10 +3,11 @@
 const Client = require('./base-client')
 
 class ConsentChangesClient {
-  constructor (url) {
+  constructor (url, options = {}) {
     this.client = new Client({
       name: 'ConsentChangesClient',
-      url: `${url}/consents`
+      url: `${url}/consents`,
+      serviceTokenClient: options.serviceTokenClient
     })
   }
 

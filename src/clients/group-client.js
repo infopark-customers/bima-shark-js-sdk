@@ -3,10 +3,11 @@
 const Client = require('./base-client')
 
 class GroupClient {
-  constructor (url) {
+  constructor (url, options = {}) {
     this.client = new Client({
       name: 'GroupClient',
-      url: `${url}/api/groups`
+      url: `${url}/api/groups`,
+      serviceTokenClient: options.serviceTokenClient
     })
   }
 

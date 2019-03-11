@@ -43,7 +43,18 @@ Shark.ServiceTokenClient = ServiceTokenClient
 Shark.ServiceTokenValidator = require('./src/service-token/node/validator')
 Shark.Client = require('./src/clients/base-client')
 
+Shark.ActivityClient = require('./src/clients/activity-client')
+Shark.AppClient = require('./src/clients/app-client')
+Shark.AssetClient = require('./src/clients/asset-client')
+Shark.ConsentChangesClient = require('./src/clients/consent-changes-client')
+Shark.ConsentClient = require('./src/clients/consent-client')
+Shark.ContactClient = require('./src/clients/contact-client')
+Shark.DescriptionClient = require('./src/clients/description-client')
+Shark.GroupClient = require('./src/clients/group-client')
 Shark.MailingClient = require('./src/clients/mailing-client')
+Shark.NotificationsClient = require('./src/clients/notifications-client')
+Shark.SubscriptionClient = require('./src/clients/subscription-client')
+Shark.UserClient = require('./src/clients/user-client')
 
 Shark.fetch = require('./src/utils/simple-fetch')
 Shark.isArray = isArray

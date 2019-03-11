@@ -3,10 +3,11 @@
 const Client = require('./base-client')
 
 class UserClient {
-  constructor (url) {
+  constructor (url, options = {}) {
     this.client = new Client({
       name: 'UserClient',
-      url: `${url}/api/users`
+      url: `${url}/api/users`,
+      serviceTokenClient: options.serviceTokenClient
     })
   }
 

@@ -3,10 +3,11 @@
 const Client = require('./base-client')
 
 class AppClient {
-  constructor (url) {
+  constructor (url, options = {}) {
     this.client = new Client({
       name: 'AppsClient',
-      url: url
+      url: url,
+      serviceTokenClient: options.serviceTokenClient
     })
   }
 
