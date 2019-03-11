@@ -10,10 +10,9 @@ const {
   CLIENT_URL,
   DOORKEEPER_BASE_URL,
   JWT,
+  mockServiceTokenDoorkeeperFetch,
   teardown
 } = require('../test-helper')
-
-const { mockServiceTokenFetch } = require('../mock-helper')
 
 const ServiceTokenClient = require('../../src/service-token/node/client')
 
@@ -52,7 +51,7 @@ function mockFetch (options) {
 
 describe('ServerClient with successful service token', () => {
   beforeEach(() => {
-    mockServiceTokenFetch({
+    mockServiceTokenDoorkeeperFetch({
       method: 'POST',
       host: DOORKEEPER_BASE_URL,
       path: '/api/tokens/service_token',

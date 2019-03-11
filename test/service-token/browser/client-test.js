@@ -5,8 +5,8 @@ const { expect } = require('chai')
 
 const {
   JWT,
-  setupTokenSuccess,
-  setupTokenError,
+  mockServiceTokenClientSuccessFetch,
+  mockServiceTokenClientErrorFetch,
   teardown
 } = require('../../test-helper')
 
@@ -22,7 +22,7 @@ context('In Browser environments', () => {
 
     describe('on success', () => {
       beforeEach(() => {
-        setupTokenSuccess()
+        mockServiceTokenClientSuccessFetch()
       })
 
       it('should create a Promise', () => {
@@ -41,7 +41,7 @@ context('In Browser environments', () => {
 
     describe('on failure', () => {
       beforeEach(() => {
-        setupTokenError()
+        mockServiceTokenClientErrorFetch()
       })
 
       it('should create a Promise that is rejected', (done) => {

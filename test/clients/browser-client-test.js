@@ -8,8 +8,8 @@ const {
   BODY,
   CLIENT_URL,
   JWT,
-  setupTokenSuccess,
-  setupTokenError,
+  mockServiceTokenClientSuccessFetch,
+  mockServiceTokenClientErrorFetch,
   teardown
 } = require('../test-helper')
 
@@ -48,7 +48,7 @@ function mockFetch (options) {
 
 describe('Client with successful service token', () => {
   beforeEach(() => {
-    setupTokenSuccess()
+    mockServiceTokenClientSuccessFetch()
   })
   afterEach(() => {
     teardown()
@@ -308,7 +308,7 @@ describe('Client with successful service token', () => {
 
 describe('Client with failed service tokens', () => {
   beforeEach(() => {
-    setupTokenError()
+    mockServiceTokenClientErrorFetch()
   })
   afterEach(() => {
     teardown()

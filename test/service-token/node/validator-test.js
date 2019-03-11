@@ -5,10 +5,9 @@ const { expect } = require('chai')
 
 const {
   DOORKEEPER_BASE_URL,
-  USER_RESPONSE_BODY
+  USER_RESPONSE_BODY,
+  mockServiceTokenDoorkeeperFetch
 } = require('../../test-helper')
-
-const { mockServiceTokenFetch } = require('../../mock-helper')
 
 const ServiceTokenValidator = require('../../../src/service-token/node/validator')
 
@@ -31,7 +30,7 @@ context('In Node.js environment', () => {
     describe('#verifyServiceToken', () => {
       describe('on success', () => {
         beforeEach(() => {
-          mockServiceTokenFetch({
+          mockServiceTokenDoorkeeperFetch({
             host: DOORKEEPER_BASE_URL,
             path: `/api/users/authenticate?include=permission&service_token=${serviceToken}`,
             responseBody: USER_RESPONSE_BODY

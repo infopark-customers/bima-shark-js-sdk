@@ -57,7 +57,7 @@ const USER_RESPONSE_BODY = {
   }
 }
 
-function setupTokenSuccess () {
+function mockServiceTokenClientSuccessFetch () {
   const url = URL.parse(SERVICE_TOKEN_URL)
   nock(`${url.protocol}//${url.host}`)
     .post(URL.parse(SERVICE_TOKEN_URL).path)
@@ -71,11 +71,26 @@ function setupTokenSuccess () {
     })
 }
 
-function setupTokenError () {
+function mockServiceTokenClientErrorFetch () {
   const url = URL.parse(SERVICE_TOKEN_URL)
   nock(`${url.protocol}//${url.host}`)
     .post(URL.parse(SERVICE_TOKEN_URL).path)
     .reply(500, 'internal server error')
+}
+
+function mockServiceTokenDoorkeeperFetch (options) {
+  const {
+    method,
+    host,
+    path,
+    responseBody,
+    status
+  } = options
+
+  nock(host)
+    .matchHeader('Authorization', /^APIAuth-HMAC-SHA1 doorkeeper_client_access_key:/)
+    .intercept(path || '/', method || 'GET')
+    .reply(status || 200, responseBody)
 }
 
 function teardown () {
@@ -91,7 +106,8 @@ module.exports = {
   DOORKEEPER_SERVICE_TOKEN_URL,
   USER_RESPONSE_BODY,
   SERVICE_TOKEN_RESPONSE_BODY,
-  setupTokenSuccess,
-  setupTokenError,
+  mockServiceTokenClientSuccessFetch,
+  mockServiceTokenClientErrorFetch,
+  mockServiceTokenDoorkeeperFetch,
   teardown
 }
