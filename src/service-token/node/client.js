@@ -1,10 +1,6 @@
 'use strict'
 
-const Deserializer = require('../../jsonapi-serializer/deserializer')
-const { isString } = require('../../utils/typecheck')
-const signedFetch = require('../../utils/signed-fetch')
-
-const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
+const ServiceTokenBase = require('./base')
 
 /**
  * @class ServiceTokenClient
@@ -17,27 +13,14 @@ const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
  *   - userId {string}
  *   - customClaims {object}
  */
-class ServiceTokenClient {
+class ServiceTokenClient extends ServiceTokenBase {
   constructor (options) {
-    this.accessKey = options.accessKey
-    this.secretKey = options.secretKey
-    this.digest = options.digest || 'sha1'
-    this.baseUrl = options.baseUrl
+    super(options)
 
     this.userId = options.userId
     this.customClaims = options.customClaims || {}
 
     this.cachedToken = null
-
-    if (!isString(this.baseUrl)) {
-      throw new Error('Key `baseUrl` in `options` parameter is missing or not a string')
-    }
-    if (!isString(this.accessKey)) {
-      throw new Error('Key `accessKey` in `options` parameter is missing or not a string')
-    }
-    if (!isString(this.secretKey)) {
-      throw new Error('Key `secretKey` in `options` parameter is missing or not a string')
-    }
   }
 
   /**
@@ -77,19 +60,6 @@ class ServiceTokenClient {
    */
   static reset () {
     this.cachedToken = null
-  }
-
-  __request (url, options = {}) {
-    const requestOptions = Object.assign({}, options, {
-      accessKey: this.accessKey,
-      secretKey: this.secretKey,
-      digest: this.digest,
-      headers: { 'Content-Type': 'application/vnd.api+json' }
-    })
-
-    return signedFetch(url, requestOptions).then(json => {
-      return deserializer.deserialize(json)
-    })
   }
 }
 

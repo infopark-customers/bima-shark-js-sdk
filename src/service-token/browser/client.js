@@ -20,7 +20,7 @@ class ServiceTokenClient {
     this.url = options.url || Config.serviceTokenUrl
 
     if (!isString(this.url)) {
-      throw new Error('Parameter `url` is missing or not a string')
+      throw new Error('Key `url` in `options` parameter is missing or not a string')
     }
   }
   /**
@@ -33,6 +33,7 @@ class ServiceTokenClient {
     if (token && token.expiresAt) {
       let now = new Date()
       let date = new Date(token.expiresAt)
+
       if (date < now) {
         return this.__request()
       } else {
