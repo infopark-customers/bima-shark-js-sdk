@@ -17,7 +17,7 @@ const {
 const ServiceTokenClient = require('../../src/service-token/node/client')
 
 const serviceTokenClient = new ServiceTokenClient({
-  baseUrl: DOORKEEPER_BASE_URL,
+  doorkeeperUrl: DOORKEEPER_BASE_URL,
   accessKey: 'doorkeeper_client_access_key',
   secretKey: '0123456789'
 })

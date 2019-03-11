@@ -9,7 +9,7 @@ const ServiceTokenBase = require('./base')
  * @param {object} [options] the options
  *   - accessKey {string}
  *   - secretKey {string}
- *   - baseUrl {string}
+ *   - doorkeeperUrl {string}
  *   - digest {string}
  *   - userId {string}
  *   - customClaims {object}
@@ -30,7 +30,7 @@ class ServiceTokenClient extends ServiceTokenBase {
    * @return {Promise} the fetch promise
    */
   createServiceToken () {
-    const url = `${this.baseUrl}/api/tokens/service_token`
+    const url = `${this.doorkeeperUrl}/api/tokens/service_token`
 
     const requestOptions = {
       method: 'POST',

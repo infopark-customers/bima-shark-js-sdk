@@ -16,14 +16,14 @@ const serviceToken = 'doorkeeper-service-token'
 const client = new ServiceTokenValidator({
   accessKey: 'doorkeeper_client_access_key',
   secretKey: '0123456789',
-  baseUrl: DOORKEEPER_BASE_URL
+  doorkeeperUrl: DOORKEEPER_BASE_URL
 })
 
 context('In Node.js environment', () => {
   describe('ServiceTokenValidator', () => {
-    describe('#baseUrl', () => {
+    describe('#doorkeeperUrl', () => {
       it('should be a valid url', () => {
-        expect(client.baseUrl).to.eql(DOORKEEPER_BASE_URL)
+        expect(client.doorkeeperUrl).to.eql(DOORKEEPER_BASE_URL)
       })
     })
 

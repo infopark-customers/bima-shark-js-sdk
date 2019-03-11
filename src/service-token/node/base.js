@@ -12,7 +12,7 @@ const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
  * @param {object} [options] the options
  *   - accessKey {string}
  *   - secretKey {string}
- *   - baseUrl {string}
+ *   - doorkeeperUrl {string}
  *   - digest {string}
  */
 class ServiceTokenBase {
@@ -20,10 +20,10 @@ class ServiceTokenBase {
     this.accessKey = options.accessKey
     this.secretKey = options.secretKey
     this.digest = options.digest || 'sha1'
-    this.baseUrl = options.baseUrl
+    this.doorkeeperUrl = options.doorkeeperUrl
 
-    if (!isString(this.baseUrl)) {
-      throw new Error('Key `baseUrl` in `options` parameter is missing or not a string')
+    if (!isString(this.doorkeeperUrl)) {
+      throw new Error('Key `doorkeeperUrl` in `options` parameter is missing or not a string')
     }
     if (!isString(this.accessKey)) {
       throw new Error('Key `accessKey` in `options` parameter is missing or not a string')

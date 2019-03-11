@@ -54,7 +54,7 @@ const {
 const serviceTokenClient = new ServiceTokenClient({
   accessKey: 'your-access-key',
   secretKey: 'your-secret-key',
-  baseUrl: 'https://doorkeeper-development.bundesimmo.de',
+  doorkeeperUrl: 'https://doorkeeper-development.bundesimmo.de',
   userId: '9fac54d4990f4d54218c40dd69b6f7b1'  // optional
 })
 

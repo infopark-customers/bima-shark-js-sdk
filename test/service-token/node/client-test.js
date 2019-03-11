@@ -15,14 +15,14 @@ const ServiceTokenClient = require('../../../src/service-token/node/client')
 const client = new ServiceTokenClient({
   accessKey: 'doorkeeper_client_access_key',
   secretKey: '0123456789',
-  baseUrl: DOORKEEPER_BASE_URL
+  doorkeeperUrl: DOORKEEPER_BASE_URL
 })
 
 context('In Node.js environment', () => {
   describe('ServiceTokenClient', () => {
-    describe('#baseUrl', () => {
+    describe('#doorkeeperUrl', () => {
       it('should be a valid url', () => {
-        expect(client.baseUrl).to.eql(DOORKEEPER_BASE_URL)
+        expect(client.doorkeeperUrl).to.eql(DOORKEEPER_BASE_URL)
       })
     })
 

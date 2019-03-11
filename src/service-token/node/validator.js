@@ -10,7 +10,7 @@ const ServiceTokenBase = require('./base')
  * @param {object} [options] the options
  *   - accessKey {string}
  *   - secretKey {string}
- *   - baseUrl {string}
+ *   - doorkeeperUrl {string}
  *   - digest {string}
  */
 class ServiceTokenValidator extends ServiceTokenBase {
@@ -24,7 +24,7 @@ class ServiceTokenValidator extends ServiceTokenBase {
     authenticateParams.service_token = authenticateParams.serviceToken
     delete authenticateParams.serviceToken
 
-    const url = `${this.baseUrl}/api/users/authenticate?${param(authenticateParams)}`
+    const url = `${this.doorkeeperUrl}/api/users/authenticate?${param(authenticateParams)}`
     const requestOptions = Object.assign({
       method: 'GET'
     }, options)
