@@ -41,20 +41,20 @@ const { isArray, isFunction, isObject, isString } = require('./src/utils/typeche
 
 Shark.ServiceTokenClient = ServiceTokenClient
 Shark.ServiceTokenValidator = require('./src/service-token/node/validator')
-Shark.Client = require('./src/clients/base-client')
+Shark.Client = require('./src/service-clients/client')
 
-Shark.ActivityClient = require('./src/clients/activity-client')
-Shark.AppClient = require('./src/clients/app-client')
-Shark.AssetClient = require('./src/clients/asset-client')
-Shark.ConsentChangesClient = require('./src/clients/consent-changes-client')
-Shark.ConsentClient = require('./src/clients/consent-client')
-Shark.ContactClient = require('./src/clients/contact-client')
-Shark.DescriptionClient = require('./src/clients/description-client')
-Shark.GroupClient = require('./src/clients/group-client')
-Shark.MailingClient = require('./src/clients/mailing-client')
-Shark.NotificationsClient = require('./src/clients/notifications-client')
-Shark.SubscriptionClient = require('./src/clients/subscription-client')
-Shark.UserClient = require('./src/clients/user-client')
+Shark.ActivityClient = require('./src/service-clients/activity-client')
+Shark.AppClient = require('./src/service-clients/app-client')
+Shark.AssetClient = require('./src/service-clients/asset-client')
+Shark.ConsentChangesClient = require('./src/service-clients/consent-changes-client')
+Shark.ConsentClient = require('./src/service-clients/consent-client')
+Shark.ContactClient = require('./src/service-clients/contact-client')
+Shark.DescriptionClient = require('./src/service-clients/description-client')
+Shark.GroupClient = require('./src/service-clients/group-client')
+Shark.MailingClient = require('./src/service-clients/mailing-client')
+Shark.NotificationsClient = require('./src/service-clients/notifications-client')
+Shark.SubscriptionClient = require('./src/service-clients/subscription-client')
+Shark.UserClient = require('./src/service-clients/user-client')
 
 Shark.fetch = require('./src/utils/simple-fetch')
 Shark.isArray = isArray

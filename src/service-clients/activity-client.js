@@ -1,12 +1,12 @@
 'use strict'
 
-const Client = require('./base-client')
+const Client = require('./client')
 
-class GroupClient {
+class ActivityClient {
   constructor (url, options = {}) {
     this.client = new Client({
-      name: 'GroupClient',
-      url: `${url}/api/groups`,
+      name: 'ActivityClient',
+      url: `${url}/api/activities`,
       serviceTokenClient: options.serviceTokenClient
     })
   }
@@ -24,7 +24,7 @@ class GroupClient {
   }
 
   update (id, data, parameters = {}) {
-    return this.client.patch(id, data, parameters)
+    return this.client.update(id, data, parameters)
   }
 
   destroy (id, parameters = {}) {
@@ -32,4 +32,4 @@ class GroupClient {
   }
 }
 
-module.exports = GroupClient
+module.exports = ActivityClient

@@ -22,7 +22,7 @@ const serviceTokenClient = new ServiceTokenClient({
   secretKey: '0123456789'
 })
 
-const Client = require('../../src/clients/base-client')
+const Client = require('../../src/service-clients/client')
 
 const client = new Client({
   name: 'TestNodeClient',

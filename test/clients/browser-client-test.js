@@ -20,7 +20,7 @@ Object.assign(sharkServiceToken, {
   ServiceTokenClient: ServiceTokenClient
 })
 
-const Client = require('../../src/clients/base-client')
+const Client = require('../../src/service-clients/client')
 
 const client = new Client({
   name: 'TestClient',
