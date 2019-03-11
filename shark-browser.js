@@ -24,7 +24,7 @@ Object.assign(sharkUploadFile, {
 })
 
 /*
- * Configure shark-upload-file with Browser implementation
+ * Configure shark-service-token with Browser implementation
  */
 const sharkServiceToken = require('./src/utils/shark-service-token')
 const ServiceTokenClient = require('./src/service-token/browser/client')

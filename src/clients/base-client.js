@@ -9,7 +9,7 @@ const { ServiceTokenClient } = require('../utils/shark-service-token')
  * @class Client
  * @classdesc Basic REST client that can be instantiated for different models.
  *
- * @throws Will raise error if baseUrl, doorkeeperBaseUrl, accessKey or secretKey is invalid
+ * @throws Will raise error if `url` option is invalid
  */
 class Client {
   constructor (options) {

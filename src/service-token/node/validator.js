@@ -5,12 +5,13 @@ const ServiceTokenBase = require('./base')
 
 /**
  * @class ServiceTokenValidator
- * @classdesc Helper class to request and manage a valid service token in a NodeJS environment.
+ * @classdesc Helper class to verify service tokens in a Node.js environment.
  *
  * @param {object} [options] the options
  *   - accessKey {string}
  *   - secretKey {string}
  *   - baseUrl {string}
+ *   - digest {string}
  */
 class ServiceTokenValidator extends ServiceTokenBase {
   /**

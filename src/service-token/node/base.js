@@ -8,14 +8,12 @@ const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
 
 /**
  * @class ServiceTokenBase
- * @classdesc Helper class to request and manage a valid service token in a NodeJS environment.
  *
  * @param {object} [options] the options
  *   - accessKey {string}
  *   - secretKey {string}
  *   - baseUrl {string}
- *   - userId {string}
- *   - customClaims {object}
+ *   - digest {string}
  */
 class ServiceTokenBase {
   constructor (options) {
