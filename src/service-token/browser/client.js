@@ -1,10 +1,10 @@
 'use strict'
 
-const Config = require('../config')
-const Cache = require('../cache')
-const Deserializer = require('../jsonapi-serializer/deserializer')
-const { isString } = require('../utils/typecheck')
-const simpleFetch = require('../utils/simple-fetch')
+const Config = require('../../config')
+const Cache = require('../../cache')
+const Deserializer = require('../../jsonapi-serializer/deserializer')
+const { isString } = require('../../utils/typecheck')
+const simpleFetch = require('../../utils/simple-fetch')
 
 const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
 

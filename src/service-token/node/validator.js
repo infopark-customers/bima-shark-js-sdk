@@ -1,9 +1,9 @@
 'use strict'
 
 const param = require('jquery-param')
-const Deserializer = require('../jsonapi-serializer/deserializer')
-const { isString } = require('../utils/typecheck')
-const signedFetch = require('../utils/signed-fetch')
+const Deserializer = require('../../jsonapi-serializer/deserializer')
+const { isString } = require('../../utils/typecheck')
+const signedFetch = require('../../utils/signed-fetch')
 
 const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
 
@@ -16,13 +16,7 @@ const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
  *   - secretKey {string}
  *   - baseUrl {string}
  */
-class ServiceTokenClient {
-  /**
-   * Remove stored service token
-   */
-  static reset () {
-  }
-
+class ServiceTokenValidator {
   constructor (options = {}) {
     this.accessKey = options.accessKey
     this.secretKey = options.secretKey
@@ -30,33 +24,14 @@ class ServiceTokenClient {
     this.baseUrl = options.baseUrl
 
     if (!isString(this.baseUrl)) {
-      throw new Error('Parameter `baseUrl` is missing or not a string')
+      throw new Error('Key `baseUrl` in `options` parameter is missing or not a string')
     }
     if (!isString(this.accessKey)) {
-      throw new Error('Parameter `accessKey` is missing or not a string')
+      throw new Error('Key `accessKey` in `options` parameter is missing or not a string')
     }
     if (!isString(this.secretKey)) {
-      throw new Error('Parameter `secretKey` is missing or not a string')
+      throw new Error('Key `secretKey` in `options` parameter is missing or not a string')
     }
-  }
-
-  /**
-   * Create a new service token.
-   *
-   * @return {Promise} the fetch promise
-   */
-  createServiceToken (params = {}, options = {}) {
-    const url = `${this.baseUrl}/api/tokens/service_token`
-    const { userId, customClaims } = params
-    const requestOptions = Object.assign({
-      method: 'POST',
-      body: {
-        user_id: userId,
-        custom_claims: customClaims || {}
-      }
-    }, options)
-
-    return this.__request(url, requestOptions)
   }
 
   /**
@@ -94,4 +69,4 @@ class ServiceTokenClient {
   }
 }
 
-module.exports = ServiceTokenClient
+module.exports = ServiceTokenValidator

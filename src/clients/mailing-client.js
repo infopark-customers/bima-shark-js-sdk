@@ -1,16 +1,13 @@
 'use strict'
 
-const Client = require('./base-node-client')
+const Client = require('./base-client')
 
 class MailingClient {
-  constructor (url, options = {}) {
+  constructor (url, options) {
     this.client = new Client({
       name: 'MailingClient',
       url: `${url}/v1/mails`,
-      accessKey: options.accessKey,
-      secretKey: options.secretKey,
-      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
-      contentType: 'application/vnd.api+json'
+      serviceTokenClient: options.serviceTokenClient
     })
   }
 

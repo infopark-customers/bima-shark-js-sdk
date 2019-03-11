@@ -1,14 +1,41 @@
 'use strict'
 
 const param = require('jquery-param')
+const { isString } = require('../utils/typecheck')
+const simpleFetch = require('../utils/simple-fetch')
+const { ServiceTokenClient } = require('../utils/shark-service-token')
 
 /**
  * @class Client
  * @classdesc Basic REST client that can be instantiated for different models.
  *
- * @throws Will raise error if baseUrl is invalid
+ * @throws Will raise error if baseUrl, doorkeeperBaseUrl, accessKey or secretKey is invalid
  */
-class BaseClient {
+class Client {
+  constructor (options) {
+    this.name = options.name
+    this.baseUrl = options.url
+
+    if (!isString(this.baseUrl)) {
+      throw new Error('Key `url` in `options` parameter is missing or not a string')
+    }
+
+    this.config = {
+      authorizationRequired: true,
+      contentType: options.contentType || 'application/vnd.api+json'
+    }
+
+    if (options.serviceTokenClient) {
+      this.serviceTokenClient = options.serviceTokenClient
+    } else {
+      this.serviceTokenClient = new ServiceTokenClient()
+
+      if (this.baseUrl[0] === '/') {
+        this.config.authorizationRequired = false
+      }
+    }
+  }
+
   /**
    * @param  {object} [parameters] The query parameters as an object (optional).
    *
@@ -90,6 +117,67 @@ class BaseClient {
     })
   }
 
+  /**
+   * Makes an http request and returns a promise.
+   *
+   * @param  {string} [url] the url
+   * @param  {object} [options] the options we want to pass to 'fetch'
+   *   - body   can be null
+   *   - method must be GET, POST, PUT, PATCH or DELETE. Default is GET.
+   *
+   * @return {promise} the sendRequest promise
+   */
+  sendRequest (url, options = {}) {
+    const opts = {
+      headers: {
+        'Content-Type': this.config.contentType
+      },
+      method: (options.method || 'GET').toUpperCase()
+    }
+
+    if (options.body) {
+      opts.body = JSON.stringify(options.body)
+    }
+
+    if (this.config.authorizationRequired) {
+      return this.serviceTokenClient.createServiceToken().then(token => {
+        opts.headers['Authorization'] = `Bearer ${token.jwt}`
+        return simpleFetch(url, opts)
+      })
+    } else {
+      opts.credentials = 'same-origin'
+      return simpleFetch(url, opts)
+    }
+  }
+
+  /**
+   * Uploads file and returns promise.
+   *
+   * @param {string} path the path
+   * @param {FormData} data the FormData object with file
+   *
+   * @return {promise} the uploadFile promise
+   */
+  uploadFile (path, data, parameters = {}) {
+    const url = this.__buildUrl(path, parameters)
+
+    const opts = {
+      headers: {},
+      body: data,
+      method: 'POST'
+    }
+
+    if (this.config.authorizationRequired) {
+      return this.serviceTokenClient.createServiceToken().then(token => {
+        opts.headers['Authorization'] = `Bearer ${token.jwt}`
+        return simpleFetch(url, opts)
+      })
+    } else {
+      opts.credentials = 'same-origin'
+      return simpleFetch(url, opts)
+    }
+  }
+
   __buildUrl (path, parameters) {
     let url = this.baseUrl
     let urlPath = path || ''
@@ -105,4 +193,4 @@ class BaseClient {
   }
 }
 
-module.exports = BaseClient
+module.exports = Client

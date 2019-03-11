@@ -1,13 +1,12 @@
 'use strict'
 
-const Client = require('./base-browser-client')
+const Client = require('./base-client')
 
 class SubscriptionClient {
   constructor (url) {
     this.client = new Client({
       name: 'SubscriptionClient',
-      url: `${url}/subscriptions`,
-      contentType: 'application/vnd.api+json'
+      url: `${url}/subscriptions`
     })
   }
 

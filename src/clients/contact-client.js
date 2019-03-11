@@ -1,13 +1,12 @@
 'use strict'
 
-const Client = require('./base-browser-client')
+const Client = require('./base-client')
 
 class ContactClient {
   constructor (url) {
     this.client = new Client({
       name: 'ContactClient',
-      url: `${url}/api/contacts`,
-      contentType: 'application/vnd.api+json'
+      url: `${url}/api/contacts`
     })
   }
 

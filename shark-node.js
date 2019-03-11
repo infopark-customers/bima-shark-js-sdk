@@ -7,6 +7,7 @@
  */
 const sharkFetch = require('./src/utils/shark-fetch')
 const nodeFetch = require('node-fetch')
+
 Object.assign(sharkFetch, {
   fetch: nodeFetch,
   Headers: nodeFetch.Headers,
@@ -24,12 +25,24 @@ Object.assign(sharkUploadFile, {
 })
 
 /*
+ * Configure Service Token Client
+ */
+const sharkServiceToken = require('./src/utils/shark-service-token')
+const ServiceTokenClient = require('./src/service-token/node/client')
+Object.assign(sharkServiceToken, {
+  ServiceTokenClient: ServiceTokenClient
+})
+
+/*
  * Expose Shark API
  */
 const Shark = require('./src/shark')
 const { isArray, isFunction, isObject, isString } = require('./src/utils/typecheck')
 
-Shark.ServiceTokenClient = require('./src/service-token/node')
+Shark.ServiceTokenClient = ServiceTokenClient
+Shark.ServiceTokenValidator = require('./src/service-token/node/validator')
+Shark.Client = require('./src/clients/base-client')
+
 Shark.MailingClient = require('./src/clients/mailing-client')
 
 Shark.fetch = require('./src/utils/simple-fetch')
