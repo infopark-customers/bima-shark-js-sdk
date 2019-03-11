@@ -13,7 +13,14 @@ const {
   teardown
 } = require('../test-helper')
 
-const Client = require('../../src/clients/base-browser-client')
+const sharkServiceToken = require('../../src/utils/shark-service-token')
+const ServiceTokenClient = require('../../src/service-token/browser/client')
+
+Object.assign(sharkServiceToken, {
+  ServiceTokenClient: ServiceTokenClient
+})
+
+const Client = require('../../src/clients/base-client')
 
 const client = new Client({
   name: 'TestClient',

@@ -13,30 +13,24 @@ const {
   teardown
 } = require('../test-helper')
 
-const Client = require('../../src/clients/base-node-client')
+const { mockServiceTokenFetch } = require('../mock-helper')
 
-const client = new Client({
-  name: 'TestServerClient',
-  url: CLIENT_URL,
-  contentType: 'application/vnd.api+json',
+const ServiceTokenClient = require('../../src/service-token/node/client')
+
+const serviceTokenClient = new ServiceTokenClient({
+  baseUrl: DOORKEEPER_BASE_URL,
   accessKey: 'doorkeeper_client_access_key',
-  secretKey: '0123456789',
-  doorkeeperBaseUrl: DOORKEEPER_BASE_URL
+  secretKey: '0123456789'
 })
 
-function mockServiceTokenFetchSuccess (options) {
-  const {
-    host,
-    path,
-    method,
-    responseBody
-  } = options
+const Client = require('../../src/clients/base-client')
 
-  nock(host)
-    .matchHeader('Authorization', /^APIAuth-HMAC-SHA1 doorkeeper_client_access_key:/)
-    .intercept(path, method)
-    .reply(200, responseBody)
-}
+const client = new Client({
+  name: 'TestNodeClient',
+  url: CLIENT_URL,
+  contentType: 'application/vnd.api+json',
+  serviceTokenClient: serviceTokenClient
+})
 
 function mockFetch (options) {
   const {
@@ -58,7 +52,7 @@ function mockFetch (options) {
 
 describe('ServerClient with successful service token', () => {
   beforeEach(() => {
-    mockServiceTokenFetchSuccess({
+    mockServiceTokenFetch({
       method: 'POST',
       host: DOORKEEPER_BASE_URL,
       path: '/api/tokens/service_token',
