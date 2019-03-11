@@ -26,9 +26,11 @@ Add your own `fetch` library.
 
 ### Usage
 
-#### Configuration (optional)
+#### Browser
 
-```
+##### Configuration (optional)
+
+```js
 import Shark from 'bima-shark-sdk'
 
 Shark.configure({
@@ -38,6 +40,35 @@ Shark.configure({
 })
 
 import { UserClient } from 'bima-shark-sdk'
+```
+
+#### Node.js
+
+```js
+const {
+  ServiceTokenClient,
+  ContactClient,
+  MailingClient
+} = require('bima-shark-sdk')
+
+const serviceTokenClient = new ServiceTokenClient({
+  accessKey: 'your-access-key',
+  secretKey: 'your-secret-key',
+  baseUrl: 'https://doorkeeper-development.bundesimmo.de',
+  userId: '9fac54d4990f4d54218c40dd69b6f7b1'  // optional
+})
+
+const contactClient = new ContactClient('https://contactservice-development.bundesimmo.de', {
+  serviceTokenClient: serviceTokenClient
+})
+
+// ...
+
+const mailingClient = new MailingClient('https://mailing-development.bundesimmo.de', {
+  serviceTokenClient: serviceTokenClient
+})
+
+// ...
 ```
 
 ### Testing
