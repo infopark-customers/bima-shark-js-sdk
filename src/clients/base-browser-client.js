@@ -1,8 +1,7 @@
 'use strict'
 
-const param = require('jquery-param')
-
 const { isString } = require('../utils/typecheck')
+const { buildUrl } = require('../utils/url-helper')
 const simpleFetch = require('../utils/simple-fetch')
 
 const BaseClient = require('./base-client')
@@ -79,7 +78,7 @@ class Client extends BaseClient {
    * @return {promise} the uploadFile promise
    */
   uploadFile (path, data, parameters = {}) {
-    const url = this.__buildUrl(path, parameters)
+    const url = buildUrl(this.baseUrl, path, parameters)
     const opts = {
       headers: {},
       body: data,
@@ -96,20 +95,6 @@ class Client extends BaseClient {
       opts.credentials = 'same-origin'
       return simpleFetch(url, opts)
     }
-  }
-
-  __buildUrl (path, parameters) {
-    let url = this.baseUrl
-    let urlPath = path || ''
-    let queryString = param(parameters)
-
-    if (url.slice(-1) !== '/') { url += '/' }
-    urlPath = urlPath.toString()
-    if (urlPath[0] === '/') { urlPath = urlPath.slice(1) }
-    url += urlPath
-    if (queryString.length > 0) { url += `?${queryString}` }
-
-    return url
   }
 }
 

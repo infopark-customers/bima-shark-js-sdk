@@ -4,7 +4,6 @@ const { jsonApiError } = require('./response-helper')
 const { isFunction } = require('./typecheck')
 
 const uploadFileBrowser = (options = {}) => {
-
   return new Promise((resolve, reject) => {
     const xhr = new window.XMLHttpRequest()
     xhr.open('PUT', options.uploadUrl)
