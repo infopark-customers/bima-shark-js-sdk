@@ -17,6 +17,7 @@ const ContactClient = require('./clients/contact-client')
 const DescriptionClient = require('./clients/description-client')
 const GroupClient = require('./clients/group-client')
 const MailingClient = require('./clients/mailing-client')
+const NickClient = require('./clients/nick-client')
 const NotificationsClient = require('./clients/notifications-client')
 const SubscriptionClient = require('./clients/subscription-client')
 const UserClient = require('./clients/user-client')
@@ -69,6 +70,7 @@ const Shark = {
   DescriptionClient,
   GroupClient,
   MailingClient,
+  NickClient,
   NotificationsClient,
   SubscriptionClient,
   UserClient

@@ -1,7 +1,7 @@
 'use strict'
 
-const param = require('jquery-param')
 const { isString } = require('../utils/typecheck')
+const { buildUrl } = require('../utils/url-helper')
 const simpleFetch = require('../utils/simple-fetch')
 const Config = require('../config')
 const proxy = require('../proxy')
@@ -49,7 +49,7 @@ class BaseClient {
    * @return {promise} The request promise.
    */
   search (parameters = {}) {
-    const url = this.__buildUrl(null, parameters)
+    const url = buildUrl(this.baseUrl, null, parameters)
     return this.sendRequest(url)
   }
 
@@ -60,7 +60,7 @@ class BaseClient {
    * @return {promise} The request promise.
    */
   find (id, parameters = {}) {
-    const url = this.__buildUrl(id, parameters)
+    const url = buildUrl(this.baseUrl, id, parameters)
     return this.sendRequest(url)
   }
 
@@ -71,7 +71,7 @@ class BaseClient {
    * @return {promise} The request promise.
    */
   create (data, parameters = {}) {
-    const url = this.__buildUrl(null, parameters)
+    const url = buildUrl(this.baseUrl, null, parameters)
 
     return this.sendRequest(url, {
       body: data,
@@ -87,7 +87,7 @@ class BaseClient {
    * @return {promise} The request promise.
    */
   update (id, data, parameters = {}) {
-    const url = this.__buildUrl(id, parameters)
+    const url = buildUrl(this.baseUrl, id, parameters)
 
     return this.sendRequest(url, {
       body: data,
@@ -103,7 +103,7 @@ class BaseClient {
    * @return {promise} The request promise.
    */
   patch (id, data, parameters = {}) {
-    const url = this.__buildUrl(id, parameters)
+    const url = buildUrl(this.baseUrl, id, parameters)
 
     return this.sendRequest(url, {
       body: data,
@@ -118,7 +118,7 @@ class BaseClient {
    * @return {promise} The request promise.
    */
   destroy (id, parameters = {}) {
-    const url = this.__buildUrl(id, parameters)
+    const url = buildUrl(this.baseUrl, id, parameters)
     return this.sendRequest(url, {
       method: 'DELETE'
     })
@@ -155,20 +155,6 @@ class BaseClient {
       requestOptions.credentials = 'same-origin'
       return simpleFetch(url, requestOptions)
     }
-  }
-
-  __buildUrl (path, parameters) {
-    let url = this.baseUrl
-    let urlPath = path || ''
-    let queryString = param(parameters)
-
-    if (url.slice(-1) !== '/') { url += '/' }
-    urlPath = urlPath.toString()
-    if (urlPath[0] === '/') { urlPath = urlPath.slice(1) }
-    url += urlPath
-    if (queryString.length > 0) { url += `?${queryString}` }
-
-    return url
   }
 }
 
