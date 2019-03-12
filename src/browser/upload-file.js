@@ -1,7 +1,7 @@
 'use strict'
 
-const { jsonApiError } = require('./response-helper')
-const { isFunction } = require('./typecheck')
+const { jsonApiError } = require('../utils/response-helper')
+const { isFunction } = require('../utils/typecheck')
 
 const uploadFileBrowser = (options = {}) => {
   return new Promise((resolve, reject) => {

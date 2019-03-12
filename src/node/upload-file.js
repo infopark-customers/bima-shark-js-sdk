@@ -1,6 +1,6 @@
 'use strict'
 
-const simpleFetch = require('./simple-fetch')
+const simpleFetch = require('../utils/simple-fetch')
 const { Headers } = require('../proxy')
 
 const uploadFileNode = (options = {}) => {
