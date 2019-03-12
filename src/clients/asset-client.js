@@ -1,6 +1,6 @@
 'use strict'
 
-const Client = require('./base-browser-client')
+const Client = require('./base-client')
 const { uploadFile } = require('../proxy')
 const mime = require('mime/lite')
 
@@ -9,10 +9,13 @@ const mime = require('mime/lite')
  * @classdesc Asset Service client.
  */
 class AssetClient {
-  constructor (url, directory) {
+  constructor (url, directory, options = {}) {
     this.client = new Client({
       name: 'AssetClient',
       url: `${url}/assets`,
+      accessKey: options.accessKey,
+      secretKey: options.secretKey,
+      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
       contentType: 'application/vnd.api+json'
     })
     this.directory = directory

@@ -1,12 +1,15 @@
 'use strict'
 
-const Client = require('./base-browser-client')
+const Client = require('./base-client')
 
 class ConsentChangesClient {
-  constructor (url) {
+  constructor (url, options = {}) {
     this.client = new Client({
       name: 'ConsentChangesClient',
       url: `${url}/consents`,
+      accessKey: options.accessKey,
+      secretKey: options.secretKey,
+      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
       contentType: 'application/vnd.api+json'
     })
   }
