@@ -15,14 +15,13 @@ const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
  *   - accessKey {string}
  *   - secretKey {string}
  *   - baseUrl {string}
+ *   - digest {string}
+ *
+ * @throws {Error} if baseUrl is invalid
+ * @throws {Error} if accessKey cannot be instantiated
+ * @throws {Error} if secretKey cannot be instantiated
  */
 class ServiceTokenClient {
-  /**
-   * Remove stored service token
-   */
-  static reset () {
-  }
-
   constructor (options = {}) {
     this.accessKey = options.accessKey
     this.secretKey = options.secretKey
@@ -79,7 +78,7 @@ class ServiceTokenClient {
 
   __request (url, options = {}) {
     const headers = Object.assign({
-      'Content-Type': 'application/vnd.api+json'
+      'content-type': 'application/vnd.api+json'
     }, options.headers || {})
     const requestOptions = Object.assign({}, options, {
       accessKey: this.accessKey,

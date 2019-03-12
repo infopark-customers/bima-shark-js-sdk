@@ -13,16 +13,19 @@ const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
  * @classdesc Helper class to request and manage a valid service token in a browser environment.
  *
  * @param {object} [options] the options
- *   - url {string}
+ *   - baseUrl {string}
+ *
+ * @throws {Error} if baseUrl is invalid
  */
 class ServiceTokenClient {
   constructor (options = {}) {
-    this.url = options.url || Config.serviceTokenUrl
+    this.baseUrl = options.baseUrl
 
-    if (!isString(this.url)) {
-      throw new Error('Parameter `url` is missing or not a string')
+    if (!isString(this.baseUrl)) {
+      throw new Error('Parameter `baseUrl` is missing or not a string')
     }
   }
+
   /**
    * @return {Promise} the fetch promise
    */
@@ -36,7 +39,7 @@ class ServiceTokenClient {
       if (date < now) {
         return this.__request()
       } else {
-        return new Promise((resolve, reject) => { resolve(token) })
+        return Promise.resolve(token)
       }
     } else {
       return this.__request()
@@ -49,12 +52,12 @@ class ServiceTokenClient {
 
     Cache.remove(cacheKey)
 
-    return simpleFetch(this.url,
+    return simpleFetch(this.baseUrl,
       {
         credentials: 'same-origin',
         headers: {
-          'Content-Type': 'application/vnd.api+json',
-          'X-CSRF-Token': csrfToken
+          'content-type': 'application/vnd.api+json',
+          'x-csrf-token': csrfToken
         },
         method: 'POST'
       })
