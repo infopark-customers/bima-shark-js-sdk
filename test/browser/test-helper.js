@@ -1,26 +1,31 @@
-/* eslint-env mocha */
+/* eslint-env jest */
 'use strict'
 
 const URL = require('url')
-const jsdom = require('jsdom-global')
 const nock = require('nock')
-
-const Config = require('../src/config')
-const proxy = require('../src/proxy')
 const nodeFetch = require('node-fetch')
+
+const Config = require('../../src/config')
+const proxy = require('../../src/proxy')
 
 proxy.fetch = nodeFetch
 proxy.Headers = nodeFetch.Headers
 proxy.Request = nodeFetch.Request
 proxy.Response = nodeFetch.Response
+proxy.ServiceTokenClient = require('../../src/browser/service-token')
+
+/**
+ * Fake window.fetch in a browser environment
+ */
+window.fetch = nodeFetch
+window.Headers = nodeFetch.Headers
+window.Request = nodeFetch.Request
+window.Response = nodeFetch.Response
 
 Object.assign(Config, {
   debug: false,
   serviceTokenUrl: 'https://myapp.example.org/doorkeeper/service_token'
 })
-
-before(() => { jsdom() })
-after(() => { jsdom() })
 
 /*
  * API request mocks
@@ -31,30 +36,8 @@ const BODY = {
   baz: ['hello', 'world', '!']
 }
 const CLIENT_URL = 'https://client.example.org/'
-const DOORKEEPER_BASE_URL = 'https://doorkeeper.example.org'
 const JWT = 'json-web-token-0123456789'
 const SERVICE_TOKEN_URL = Config.serviceTokenUrl
-const DOORKEEPER_SERVICE_TOKEN_URL = '/api/tokens/service_token'
-
-const SERVICE_TOKEN_RESPONSE_BODY = {
-  data: {
-    attributes: {
-      jwt: JWT,
-      expires_at: new Date()
-    }
-  }
-}
-
-const USER_RESPONSE_BODY = {
-  data: {
-    type: 'users',
-    id: '5490143e69e49d0c8f9fc6bc',
-    attributes: {
-      'first_name': 'Roger',
-      'last_name': 'Rabbit'
-    }
-  }
-}
 
 function setupTokenSuccess () {
   const url = URL.parse(SERVICE_TOKEN_URL)
@@ -84,12 +67,7 @@ function teardown () {
 module.exports = {
   BODY,
   CLIENT_URL,
-  DOORKEEPER_BASE_URL,
   JWT,
-  SERVICE_TOKEN_URL,
-  DOORKEEPER_SERVICE_TOKEN_URL,
-  USER_RESPONSE_BODY,
-  SERVICE_TOKEN_RESPONSE_BODY,
   setupTokenSuccess,
   setupTokenError,
   teardown

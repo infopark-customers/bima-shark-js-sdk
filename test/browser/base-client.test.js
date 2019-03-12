@@ -1,42 +1,24 @@
-/* eslint-env mocha */
+/* eslint-env jest */
 'use strict'
 
-const { expect } = require('chai')
 const nock = require('nock')
 
 const {
   BODY,
-  SERVICE_TOKEN_RESPONSE_BODY,
   CLIENT_URL,
-  DOORKEEPER_BASE_URL,
   JWT,
+  setupTokenSuccess,
+  setupTokenError,
   teardown
-} = require('../test-helper')
+} = require('./test-helper')
 
-const Client = require('../../src/clients/base-node-client')
+const Client = require('../../src/clients/base-client')
 
 const client = new Client({
-  name: 'TestServerClient',
+  name: 'BrowserClient',
   url: CLIENT_URL,
-  contentType: 'application/vnd.api+json',
-  accessKey: 'doorkeeper_client_access_key',
-  secretKey: '0123456789',
-  doorkeeperBaseUrl: DOORKEEPER_BASE_URL
+  contentType: 'application/vnd.api+json'
 })
-
-function mockServiceTokenFetchSuccess (options) {
-  const {
-    host,
-    path,
-    method,
-    responseBody
-  } = options
-
-  nock(host)
-    .matchHeader('Authorization', /^APIAuth-HMAC-SHA1 doorkeeper_client_access_key:/)
-    .intercept(path, method)
-    .reply(200, responseBody)
-}
 
 function mockFetch (options) {
   const {
@@ -56,14 +38,9 @@ function mockFetch (options) {
     .reply(403, { message: 'Access forbidden' })
 }
 
-describe('ServerClient with successful service token', () => {
+describe('Browser version: BaseClient with successful service token', () => {
   beforeEach(() => {
-    mockServiceTokenFetchSuccess({
-      method: 'POST',
-      host: DOORKEEPER_BASE_URL,
-      path: '/api/tokens/service_token',
-      responseBody: SERVICE_TOKEN_RESPONSE_BODY
-    })
+    setupTokenSuccess()
   })
   afterEach(() => {
     teardown()
@@ -71,13 +48,7 @@ describe('ServerClient with successful service token', () => {
 
   describe('#baseUrl', () => {
     it('should be a valid url', () => {
-      expect(client.baseUrl).to.eql(CLIENT_URL)
-    })
-  })
-
-  describe('#config', () => {
-    it('should have a contentType', () => {
-      expect(client.config.contentType).to.eql('application/vnd.api+json')
+      expect(client.baseUrl).toEqual(CLIENT_URL)
     })
   })
 
@@ -94,7 +65,7 @@ describe('ServerClient with successful service token', () => {
       it('should return json', (done) => {
         const promise = client.search({ include: 'contacts' })
         promise.then(json => {
-          expect(json).to.eql([BODY, BODY])
+          expect(json).toEqual([BODY, BODY])
           done()
         })
       })
@@ -114,7 +85,7 @@ describe('ServerClient with successful service token', () => {
       it('should return json', (done) => {
         const promise = client.find(1)
         promise.then(body => {
-          expect(body).to.eql(BODY)
+          expect(body).toEqual(BODY)
           done()
         })
       })
@@ -135,9 +106,9 @@ describe('ServerClient with successful service token', () => {
         promise.then(body => {
           done(new Error('client#find() was resolved, but it should fail!'))
         }, error => {
-          expect(Array.isArray(error.errors)).to.eql(true)
-          expect(error.errors[0].status).to.eql(403)
-          expect(error.errors[0].detail).to.eql('Access forbidden')
+          expect(Array.isArray(error.errors)).toEqual(true)
+          expect(error.errors[0].status).toEqual(403)
+          expect(error.errors[0].detail).toEqual('Access forbidden')
           done()
         })
       })
@@ -158,9 +129,9 @@ describe('ServerClient with successful service token', () => {
         promise.then(body => {
           done(new Error('client#find() was resolved, but it should fail!'))
         }, error => {
-          expect(Array.isArray(error.errors)).to.eql(true)
-          expect(error.errors[0].status).to.eql(404)
-          expect(error.errors[0].detail).to.eql('Object not found')
+          expect(Array.isArray(error.errors)).toEqual(true)
+          expect(error.errors[0].status).toEqual(404)
+          expect(error.errors[0].detail).toEqual('Object not found')
           done()
         })
       })
@@ -180,7 +151,7 @@ describe('ServerClient with successful service token', () => {
       it('should return json', (done) => {
         const promise = client.create(BODY)
         promise.then(body => {
-          expect(body).to.eql(BODY)
+          expect(body).toEqual(BODY)
           done()
         })
       })
@@ -201,7 +172,28 @@ describe('ServerClient with successful service token', () => {
       it('should return json', (done) => {
         const promise = client.update(1, BODY)
         promise.then(body => {
-          expect(body).to.eql(BODY)
+          expect(body).toEqual(BODY)
+          done()
+        })
+      })
+    })
+  })
+
+  describe('#patch', () => {
+    describe('on success', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'PATCH',
+          host: CLIENT_URL,
+          path: '/1?include=contacts',
+          responseBody: BODY
+        })
+      })
+
+      it('should return json', (done) => {
+        const promise = client.patch(1, BODY, { include: 'contacts' })
+        promise.then(body => {
+          expect(body).toEqual(BODY)
           done()
         })
       })
@@ -222,7 +214,7 @@ describe('ServerClient with successful service token', () => {
       it('should return json', (done) => {
         const promise = client.destroy(1)
         promise.then(body => {
-          expect(body).to.eql({ message: 'Object deleted' })
+          expect(body).toEqual({ message: 'Object deleted' })
           done()
         })
       })
@@ -242,10 +234,77 @@ describe('ServerClient with successful service token', () => {
       it('should return empty json', (done) => {
         const promise = client.destroy(1)
         promise.then(body => {
-          expect(body).to.eql({})
+          expect(body).toEqual({})
           done()
         })
       })
+    })
+
+    describe('on success 204 with body', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'DELETE',
+          host: CLIENT_URL,
+          path: '/1',
+          responseBody: { message: 'Object deleted' },
+          status: 204
+        })
+      })
+
+      // in browser fetch throws TypeError
+      // in node.js it works
+      it('should not reject with a TypeError', (done) => {
+        const promise = client.destroy(1)
+        promise.then(body => {
+          expect(body).toEqual({ message: 'Object deleted' })
+          done()
+        }, error => {
+          expect(Array.isArray(error.errors)).toEqual(true)
+          expect(error.errors[0].status).toEqual(503)
+          done(new Error('client#destroy() failed, but it should resolve!'))
+        })
+      })
+    })
+  })
+})
+
+describe('Browser version: BaseClient with failed service tokens', () => {
+  beforeEach(() => {
+    setupTokenError()
+  })
+  afterEach(() => {
+    teardown()
+  })
+
+  describe('#find', () => {
+    describe('on success', () => {
+      beforeEach(() => {
+        mockFetch({
+          host: CLIENT_URL,
+          path: '/1',
+          responseBody: BODY
+        })
+      })
+
+      it('should reject with JSONAPI error object', (done) => {
+        const promise = client.find(1)
+        promise.then(body => {
+          done.fail('client#find() was resolved, but it should fail!')
+        }, error => {
+          expect(Array.isArray(error.errors)).toEqual(true)
+          expect(error.errors[0].status).toEqual(500)
+          expect(error.errors[0].detail).toEqual('internal server error')
+          done()
+        })
+      })
+    })
+  })
+})
+
+describe('Browser version: BaseClient without authentication', () => {
+  describe('#find', () => {
+    describe('on success', () => {
+      test.todo('cannot be tested with node-fetch')
     })
   })
 })
