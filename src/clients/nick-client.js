@@ -1,5 +1,6 @@
 'use strict'
 
+const { buildUrl } = require('../utils/url-helper')
 const Client = require('./base-browser-client')
 
 class NickClient {
@@ -12,27 +13,27 @@ class NickClient {
   }
 
   index (type, parameters = {}) {
-    let url = this.client.buildUrl(type, parameters)
+    let url = buildUrl(this.client.baseUrl, type, parameters)
     return this.client.sendRequest(url, { method: 'GET' })
   }
 
   find (type, id, parameters = {}) {
-    let url = this.client.buildUrl(`${type}/${id}`, parameters)
+    let url = buildUrl(this.client.baseUrl, `${type}/${id}`, parameters)
     return this.client.sendRequest(url, { method: 'GET' })
   }
 
   create (type, data, parameters = {}) {
-    let url = this.client.buildUrl(type, parameters)
+    let url = buildUrl(this.client.baseUrl, type, parameters)
     return this.client.sendRequest(url, { body: data, method: 'POST' })
   }
 
   update (type, id, data, parameters = {}) {
-    let url = this.client.buildUrl(`${type}/${id}`, parameters)
+    let url = buildUrl(this.client.baseUrl, `${type}/${id}`, parameters)
     return this.client.sendRequest(url, { body: data, method: 'PUT' })
   }
 
   destroy (type, id, parameters = {}) {
-    let url = this.client.buildUrl(`${type}/${id}`, parameters)
+    let url = buildUrl(this.client.baseUrl, `${type}/${id}`, parameters)
     return this.sendRequest(url, { method: 'DELETE' })
   }
 }
