@@ -1,7 +1,6 @@
 /* eslint-env jest */
 'use strict'
 
-const nock = require('nock')
 const nodeFetch = require('node-fetch')
 
 const SharkProxy = require('../../src/proxy')
@@ -44,16 +43,11 @@ const USER_RESPONSE_BODY = {
   }
 }
 
-function teardown () {
-  nock.cleanAll()
-}
-
 module.exports = {
   BODY,
   CLIENT_URL,
   DOORKEEPER_BASE_URL,
   JWT,
   USER_RESPONSE_BODY,
-  SERVICE_TOKEN_RESPONSE_BODY,
-  teardown
+  SERVICE_TOKEN_RESPONSE_BODY
 }
