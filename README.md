@@ -50,7 +50,7 @@ client.find(123)
   )
 ```
 
-#### In node.js
+#### In Node.js
 
 ```js
 const { MailingClient } = require('bima-shark-sdk')

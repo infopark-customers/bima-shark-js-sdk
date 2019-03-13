@@ -1,7 +1,20 @@
 # Changelog
 
-### 0.15.0
+### 1.0.0
+- [new] added `NickClient`
+- [new] all clients can now be used in Node.js
+- [new] BaseClient now supports `get`, `post`, `patch`, `put` and `delete` for
+    easier writing of custom methods like `bulkCreate`
+- [new] the Node.js `ServiceToken` now caches
+- [break] removed `BaseClient#uploadFile`
+- [break] `MailingClient` constructor does not `{ accessToken: ' ', secretKey: ' ', ...
+    }` anymore. Use option `serviceToken` like all other clients.
+- [break] `ServiceToken#createServiceToken` has no params anymore. Create the
+    the client with option `userId`, if you want to create a ticket for a
+    specific user.
+- use Travis CI
 
+### 0.15.0
 - [new] added `MailingClient`
 
 ### 0.14.0
