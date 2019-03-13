@@ -1,40 +1,34 @@
 'use strict'
 
-const { buildUrl } = require('../utils/url-helper')
-const Client = require('./base-browser-client')
+const Client = require('./base-client')
 
 class NickClient {
-  constructor (url) {
+  constructor (url, options = {}) {
     this.client = new Client({
       name: 'NickClient',
       url: `${url}`,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 
   index (type, parameters = {}) {
-    let url = buildUrl(this.client.baseUrl, type, parameters)
-    return this.client.sendRequest(url, { method: 'GET' })
+    return this.client.get(type, parameters)
   }
 
   find (type, id, parameters = {}) {
-    let url = buildUrl(this.client.baseUrl, `${type}/${id}`, parameters)
-    return this.client.sendRequest(url, { method: 'GET' })
+    return this.client.get(`${type}/${id}`, parameters)
   }
 
   create (type, data, parameters = {}) {
-    let url = buildUrl(this.client.baseUrl, type, parameters)
-    return this.client.sendRequest(url, { body: data, method: 'POST' })
+    return this.client.post(type, data, parameters)
   }
 
   update (type, id, data, parameters = {}) {
-    let url = buildUrl(this.client.baseUrl, `${type}/${id}`, parameters)
-    return this.client.sendRequest(url, { body: data, method: 'PUT' })
+    return this.client.put(`${type}/${id}`, data, parameters)
   }
 
   destroy (type, id, parameters = {}) {
-    let url = buildUrl(this.client.baseUrl, `${type}/${id}`, parameters)
-    return this.sendRequest(url, { method: 'DELETE' })
+    return this.client.delete(`${type}/${id}`, parameters)
   }
 }
 

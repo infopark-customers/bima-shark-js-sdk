@@ -4,6 +4,23 @@ const Cache = require('./cache')
 const Config = require('./config')
 const Logger = require('./logger')
 const SharkError = require('./error')
+const TypeCheck = require('./utils/typecheck')
+const fetch = require('./utils/simple-fetch')
+
+const Client = require('./clients/base-client')
+const ActivityClient = require('./clients/activity-client')
+const AppClient = require('./clients/app-client')
+const AssetClient = require('./clients/asset-client')
+const ConsentClient = require('./clients/consent-client')
+const ConsentChangesClient = require('./clients/consent-changes-client')
+const ContactClient = require('./clients/contact-client')
+const DescriptionClient = require('./clients/description-client')
+const GroupClient = require('./clients/group-client')
+const MailingClient = require('./clients/mailing-client')
+const NickClient = require('./clients/nick-client')
+const NotificationsClient = require('./clients/notifications-client')
+const SubscriptionClient = require('./clients/subscription-client')
+const UserClient = require('./clients/user-client')
 
 /*
  * @class Shark
@@ -34,7 +51,29 @@ const Shark = {
   /**
    * Returns the Shark logging method
    */
-  log: Logger.log
+  log: Logger.log,
+
+  isArray: TypeCheck.isArray,
+  isFunction: TypeCheck.isFunction,
+  isObject: TypeCheck.isObject,
+  isString: TypeCheck.isString,
+
+  fetch: fetch,
+
+  Client,
+  ActivityClient,
+  AppClient,
+  AssetClient,
+  ConsentClient,
+  ConsentChangesClient,
+  ContactClient,
+  DescriptionClient,
+  GroupClient,
+  MailingClient,
+  NickClient,
+  NotificationsClient,
+  SubscriptionClient,
+  UserClient
 }
 
 module.exports = Shark

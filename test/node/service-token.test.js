@@ -1,7 +1,6 @@
-/* eslint-env mocha */
+/* eslint-env jest */
 'use strict'
 
-const { expect } = require('chai')
 const nock = require('nock')
 
 const {
@@ -9,9 +8,9 @@ const {
   SERVICE_TOKEN_RESPONSE_BODY,
   USER_RESPONSE_BODY,
   JWT
-} = require('../test-helper')
+} = require('./test-helper')
 
-const ServiceToken = require('../../src/service-token/node')
+const ServiceToken = require('../../src/node/service-token')
 
 const userId = 'doorkeeper-user-id'
 const serviceToken = 'doorkeeper-service-token'
@@ -43,7 +42,7 @@ function mockFetch (options) {
 describe('ServiceToken', () => {
   describe('#baseUrl', () => {
     it('should be a valid url', () => {
-      expect(client.baseUrl).to.eql(DOORKEEPER_BASE_URL)
+      expect(client.baseUrl).toEqual(DOORKEEPER_BASE_URL)
     })
   })
 
@@ -61,7 +60,7 @@ describe('ServiceToken', () => {
       it('should return json', (done) => {
         const promise = client.createServiceToken({ userId: userId })
         promise.then(body => {
-          expect(body.jwt).to.eql(JWT)
+          expect(body.jwt).toEqual(JWT)
           done()
         })
       })
@@ -81,9 +80,9 @@ describe('ServiceToken', () => {
       it('should return json', (done) => {
         const promise = client.verifyServiceToken({ serviceToken: serviceToken, include: 'permission' })
         promise.then(body => {
-          expect(body.id).to.eql(USER_RESPONSE_BODY.data.id)
-          expect(body.firstName).to.eql(USER_RESPONSE_BODY.data.attributes.first_name)
-          expect(body.lastName).to.eql(USER_RESPONSE_BODY.data.attributes.last_name)
+          expect(body.id).toEqual(USER_RESPONSE_BODY.data.id)
+          expect(body.firstName).toEqual(USER_RESPONSE_BODY.data.attributes.first_name)
+          expect(body.lastName).toEqual(USER_RESPONSE_BODY.data.attributes.last_name)
           done()
         })
       })

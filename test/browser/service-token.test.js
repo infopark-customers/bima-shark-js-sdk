@@ -1,18 +1,19 @@
-/* eslint-env mocha */
+/* eslint-env jest */
 'use strict'
-
-const { expect } = require('chai')
 
 const {
   JWT,
   setupTokenSuccess,
   setupTokenError,
   teardown
-} = require('../test-helper')
+} = require('./test-helper')
 
-const ServiceToken = require('../../src/service-token/browser')
+const Config = require('../../src/config')
+const ServiceToken = require('../../src/browser/service-token')
 
-const client = new ServiceToken()
+const client = new ServiceToken({
+  baseUrl: Config.serviceTokenUrl
+})
 
 describe('ServiceToken#createServiceToken', () => {
   afterEach(() => {
@@ -26,13 +27,13 @@ describe('ServiceToken#createServiceToken', () => {
 
     it('should create a Promise', () => {
       const promise = client.createServiceToken()
-      expect(promise instanceof Promise).to.eql(true)
+      expect(promise instanceof Promise).toEqual(true)
     })
 
     it('should create a Promise that resolves to a token with jwt', (done) => {
       const promise = client.createServiceToken()
       promise.then(token => {
-        expect(token.jwt).to.eql(JWT)
+        expect(token.jwt).toEqual(JWT)
         done()
       })
     })
@@ -48,9 +49,9 @@ describe('ServiceToken#createServiceToken', () => {
       promise.then(token => {
         done(new Error('ServiceToken.create() was resolved, but it should fail!'))
       }, error => {
-        expect(Array.isArray(error.errors)).to.eql(true)
-        expect(error.errors[0].status).to.eql(500)
-        expect(error.errors[0].detail).to.eql('internal server error')
+        expect(Array.isArray(error.errors)).toEqual(true)
+        expect(error.errors[0].status).toEqual(500)
+        expect(error.errors[0].detail).toEqual('internal server error')
         done()
       })
     })

@@ -1,13 +1,13 @@
 'use strict'
 
-const Client = require('./base-browser-client')
+const Client = require('./base-client')
 
 class NotificationsClient {
-  constructor (url) {
+  constructor (url, options = {}) {
     this.client = new Client({
       name: 'NotificationsClient',
       url: `${url}/notifications`,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 
@@ -24,15 +24,11 @@ class NotificationsClient {
   }
 
   markAsRead (id) {
-    return this.client.sendRequest(`${this.client.baseUrl}/${id}`, {
-      method: 'PATCH'
-    })
+    return this.client.patch(id, {})
   }
 
   markAllAsRead () {
-    return this.client.sendRequest(`${this.client.baseUrl}/read_all`, {
-      method: 'PATCH'
-    })
+    return this.client.patch('read_all', {})
   }
 
   destroy (id) {

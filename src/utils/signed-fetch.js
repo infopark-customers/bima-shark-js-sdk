@@ -3,7 +3,7 @@
 const crypto = require('crypto')
 const URL = require('url')
 
-const { Headers } = require('./shark-fetch')
+const { Headers } = require('../proxy')
 const { isString } = require('./typecheck')
 const simpleFetch = require('./simple-fetch')
 

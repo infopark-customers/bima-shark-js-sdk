@@ -1,13 +1,13 @@
 'use strict'
 
-const Client = require('./base-browser-client')
+const Client = require('./base-client')
 
 class GroupClient {
-  constructor (url) {
+  constructor (url, options = {}) {
     this.client = new Client({
       name: 'GroupClient',
       url: `${url}/api/groups`,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 
