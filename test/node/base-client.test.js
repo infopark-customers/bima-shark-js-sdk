@@ -8,8 +8,7 @@ const {
   SERVICE_TOKEN_RESPONSE_BODY,
   CLIENT_URL,
   DOORKEEPER_BASE_URL,
-  JWT,
-  teardown
+  JWT
 } = require('./test-helper')
 
 const SharkProxy = require('../../src/proxy')
@@ -70,7 +69,7 @@ describe('Node version: BaseClient with successful service token', () => {
     })
   })
   afterEach(() => {
-    teardown()
+    nock.cleanAll()
   })
 
   describe('#baseUrl', () => {

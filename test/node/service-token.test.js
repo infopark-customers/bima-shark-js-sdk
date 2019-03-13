@@ -10,10 +10,8 @@ const {
   JWT
 } = require('./test-helper')
 
+const Cache = require('../../src/cache')
 const ServiceToken = require('../../src/node/service-token')
-
-const userId = 'doorkeeper-user-id'
-const serviceToken = 'doorkeeper-service-token'
 
 const client = new ServiceToken({
   accessKey: 'doorkeeper_client_access_key',
@@ -40,6 +38,11 @@ function mockFetch (options) {
 }
 
 describe('ServiceToken', () => {
+  afterEach(() => {
+    Cache.empty()
+    nock.cleanAll()
+  })
+
   describe('#baseUrl', () => {
     it('should be a valid url', () => {
       expect(client.baseUrl).toEqual(DOORKEEPER_BASE_URL)
@@ -57,17 +60,57 @@ describe('ServiceToken', () => {
         })
       })
 
-      it('should return json', (done) => {
-        const promise = client.createServiceToken({ userId: userId })
-        promise.then(body => {
-          expect(body.jwt).toEqual(JWT)
-          done()
+      describe('with userId', () => {
+        const userId = 'doorkeeper-user-id'
+        const client = new ServiceToken({
+          accessKey: 'doorkeeper_client_access_key',
+          secretKey: '0123456789',
+          baseUrl: DOORKEEPER_BASE_URL,
+          userId: userId
+        })
+
+        it('should return json', (done) => {
+          const promise = client.createServiceToken()
+          promise.then(body => {
+            expect(body.jwt).toEqual(JWT)
+            done()
+          })
+        })
+
+        it('should cache the token', (done) => {
+          const promise = client.createServiceToken()
+          promise.then(body => {
+            expect(Cache.data).toHaveProperty(`api-service-token/${userId}`)
+            expect(Cache.data).toHaveProperty(`api-service-token/${userId}.jwt`, JWT)
+            done()
+          })
+        })
+      })
+
+      describe('without userId', () => {
+        it('should return json', (done) => {
+          const promise = client.createServiceToken()
+          promise.then(body => {
+            expect(body.jwt).toEqual(JWT)
+            done()
+          })
+        })
+
+        it('should cache the token', (done) => {
+          const promise = client.createServiceToken()
+          promise.then(body => {
+            expect(Cache.data).toHaveProperty(`api-service-token/undefined`)
+            expect(Cache.data).toHaveProperty(`api-service-token/undefined.jwt`, JWT)
+            done()
+          })
         })
       })
     })
   })
 
   describe('#verifyServiceToken', () => {
+    const serviceToken = 'doorkeeper-service-token'
+
     describe('on success', () => {
       beforeEach(() => {
         mockFetch({

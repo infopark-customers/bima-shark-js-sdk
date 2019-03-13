@@ -22,7 +22,7 @@ class ServiceTokenClient {
     this.baseUrl = options.baseUrl
 
     if (!isString(this.baseUrl)) {
-      throw new Error('Parameter `baseUrl` is missing or not a string')
+      throw new Error('Key `baseUrl` in `options` parameter is missing or not a string')
     }
   }
 
@@ -37,16 +37,25 @@ class ServiceTokenClient {
       let now = new Date()
       let date = new Date(token.expiresAt)
       if (date < now) {
-        return this.__request()
+        return this.request()
       } else {
         return Promise.resolve(token)
       }
     } else {
-      return this.__request()
+      return this.request()
     }
   }
 
-  __request () {
+  /**
+   * Verifies if a service token is still valid.
+   *
+    * @throws {Error}
+   */
+  verifyServiceToken (params, options = {}) {
+    throw new Error('ServiceTokenClient does not implement #verifyServiceToken for browser enviroments')
+  }
+
+  request () {
     const cacheKey = this.cacheKey()
     const csrfToken = this.csrfToken()
 
