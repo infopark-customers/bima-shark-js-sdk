@@ -1,6 +1,6 @@
 'use strict'
 
-const { fetch, Headers } = require('./shark-fetch')
+const { fetch, Headers } = require('../proxy')
 const Logger = require('../logger')
 const { jsonApiError } = require('./response-helper')
 

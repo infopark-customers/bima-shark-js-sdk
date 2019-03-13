@@ -13,16 +13,19 @@ const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
  * @classdesc Helper class to request and manage a valid service token in a browser environment.
  *
  * @param {object} [options] the options
- *   - url {string}
+ *   - baseUrl {string}
+ *
+ * @throws {Error} if baseUrl is invalid
  */
 class ServiceTokenClient {
   constructor (options = {}) {
-    this.url = options.url || Config.serviceTokenUrl
+    this.baseUrl = options.baseUrl
 
-    if (!isString(this.url)) {
-      throw new Error('Parameter `url` is missing or not a string')
+    if (!isString(this.baseUrl)) {
+      throw new Error('Key `baseUrl` in `options` parameter is missing or not a string')
     }
   }
+
   /**
    * @return {Promise} the fetch promise
    */
@@ -34,27 +37,36 @@ class ServiceTokenClient {
       let now = new Date()
       let date = new Date(token.expiresAt)
       if (date < now) {
-        return this.__request()
+        return this.request()
       } else {
-        return new Promise((resolve, reject) => { resolve(token) })
+        return Promise.resolve(token)
       }
     } else {
-      return this.__request()
+      return this.request()
     }
   }
 
-  __request () {
+  /**
+   * Verifies if a service token is still valid.
+   *
+    * @throws {Error}
+   */
+  verifyServiceToken (params, options = {}) {
+    throw new Error('ServiceTokenClient does not implement #verifyServiceToken for browser enviroments')
+  }
+
+  request () {
     const cacheKey = this.cacheKey()
     const csrfToken = this.csrfToken()
 
     Cache.remove(cacheKey)
 
-    return simpleFetch(this.url,
+    return simpleFetch(this.baseUrl,
       {
         credentials: 'same-origin',
         headers: {
-          'Content-Type': 'application/vnd.api+json',
-          'X-CSRF-Token': csrfToken
+          'content-type': 'application/vnd.api+json',
+          'x-csrf-token': csrfToken
         },
         method: 'POST'
       })

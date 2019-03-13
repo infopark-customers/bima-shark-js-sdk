@@ -1,7 +1,7 @@
 'use strict'
 
-const Client = require('./base-browser-client')
-const { uploadFile } = require('../utils/shark-upload-file')
+const Client = require('./base-client')
+const { uploadFile } = require('../proxy')
 const mime = require('mime/lite')
 
 /**
@@ -9,11 +9,11 @@ const mime = require('mime/lite')
  * @classdesc Asset Service client.
  */
 class AssetClient {
-  constructor (url, directory) {
+  constructor (url, directory, options = {}) {
     this.client = new Client({
       name: 'AssetClient',
       url: `${url}/assets`,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
     this.directory = directory
   }

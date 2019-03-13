@@ -1,13 +1,13 @@
 'use strict'
 
-const Client = require('./base-browser-client')
+const Client = require('./base-client')
 
 class SubscriptionClient {
-  constructor (url) {
+  constructor (url, options = {}) {
     this.client = new Client({
       name: 'SubscriptionClient',
       url: `${url}/subscriptions`,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 
@@ -24,18 +24,11 @@ class SubscriptionClient {
   }
 
   bulkCreate (data) {
-    return this.__bulkOperation(`${this.client.baseUrl}/bulk_creation`, data)
+    return this.client.post('bulk_creation', data)
   }
 
   bulkDelete (data) {
-    return this.__bulkOperation(`${this.client.baseUrl}/bulk_deletion`, data)
-  }
-
-  __bulkOperation (url, data) {
-    return this.client.sendRequest(url, {
-      body: data,
-      method: 'POST'
-    })
+    return this.client.post('bulk_deletion', data)
   }
 }
 

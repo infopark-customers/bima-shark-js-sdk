@@ -1,7 +1,6 @@
-/* eslint-env mocha */
+/* eslint-env jest */
 'use strict'
 
-const { expect } = require('chai')
 const nock = require('nock')
 
 const {
@@ -11,12 +10,12 @@ const {
   setupTokenSuccess,
   setupTokenError,
   teardown
-} = require('../test-helper')
+} = require('./test-helper')
 
-const Client = require('../../src/clients/base-browser-client')
+const Client = require('../../src/clients/base-client')
 
 const client = new Client({
-  name: 'TestClient',
+  name: 'BrowserClient',
   url: CLIENT_URL,
   contentType: 'application/vnd.api+json'
 })
@@ -39,7 +38,7 @@ function mockFetch (options) {
     .reply(403, { message: 'Access forbidden' })
 }
 
-describe('Client with successful service token', () => {
+describe('Browser version: BaseClient with successful service token', () => {
   beforeEach(() => {
     setupTokenSuccess()
   })
@@ -49,13 +48,7 @@ describe('Client with successful service token', () => {
 
   describe('#baseUrl', () => {
     it('should be a valid url', () => {
-      expect(client.baseUrl).to.eql(CLIENT_URL)
-    })
-  })
-
-  describe('#config', () => {
-    it('should have a contentType', () => {
-      expect(client.config.contentType).to.eql('application/vnd.api+json')
+      expect(client.baseUrl).toEqual(CLIENT_URL)
     })
   })
 
@@ -72,7 +65,7 @@ describe('Client with successful service token', () => {
       it('should return json', (done) => {
         const promise = client.search({ include: 'contacts' })
         promise.then(json => {
-          expect(json).to.eql([BODY, BODY])
+          expect(json).toEqual([BODY, BODY])
           done()
         })
       })
@@ -92,7 +85,7 @@ describe('Client with successful service token', () => {
       it('should return json', (done) => {
         const promise = client.find(1)
         promise.then(body => {
-          expect(body).to.eql(BODY)
+          expect(body).toEqual(BODY)
           done()
         })
       })
@@ -113,9 +106,9 @@ describe('Client with successful service token', () => {
         promise.then(body => {
           done(new Error('client#find() was resolved, but it should fail!'))
         }, error => {
-          expect(Array.isArray(error.errors)).to.eql(true)
-          expect(error.errors[0].status).to.eql(403)
-          expect(error.errors[0].detail).to.eql('Access forbidden')
+          expect(Array.isArray(error.errors)).toEqual(true)
+          expect(error.errors[0].status).toEqual(403)
+          expect(error.errors[0].detail).toEqual('Access forbidden')
           done()
         })
       })
@@ -136,9 +129,9 @@ describe('Client with successful service token', () => {
         promise.then(body => {
           done(new Error('client#find() was resolved, but it should fail!'))
         }, error => {
-          expect(Array.isArray(error.errors)).to.eql(true)
-          expect(error.errors[0].status).to.eql(404)
-          expect(error.errors[0].detail).to.eql('Object not found')
+          expect(Array.isArray(error.errors)).toEqual(true)
+          expect(error.errors[0].status).toEqual(404)
+          expect(error.errors[0].detail).toEqual('Object not found')
           done()
         })
       })
@@ -158,7 +151,7 @@ describe('Client with successful service token', () => {
       it('should return json', (done) => {
         const promise = client.create(BODY)
         promise.then(body => {
-          expect(body).to.eql(BODY)
+          expect(body).toEqual(BODY)
           done()
         })
       })
@@ -179,28 +172,7 @@ describe('Client with successful service token', () => {
       it('should return json', (done) => {
         const promise = client.update(1, BODY)
         promise.then(body => {
-          expect(body).to.eql(BODY)
-          done()
-        })
-      })
-    })
-  })
-
-  describe('#patch', () => {
-    describe('on success', () => {
-      beforeEach(() => {
-        mockFetch({
-          method: 'PATCH',
-          host: CLIENT_URL,
-          path: '/1?include=contacts',
-          responseBody: BODY
-        })
-      })
-
-      it('should return json', (done) => {
-        const promise = client.patch(1, BODY, { include: 'contacts' })
-        promise.then(body => {
-          expect(body).to.eql(BODY)
+          expect(body).toEqual(BODY)
           done()
         })
       })
@@ -221,7 +193,7 @@ describe('Client with successful service token', () => {
       it('should return json', (done) => {
         const promise = client.destroy(1)
         promise.then(body => {
-          expect(body).to.eql({ message: 'Object deleted' })
+          expect(body).toEqual({ message: 'Object deleted' })
           done()
         })
       })
@@ -241,7 +213,7 @@ describe('Client with successful service token', () => {
       it('should return empty json', (done) => {
         const promise = client.destroy(1)
         promise.then(body => {
-          expect(body).to.eql({})
+          expect(body).toEqual({})
           done()
         })
       })
@@ -263,35 +235,135 @@ describe('Client with successful service token', () => {
       it('should not reject with a TypeError', (done) => {
         const promise = client.destroy(1)
         promise.then(body => {
-          expect(body).to.eql({ message: 'Object deleted' })
+          expect(body).toEqual({ message: 'Object deleted' })
           done()
         }, error => {
-          expect(Array.isArray(error.errors)).to.eql(true)
-          expect(error.errors[0].status).to.eql(503)
+          expect(Array.isArray(error.errors)).toEqual(true)
+          expect(error.errors[0].status).toEqual(503)
           done(new Error('client#destroy() failed, but it should resolve!'))
         })
       })
     })
   })
 
-  describe('#uploadFile', () => {
-    describe('on success 204 without body', () => {
+  describe('#get', () => {
+    describe('on success', () => {
+      beforeEach(() => {
+        mockFetch({
+          host: CLIENT_URL,
+          path: '/foobar?query=yolo',
+          responseBody: [BODY, BODY]
+        })
+      })
+
+      it('should return json', (done) => {
+        const promise = client.get('foobar', { query: 'yolo' })
+        promise.then(json => {
+          expect(json).toEqual([BODY, BODY])
+          done()
+        })
+      })
+    })
+  })
+
+  describe('#post', () => {
+    describe('on success', () => {
       beforeEach(() => {
         mockFetch({
           method: 'POST',
           host: CLIENT_URL,
-          path: '/1/file',
+          path: '/foobar',
+          responseBody: BODY
+        })
+      })
+
+      it('should return json', (done) => {
+        const promise = client.post('/foobar', BODY)
+        promise.then(body => {
+          expect(body).toEqual(BODY)
+          done()
+        })
+      })
+    })
+  })
+
+  describe('#patch', () => {
+    describe('on success', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'PATCH',
+          host: CLIENT_URL,
+          path: '/foo?include=contacts',
+          responseBody: BODY
+        })
+      })
+
+      it('should return json', (done) => {
+        const promise = client.patch('foo', BODY, { include: 'contacts' })
+        promise.then(body => {
+          expect(body).toEqual(BODY)
+          done()
+        })
+      })
+    })
+  })
+
+  describe('#put', () => {
+    describe('on success', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'PUT',
+          host: CLIENT_URL,
+          path: '/foobar',
+          responseBody: BODY
+        })
+      })
+
+      it('should return json', (done) => {
+        const promise = client.put('foobar', BODY)
+        promise.then(body => {
+          expect(body).toEqual(BODY)
+          done()
+        })
+      })
+    })
+  })
+
+  describe('#delete', () => {
+    describe('on success 200 with body', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'DELETE',
+          host: CLIENT_URL,
+          path: '/foobar',
+          responseBody: { message: 'Object deleted' }
+        })
+      })
+
+      it('should return json', (done) => {
+        const promise = client.delete('foobar')
+        promise.then(body => {
+          expect(body).toEqual({ message: 'Object deleted' })
+          done()
+        })
+      })
+    })
+
+    describe('on success 204 without body', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'DELETE',
+          host: CLIENT_URL,
+          path: '/foobar',
           responseBody: null,
           status: 204
         })
       })
 
-      it('should return empty body', (done) => {
-        const formData = new window.FormData()
-        formData.append('file', new window.File([''], 'filename', { type: 'text/html' }))
-        const promise = client.uploadFile('1/file', formData)
+      it('should return empty json', (done) => {
+        const promise = client.delete('foobar')
         promise.then(body => {
-          expect(body).to.eql({})
+          expect(body).toEqual({})
           done()
         })
       })
@@ -299,7 +371,7 @@ describe('Client with successful service token', () => {
   })
 })
 
-describe('Client with failed service tokens', () => {
+describe('Browser version: BaseClient with failed service tokens', () => {
   beforeEach(() => {
     setupTokenError()
   })
@@ -322,9 +394,9 @@ describe('Client with failed service tokens', () => {
         promise.then(body => {
           done.fail('client#find() was resolved, but it should fail!')
         }, error => {
-          expect(Array.isArray(error.errors)).to.eql(true)
-          expect(error.errors[0].status).to.eql(500)
-          expect(error.errors[0].detail).to.eql('internal server error')
+          expect(Array.isArray(error.errors)).toEqual(true)
+          expect(error.errors[0].status).toEqual(500)
+          expect(error.errors[0].detail).toEqual('internal server error')
           done()
         })
       })
@@ -332,10 +404,10 @@ describe('Client with failed service tokens', () => {
   })
 })
 
-describe('Client without authentication', () => {
+describe('Browser version: BaseClient without authentication', () => {
   describe('#find', () => {
     describe('on success', () => {
-      it('cannot be tested with node-fetch')
+      test.todo('cannot be tested with node-fetch')
     })
   })
 })

@@ -2,6 +2,7 @@
 
 This is the Javascript SDK for the BImA applications.
 
+[![Build Status](https://travis-ci.com/infopark-customers/bima-shark-js-sdk.svg?branch=develop)](https://travis-ci.com/infopark-customers/bima-shark-js-sdk)
 
 ### Installation
 
@@ -20,15 +21,16 @@ Add your own `fetch` library.
 * for browsers use [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch) as polyfill for Internet Explorer
 * in AWS Lambda functions use [node-fetch](https://www.npmjs.com/package/node-fetch)
 
-> In browser enviroments:
+> In pure browser enviroments without webpack:
 > - run `npm run build`
 > - copy ` dist/bima-shark-sdk.js ` into your app.
 
+
 ### Usage
 
-#### Configuration (optional)
+#### In browser
 
-```
+```js
 import Shark from 'bima-shark-sdk'
 
 Shark.configure({
@@ -38,13 +40,45 @@ Shark.configure({
 })
 
 import { UserClient } from 'bima-shark-sdk'
+
+const client = new UserClient('https://doorkeeper-development.bundesimmo.de')
+client.find(123)
+  .then(
+    json => { console.log('Success: ', json) },
+    err => { console.log('Error: ', err) }
+  ).finally(
+    () => { console.log('Hide loader') }
+  )
 ```
+
+#### In Node.js
+
+```js
+const { MailingClient } = require('bima-shark-sdk')
+
+const client = new MailingClient('https://mailing-development.bundesimmo.de', {
+  serviceToken: {
+    baseUrl: 'https://doorkeeper-development.bundesimmo.de',
+    accessKey: 'your-access-key',
+    secretKey: 'your-secret-key',
+    userId: '1234567890'  // optional
+  }
+})
+
+client.create({ foo: 'bar' })
+  .then(
+    json => { console.log('Success: ', json) },
+    err => { console.log('Error: ', err) }
+  )
+```
+
 
 ### Testing
 
-This SDK uses [Mocha](https://mochajs.org/) as test framework. Server responses are mocked with [nock](https://www.npmjs.com/package/nock).
+This SDK uses [jest](https://jestjs.io/) as test framework. Server responses are mocked with [nock](https://www.npmjs.com/package/nock).
 
 ```
+npm ci
 npm test
 ```
 

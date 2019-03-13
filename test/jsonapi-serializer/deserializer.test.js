@@ -1,10 +1,17 @@
-/* eslint-env mocha */
+/* eslint-env jest */
 'use strict'
 
-const { expect } = require('chai')
-
 const Deserializer = require('../../src/jsonapi-serializer/deserializer')
-const BODY = require('../test-helper').USER_RESPONSE_BODY
+const BODY = {
+  data: {
+    type: 'users',
+    id: '5490143e69e49d0c8f9fc6bc',
+    attributes: {
+      'first_name': 'Roger',
+      'last_name': 'Rabbit'
+    }
+  }
+}
 
 describe('Deserializer', () => {
   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
@@ -14,8 +21,8 @@ describe('Deserializer', () => {
       const subject = deserializer.deserialize(BODY)
       const attributes = BODY.data.attributes
 
-      expect(subject.firstName).to.eql(attributes.first_name)
-      expect(subject.lastName).to.eql(attributes.last_name)
+      expect(subject.firstName).toEqual(attributes.first_name)
+      expect(subject.lastName).toEqual(attributes.last_name)
     })
   })
 })
