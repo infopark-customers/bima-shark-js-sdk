@@ -2,6 +2,7 @@
 
 This is the Javascript SDK for the BImA applications.
 
+[![Build Status](https://travis-ci.com/infopark-customers/bima-shark-js-sdk.svg?branch=develop)](https://travis-ci.com/infopark-customers/bima-shark-js-sdk)
 
 ### Installation
 
