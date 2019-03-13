@@ -7,11 +7,7 @@ class MailingClient {
     this.client = new Client({
       name: 'MailingClient',
       url: `${url}/v1/mails`,
-      serviceToken: options.serviceToken || {
-        accessKey: options.accessKey,
-        secretKey: options.secretKey,
-        baseUrl: options.doorkeeperBaseUrl
-      }
+      serviceToken: options.serviceToken
     })
   }
 
