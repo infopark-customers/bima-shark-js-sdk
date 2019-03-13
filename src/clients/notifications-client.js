@@ -7,10 +7,7 @@ class NotificationsClient {
     this.client = new Client({
       name: 'NotificationsClient',
       url: `${url}/notifications`,
-      accessKey: options.accessKey,
-      secretKey: options.secretKey,
-      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 

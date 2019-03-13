@@ -7,10 +7,7 @@ class ActivityClient {
     this.client = new Client({
       name: 'ActivityClient',
       url: `${url}/api/activities`,
-      accessKey: options.accessKey,
-      secretKey: options.secretKey,
-      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 

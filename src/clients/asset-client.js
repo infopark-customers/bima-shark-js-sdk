@@ -13,10 +13,7 @@ class AssetClient {
     this.client = new Client({
       name: 'AssetClient',
       url: `${url}/assets`,
-      accessKey: options.accessKey,
-      secretKey: options.secretKey,
-      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
     this.directory = directory
   }

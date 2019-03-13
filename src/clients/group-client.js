@@ -7,10 +7,7 @@ class GroupClient {
     this.client = new Client({
       name: 'GroupClient',
       url: `${url}/api/groups`,
-      accessKey: options.accessKey,
-      secretKey: options.secretKey,
-      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 

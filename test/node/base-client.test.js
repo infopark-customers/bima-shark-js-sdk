@@ -12,8 +12,8 @@ const {
   teardown
 } = require('./test-helper')
 
-const proxy = require('../../src/proxy')
-proxy.ServiceTokenClient = require('../../src/node/service-token')
+const SharkProxy = require('../../src/proxy')
+SharkProxy.ServiceTokenClient = require('../../src/node/service-token')
 
 const Client = require('../../src/clients/base-client')
 
@@ -21,9 +21,11 @@ const client = new Client({
   name: 'ServerClient',
   url: CLIENT_URL,
   contentType: 'application/vnd.api+json',
-  accessKey: 'doorkeeper_client_access_key',
-  secretKey: '0123456789',
-  doorkeeperBaseUrl: DOORKEEPER_BASE_URL
+  serviceToken: {
+    accessKey: 'doorkeeper_client_access_key',
+    secretKey: '0123456789',
+    baseUrl: DOORKEEPER_BASE_URL
+  }
 })
 
 function mockServiceTokenFetchSuccess (options) {

@@ -6,13 +6,13 @@ const nock = require('nock')
 const nodeFetch = require('node-fetch')
 
 const Config = require('../../src/config')
-const proxy = require('../../src/proxy')
+const SharkProxy = require('../../src/proxy')
 
-proxy.fetch = nodeFetch
-proxy.Headers = nodeFetch.Headers
-proxy.Request = nodeFetch.Request
-proxy.Response = nodeFetch.Response
-proxy.ServiceTokenClient = require('../../src/browser/service-token')
+SharkProxy.fetch = nodeFetch
+SharkProxy.Headers = nodeFetch.Headers
+SharkProxy.Request = nodeFetch.Request
+SharkProxy.Response = nodeFetch.Response
+SharkProxy.ServiceTokenClient = require('../../src/browser/service-token')
 
 /**
  * Fake window.fetch in a browser environment

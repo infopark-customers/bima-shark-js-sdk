@@ -4,11 +4,11 @@ const { buildUrl } = require('../utils/url-helper')
 const Client = require('./base-client')
 
 class NickClient {
-  constructor (url) {
+  constructor (url, options = {}) {
     this.client = new Client({
       name: 'NickClient',
       url: `${url}`,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 

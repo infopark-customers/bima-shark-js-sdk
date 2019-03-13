@@ -7,10 +7,7 @@ class DescriptionClient {
     this.client = new Client({
       name: 'DescriptionClient',
       url: `${url}/api/descriptions`,
-      accessKey: options.accessKey,
-      secretKey: options.secretKey,
-      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 

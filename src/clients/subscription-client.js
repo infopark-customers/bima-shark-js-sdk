@@ -7,10 +7,7 @@ class SubscriptionClient {
     this.client = new Client({
       name: 'SubscriptionClient',
       url: `${url}/subscriptions`,
-      accessKey: options.accessKey,
-      secretKey: options.secretKey,
-      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 

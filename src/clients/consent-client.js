@@ -7,10 +7,7 @@ class ConsentClient {
     this.client = new Client({
       name: 'ConsentClient',
       url: `${url}/consents`,
-      accessKey: options.accessKey,
-      secretKey: options.secretKey,
-      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 

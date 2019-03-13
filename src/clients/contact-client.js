@@ -7,10 +7,7 @@ class ContactClient {
     this.client = new Client({
       name: 'ContactClient',
       url: `${url}/api/contacts`,
-      accessKey: options.accessKey,
-      secretKey: options.secretKey,
-      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 

@@ -7,10 +7,7 @@ class UserClient {
     this.client = new Client({
       name: 'UserClient',
       url: `${url}/api/users`,
-      accessKey: options.accessKey,
-      secretKey: options.secretKey,
-      doorkeeperBaseUrl: options.doorkeeperBaseUrl,
-      contentType: 'application/vnd.api+json'
+      serviceToken: options.serviceToken
     })
   }
 

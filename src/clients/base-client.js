@@ -4,7 +4,7 @@ const { isString } = require('../utils/typecheck')
 const { buildUrl } = require('../utils/url-helper')
 const simpleFetch = require('../utils/simple-fetch')
 const Config = require('../config')
-const proxy = require('../proxy')
+const SharkProxy = require('../proxy')
 
 /**
  * @class Client
@@ -12,10 +12,9 @@ const proxy = require('../proxy')
  *
  * @param {object} [options] the options
  *   - url {string} required
- *   - accessKey {string}
- *   - secretKey {string}
- *   - doorkeeperBaseUrl {string}
+ *   - name {string}
  *   - contentType {string}
+ *   - serviceToken {object}
  *
  * @throws {Error} if baseUrl is invalid
  * @throws {Error} if tokenClient cannot be instantiated
@@ -35,12 +34,15 @@ class BaseClient {
       throw new Error('Parameter `url` is missing or not a string')
     }
 
-    const ServiceTokenClient = proxy.ServiceTokenClient
-    this.tokenClient = new ServiceTokenClient({
-      accessKey: options.accessKey,
-      secretKey: options.secretKey,
-      baseUrl: options.doorkeeperBaseUrl || Config.serviceTokenUrl
-    })
+    Object.assign(
+      {}
+    )
+
+    const serviceTokenOptions = Object.assign(
+      { baseUrl: Config.serviceTokenUrl },
+      options.serviceToken
+    )
+    this.tokenClient = new SharkProxy.ServiceTokenClient(serviceTokenOptions)
   }
 
   /**
