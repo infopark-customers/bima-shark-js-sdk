@@ -179,27 +179,6 @@ describe('Browser version: BaseClient with successful service token', () => {
     })
   })
 
-  describe('#patch', () => {
-    describe('on success', () => {
-      beforeEach(() => {
-        mockFetch({
-          method: 'PATCH',
-          host: CLIENT_URL,
-          path: '/1?include=contacts',
-          responseBody: BODY
-        })
-      })
-
-      it('should return json', (done) => {
-        const promise = client.patch(1, BODY, { include: 'contacts' })
-        promise.then(body => {
-          expect(body).toEqual(BODY)
-          done()
-        })
-      })
-    })
-  })
-
   describe('#destroy', () => {
     describe('on success 200 with body', () => {
       beforeEach(() => {
@@ -262,6 +241,130 @@ describe('Browser version: BaseClient with successful service token', () => {
           expect(Array.isArray(error.errors)).toEqual(true)
           expect(error.errors[0].status).toEqual(503)
           done(new Error('client#destroy() failed, but it should resolve!'))
+        })
+      })
+    })
+  })
+
+  describe('#get', () => {
+    describe('on success', () => {
+      beforeEach(() => {
+        mockFetch({
+          host: CLIENT_URL,
+          path: '/foobar?query=yolo',
+          responseBody: [BODY, BODY]
+        })
+      })
+
+      it('should return json', (done) => {
+        const promise = client.get('foobar', { query: 'yolo' })
+        promise.then(json => {
+          expect(json).toEqual([BODY, BODY])
+          done()
+        })
+      })
+    })
+  })
+
+  describe('#post', () => {
+    describe('on success', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'POST',
+          host: CLIENT_URL,
+          path: '/foobar',
+          responseBody: BODY
+        })
+      })
+
+      it('should return json', (done) => {
+        const promise = client.post('/foobar', BODY)
+        promise.then(body => {
+          expect(body).toEqual(BODY)
+          done()
+        })
+      })
+    })
+  })
+
+  describe('#patch', () => {
+    describe('on success', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'PATCH',
+          host: CLIENT_URL,
+          path: '/foo?include=contacts',
+          responseBody: BODY
+        })
+      })
+
+      it('should return json', (done) => {
+        const promise = client.patch('foo', BODY, { include: 'contacts' })
+        promise.then(body => {
+          expect(body).toEqual(BODY)
+          done()
+        })
+      })
+    })
+  })
+
+  describe('#put', () => {
+    describe('on success', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'PUT',
+          host: CLIENT_URL,
+          path: '/foobar',
+          responseBody: BODY
+        })
+      })
+
+      it('should return json', (done) => {
+        const promise = client.put('foobar', BODY)
+        promise.then(body => {
+          expect(body).toEqual(BODY)
+          done()
+        })
+      })
+    })
+  })
+
+  describe('#delete', () => {
+    describe('on success 200 with body', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'DELETE',
+          host: CLIENT_URL,
+          path: '/foobar',
+          responseBody: { message: 'Object deleted' }
+        })
+      })
+
+      it('should return json', (done) => {
+        const promise = client.delete('foobar')
+        promise.then(body => {
+          expect(body).toEqual({ message: 'Object deleted' })
+          done()
+        })
+      })
+    })
+
+    describe('on success 204 without body', () => {
+      beforeEach(() => {
+        mockFetch({
+          method: 'DELETE',
+          host: CLIENT_URL,
+          path: '/foobar',
+          responseBody: null,
+          status: 204
+        })
+      })
+
+      it('should return empty json', (done) => {
+        const promise = client.delete('foobar')
+        promise.then(body => {
+          expect(body).toEqual({})
+          done()
         })
       })
     })

@@ -24,18 +24,11 @@ class SubscriptionClient {
   }
 
   bulkCreate (data) {
-    return this.__bulkOperation(`${this.client.baseUrl}/bulk_creation`, data)
+    return this.client.post('bulk_creation', data)
   }
 
   bulkDelete (data) {
-    return this.__bulkOperation(`${this.client.baseUrl}/bulk_deletion`, data)
-  }
-
-  __bulkOperation (url, data) {
-    return this.client.sendRequest(url, {
-      body: data,
-      method: 'POST'
-    })
+    return this.client.post('bulk_deletion', data)
   }
 }
 

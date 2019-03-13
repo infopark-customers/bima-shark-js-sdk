@@ -2,7 +2,14 @@
 
 const param = require('jquery-param')
 
-module.exports.buildUrl = (baseUrl, path, parameters) => {
+/**
+ * @param  {string} [baseUrl] The base url.
+ * @param  {string} [path] The path after the base url, can also be an id (integer).
+ * @param  {object} [parameters] The query parameters as an object (optional).
+ *
+ * @return {string} The complete url.
+ */
+function buildUrl (baseUrl, path, parameters) {
   let url = baseUrl
   let urlPath = path || ''
   let queryString = param(parameters)
@@ -14,4 +21,8 @@ module.exports.buildUrl = (baseUrl, path, parameters) => {
   if (queryString.length > 0) { url += `?${queryString}` }
 
   return url
+}
+
+module.exports = {
+  buildUrl
 }

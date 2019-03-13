@@ -6,7 +6,7 @@ if (!window.fetch) {
 }
 
 /*
- * Configure proxy with Node.js implementation details
+ * Configure proxy with browser environment implementation details
  */
 const proxy = require('./src/proxy')
 

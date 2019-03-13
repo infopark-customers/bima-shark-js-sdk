@@ -24,15 +24,11 @@ class NotificationsClient {
   }
 
   markAsRead (id) {
-    return this.client.sendRequest(`${this.client.baseUrl}/${id}`, {
-      method: 'PATCH'
-    })
+    return this.client.patch(id, {})
   }
 
   markAllAsRead () {
-    return this.client.sendRequest(`${this.client.baseUrl}/read_all`, {
-      method: 'PATCH'
-    })
+    return this.client.patch('read_all', {})
   }
 
   destroy (id) {

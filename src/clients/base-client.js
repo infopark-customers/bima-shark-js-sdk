@@ -51,8 +51,7 @@ class BaseClient {
    * @return {promise} The request promise.
    */
   search (parameters = {}) {
-    const url = buildUrl(this.baseUrl, null, parameters)
-    return this.sendRequest(url)
+    return this.get(null, parameters)
   }
 
   /**
@@ -62,8 +61,7 @@ class BaseClient {
    * @return {promise} The request promise.
    */
   find (id, parameters = {}) {
-    const url = buildUrl(this.baseUrl, id, parameters)
-    return this.sendRequest(url)
+    return this.get(id, parameters)
   }
 
   /**
@@ -73,12 +71,7 @@ class BaseClient {
    * @return {promise} The request promise.
    */
   create (data, parameters = {}) {
-    const url = buildUrl(this.baseUrl, null, parameters)
-
-    return this.sendRequest(url, {
-      body: data,
-      method: 'POST'
-    })
+    return this.post('', data, parameters)
   }
 
   /**
@@ -89,28 +82,7 @@ class BaseClient {
    * @return {promise} The request promise.
    */
   update (id, data, parameters = {}) {
-    const url = buildUrl(this.baseUrl, id, parameters)
-
-    return this.sendRequest(url, {
-      body: data,
-      method: 'PUT'
-    })
-  }
-
-  /**
-   * @param  {integer} [id] The resource id.
-   * @param  {object} [data] The data object / attribute hash.
-   * @param  {object} [parameters] The query parameters as an object (optional).
-   *
-   * @return {promise} The request promise.
-   */
-  patch (id, data, parameters = {}) {
-    const url = buildUrl(this.baseUrl, id, parameters)
-
-    return this.sendRequest(url, {
-      body: data,
-      method: 'PATCH'
-    })
+    return this.put(id, data, parameters)
   }
 
   /**
@@ -120,21 +92,87 @@ class BaseClient {
    * @return {promise} The request promise.
    */
   destroy (id, parameters = {}) {
-    const url = buildUrl(this.baseUrl, id, parameters)
+    return this.delete(id, parameters)
+  }
+
+  /**
+   * @param  {string} [path] The path after the base url, can also be an id (integer).
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  get (path, parameters = {}) {
+    const url = buildUrl(this.baseUrl, path, parameters)
+
+    return this.sendRequest(url, {
+      method: 'GET'
+    })
+  }
+
+  /**
+   * @param  {string} [path] The path after the base url, can also be an id (integer).
+   * @param  {object} [data] The data object / attribute hash.
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  post (path, data, parameters = {}) {
+    const url = buildUrl(this.baseUrl, path, parameters)
+
+    return this.sendRequest(url, {
+      body: data,
+      method: 'POST'
+    })
+  }
+
+  /**
+   * @param  {string} [path] The path after the base url, can also be an id (integer).
+   * @param  {object} [data] The data object / attribute hash.
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  patch (path, data, parameters = {}) {
+    const url = buildUrl(this.baseUrl, path, parameters)
+
+    return this.sendRequest(url, {
+      body: data,
+      method: 'PATCH'
+    })
+  }
+
+  /**
+   * @param  {string} [path] The path after the base url, can also be an id (integer).
+   * @param  {object} [data] The data object / attribute hash.
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  put (path, data, parameters = {}) {
+    const url = buildUrl(this.baseUrl, path, parameters)
+
+    return this.sendRequest(url, {
+      body: data,
+      method: 'PUT'
+    })
+  }
+
+  /**
+   * @param  {string} [path] The path after the base url, can also be an id (integer).
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  delete (path, parameters = {}) {
+    const url = buildUrl(this.baseUrl, path, parameters)
+
     return this.sendRequest(url, {
       method: 'DELETE'
     })
   }
 
   /**
-   * Makes an http request and returns a promise.
-   *
-   * @param  {string} [url] the url
-   * @param  {object} [options] the options we want to pass to 'fetch'
-   *   - body   can be null
-   *   - method must be GET, POST, PUT, PATCH or DELETE. Default is GET.
-   *
-   * @return {promise} the sendRequest promise
+   * @api private
    */
   sendRequest (url, options = {}) {
     const requestOptions = {
