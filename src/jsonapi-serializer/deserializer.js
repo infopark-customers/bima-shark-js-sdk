@@ -43,15 +43,16 @@ class Resource {
     this.jsonapi = jsonapi
     this.data = data
     this.opts = opts
+    this.alreadyIncluded = []
   }
 
   deserialize () {
     const resource = this.__extractAttributes(this.data)
+    const relatedResources = this.__extractRelationships(this.data)
 
-    // TODO: deserialize relationships
     // TODO: deserialize links
 
-    return resource
+    return Object.assign(resource, relatedResources)
   }
 
   __extractAttributes (data) {
@@ -67,10 +68,67 @@ class Resource {
       }
     }
     if ('meta' in data) {
-      resource.meta = this.keyForAttribute(data.meta || {})
+      resource.meta = this.__keyForAttribute(data.meta || {})
     }
 
     return resource
+  }
+
+  __extractRelationships (data) {
+    if (!data.relationships) {
+      return
+    }
+
+    const dest = {}
+    const self = this
+
+    Object.keys(data.relationships).map(function (key) {
+      const relationship = data.relationships[key]
+
+      if (relationship.data === null) {
+        dest[self.__keyForAttribute(key)] = null
+      } else if (Array.isArray(relationship.data)) {
+        relationship.data.map(function (relationshipData) {
+          const includes = self.__findIncluded(relationshipData)
+
+          if (includes) {
+            dest[self.__keyForAttribute(key)] = includes
+          }
+        })
+      } else {
+        const include = self.__findIncluded(relationship.data)
+
+        if (include) {
+          dest[self.__keyForAttribute(key)] = include
+        }
+      }
+    })
+
+    return dest
+  }
+
+  __findIncluded (relationshipData) {
+    if (!this.jsonapi.included || !relationshipData) {
+      return null
+    }
+
+    const included = this.jsonapi.included.find(element => {
+      return element.id === relationshipData.id && element.type === relationshipData.type
+    })
+
+    if (this.alreadyIncluded.indexOf(included) > -1) {
+      return null
+    } else {
+      this.alreadyIncluded.push(included)
+    }
+
+    if (included) {
+      const attributes = this.__extractAttributes(included)
+      const relationships = this.__extractRelationships(included)
+      return Object.assign(attributes, relationships)
+    } else {
+      return null
+    }
   }
 
   __keyForAttribute (value) {

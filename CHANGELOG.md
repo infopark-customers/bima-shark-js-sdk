@@ -1,5 +1,8 @@
 # Changelog
 
+### Unreleased
+- JSONAPI deserializer extracts included relationships
+
 ### 1.0.0
 - [new] added `NickClient`
 - [new] all clients can now be used in Node.js
