@@ -34,10 +34,6 @@ class BaseClient {
       throw new Error('Parameter `url` is missing or not a string')
     }
 
-    Object.assign(
-      {}
-    )
-
     const serviceTokenOptions = Object.assign(
       { baseUrl: Config.serviceTokenUrl },
       options.serviceToken
