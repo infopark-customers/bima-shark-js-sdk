@@ -19,6 +19,8 @@ const GroupClient = require('./clients/group-client')
 const MailingClient = require('./clients/mailing-client')
 const NickClient = require('./clients/nick-client')
 const NotificationsClient = require('./clients/notifications-client')
+const PermissionClient = require('./clients/permission-client')
+const RoleClient = require('./clients/role-client')
 const SubscriptionClient = require('./clients/subscription-client')
 const UserClient = require('./clients/user-client')
 
@@ -72,6 +74,8 @@ const Shark = {
   MailingClient,
   NickClient,
   NotificationsClient,
+  PermissionClient,
+  RoleClient,
   SubscriptionClient,
   UserClient
 }
