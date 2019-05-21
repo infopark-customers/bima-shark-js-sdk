@@ -1,6 +1,8 @@
 ## Changelog
 
 #### Unreleased
+- [story] [Add BusinessAppsClient](https://www.pivotaltracker.com/story/show/166155315)
+- [fix] [Passed params in nested arrays are not being squashed](https://www.pivotaltracker.com/story/show/166155374)
 
 #### 1.1.0
 - [new] added `PermissionClient`

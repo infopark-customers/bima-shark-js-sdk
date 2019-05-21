@@ -30,6 +30,12 @@ class UserClient {
   destroy (id, parameters = {}) {
     return this.client.destroy(id, parameters)
   }
+
+  getBusinessApps (id, parameters = {}) {
+    return this.client.sendRequest(`${this.client.baseUrl}/${id}/business_apps`, {
+      method: 'GET'
+    })
+  }
 }
 
 module.exports = UserClient
