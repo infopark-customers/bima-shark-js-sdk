@@ -8,9 +8,9 @@ class UserClient {
     this.client = new Client({
       name: 'UserClient',
       url: `${url}/api/users`,
-      serviceToken: options.serviceToken,
-      businessAppClient: new BusinessAppClient(url)
+      serviceToken: options.serviceToken
     })
+    this.businessAppClient = new BusinessAppClient(url, options)
   }
 
   search (parameters = {}) {
