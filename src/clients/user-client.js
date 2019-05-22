@@ -1,13 +1,15 @@
 'use strict'
 
 const Client = require('./base-client')
+const BusinessAppClient = require('./business-app-client')
 
 class UserClient {
   constructor (url, options = {}) {
     this.client = new Client({
       name: 'UserClient',
       url: `${url}/api/users`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      businessAppClient: new BusinessAppClient(url)
     })
   }
 
@@ -32,9 +34,7 @@ class UserClient {
   }
 
   getBusinessApps (id, parameters = {}) {
-    return this.client.sendRequest(`${this.client.baseUrl}/${id}/business_apps`, {
-      method: 'GET'
-    })
+    return this.businessAppClient.search({ user_id: id })
   }
 }
 
