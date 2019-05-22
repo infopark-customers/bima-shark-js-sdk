@@ -65,11 +65,12 @@ const client = new MailingClient('https://mailing-development.bundesimmo.de', {
   }
 })
 
-client.create({ foo: 'bar' })
-  .then(
-    json => { console.log('Success: ', json) },
-    err => { console.log('Error: ', err) }
-  )
+try {
+  const json = await client.create({ foo: 'bar' })
+  console.log('Success: ', json)
+} catch (err) {
+  console.log('Error: ', err)
+}
 ```
 
 
