@@ -1,6 +1,6 @@
 'use strict'
 
-const param = require('jquery-param')
+const qs = require('qs')
 
 /**
  * @param  {string} [baseUrl] The base url.
@@ -12,7 +12,10 @@ const param = require('jquery-param')
 function buildUrl (baseUrl, path, parameters) {
   let url = baseUrl
   let urlPath = path || ''
-  let queryString = param(parameters)
+  const queryString = qs.stringify(
+    parameters,
+    { arrayFormat: 'brackets' }
+  )
 
   if (url.slice(-1) !== '/') { url += '/' }
   urlPath = urlPath.toString()

@@ -1,6 +1,6 @@
 'use strict'
 
-const param = require('jquery-param')
+const qs = require('qs')
 const Cache = require('../cache')
 const Deserializer = require('../jsonapi-serializer/deserializer')
 const { isString } = require('../utils/typecheck')
@@ -74,8 +74,9 @@ class ServiceTokenClient {
     const authenticateParams = Object.assign({}, params)
     authenticateParams.service_token = authenticateParams.serviceToken
     delete authenticateParams.serviceToken
+    const queryString = qs.stringify(authenticateParams)
 
-    const url = `${this.baseUrl}/api/users/authenticate?${param(authenticateParams)}`
+    const url = `${this.baseUrl}/api/users/authenticate?${queryString}`
     const requestOptions = Object.assign({
       method: 'GET'
     }, options)

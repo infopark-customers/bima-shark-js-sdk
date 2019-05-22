@@ -57,13 +57,21 @@ describe('Browser version: BaseClient with successful service token', () => {
       beforeEach(() => {
         mockFetch({
           host: CLIENT_URL,
-          path: '/?include=contacts',
+          path: '/?filter%5B%5D=b&filter%5B%5D%5Bc%5D%5B%5D=d&filter%5B%5D%5Bc%5D%5B%5D=f&include=contacts',
           responseBody: [BODY, BODY]
         })
       })
 
       it('should return json', (done) => {
-        const promise = client.search({ include: 'contacts' })
+        const promise = client.search(
+          {
+            filter: [
+              'b',
+              { c: [ 'd', 'f' ] }
+            ],
+            include: 'contacts'
+          }
+        )
         promise.then(json => {
           expect(json).toEqual([BODY, BODY])
           done()

@@ -2,6 +2,11 @@
 
 #### Unreleased
 
+#### 1.2.0
+- [story] [Add BusinessAppClient](https://www.pivotaltracker.com/story/show/166155315)
+- [fix] [Passed params in nested arrays are not being squashed](https://www.pivotaltracker.com/story/show/166155374)
+- [new] added `DoubleOptInExecutionClient` and `DoubleOptInRequestClient` clients
+
 #### 1.1.0
 - [new] added `PermissionClient`
 - [new] added `RoleClient`
