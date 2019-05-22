@@ -15,6 +15,8 @@ const ConsentClient = require('./clients/consent-client')
 const ConsentChangesClient = require('./clients/consent-changes-client')
 const ContactClient = require('./clients/contact-client')
 const DescriptionClient = require('./clients/description-client')
+const DoubleOptInExecutionClient = require('./clients/double-opt-in/execution-client')
+const DoubleOptInRequestClient = require('./clients/double-opt-in/request-client')
 const GroupClient = require('./clients/group-client')
 const MailingClient = require('./clients/mailing-client')
 const NickClient = require('./clients/nick-client')
@@ -70,6 +72,8 @@ const Shark = {
   ConsentChangesClient,
   ContactClient,
   DescriptionClient,
+  DoubleOptInExecutionClient,
+  DoubleOptInRequestClient,
   GroupClient,
   MailingClient,
   NickClient,

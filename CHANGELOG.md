@@ -1,6 +1,7 @@
 ## Changelog
 
 #### Unreleased
+- [new] added `DoubleOptInExecutionClient` and `DoubleOptInRequestClient` clients
 
 #### 1.1.0
 - [new] added `PermissionClient`
