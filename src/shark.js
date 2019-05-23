@@ -9,8 +9,8 @@ const fetch = require('./utils/simple-fetch')
 
 const Client = require('./clients/base-client')
 const ActivityClient = require('./clients/activity-client')
-const AppClient = require('./clients/app-client')
 const AssetClient = require('./clients/asset-client')
+const BusinessAppClient = require('./clients/business-app-client')
 const ConsentClient = require('./clients/consent-client')
 const ConsentChangesClient = require('./clients/consent-changes-client')
 const ContactClient = require('./clients/contact-client')
@@ -66,8 +66,9 @@ const Shark = {
 
   Client,
   ActivityClient,
-  AppClient,
+  AppClient: BusinessAppClient,
   AssetClient,
+  BusinessAppClient,
   ConsentClient,
   ConsentChangesClient,
   ContactClient,
