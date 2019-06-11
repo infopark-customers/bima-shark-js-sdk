@@ -145,14 +145,7 @@ class AssetClient {
 
   __createOrUpdate (options = {}) {
     const fileName = options.file.name
-    const formats = Object.keys(options.formats).reduce((acc, key) => {
-      const format = options.formats[key]
-      format.in = JSON.stringify(format.in)
-
-      return Object.assign(acc, {
-        [key]: format
-      })
-    }, {})
+    const formats = options.formats
 
     const data = {
       data: {
