@@ -12,7 +12,7 @@ class DoubleOptInExecutionClient {
   }
 
   verify (verificationToken) {
-    return this.client.post(verificationToken)
+    return this.client.post(`${verificationToken}/verify`)
   }
 
   find (verificationToken) {

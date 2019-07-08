@@ -1,6 +1,7 @@
 ## Changelog
 
 #### Unreleased
+- [fix] `verify` path for `DoubleOptInExecutionClient`
 
 #### 1.2.1
 - [fix] export `BusinessAppClient`
