@@ -23,6 +23,7 @@ const NickClient = require('./clients/nick-client')
 const NotificationsClient = require('./clients/notifications-client')
 const PermissionClient = require('./clients/permission-client')
 const RoleClient = require('./clients/role-client')
+const ServiceSettingsClient = require('./clients/service/settings-client')
 const SubscriptionClient = require('./clients/subscription-client')
 const UserClient = require('./clients/user-client')
 
@@ -81,6 +82,7 @@ const Shark = {
   NotificationsClient,
   PermissionClient,
   RoleClient,
+  ServiceSettingsClient,
   SubscriptionClient,
   UserClient
 }
