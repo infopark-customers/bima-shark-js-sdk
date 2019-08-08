@@ -1,6 +1,8 @@
 ## Changelog
 
 #### Unreleased
+
+#### 1.3.0
 - [new] added `ServiceSettingsClient`
 - [fix] `verify` path for `DoubleOptInExecutionClient`
 
