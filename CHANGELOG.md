@@ -1,6 +1,7 @@
 ## Changelog
 
 #### Unreleased
+- [new] added `ServiceSettingsClient`
 
 #### 1.2.1
 - [fix] export `BusinessAppClient`
