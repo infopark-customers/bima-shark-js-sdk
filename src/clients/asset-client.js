@@ -23,16 +23,22 @@ class AssetClient {
    *  client.create(file, {
    *    onProgress: (?) => { console.log('in progress') },
    *    doCancel: (?) => { return (condition ? true : false) },
-   *    variations: {
-   *     marginal: ['-resize', '230x'],
-   *     common: ['-resize', '2048>', '-strip', '-interlace', 'Plane', '-quality', '100']
+   *    formats: {
+   *     marginal: {
+   *        in: ['-resize', '230x'],
+   *        ext: 'jpg'
+   *     },
+   *     common: {
+   *        in: ['-resize', '2048>', '-strip', '-interlace', 'Plane', '-quality', '100'],
+   *        ext: 'jpg'
+   *     }
    *    }
    *  })
    * @param {File} file A file object.
-   * @param {Object} options An options object allowing to specify onProgress and doCancel functions and variations for image assets.
+   * @param {Object} options An options object allowing to specify onProgress and doCancel functions and formats for image assets.
    * onProgress handles upload progress in an app using this client.
    * doCancle function returning true/false indicating if upload should be cancelled.
-   * variations define imagemagic transformation for image assets
+   * formats define imagemagic transformation for image assets
    * @return {Promise} The request promise.
    */
   create (file, options = {}) {
@@ -42,7 +48,7 @@ class AssetClient {
       file: file,
       onProgress: options.onProgress,
       doCancel: options.doCancel,
-      variations: options.variations || {}
+      formats: options.formats || {}
     })
   }
 
@@ -83,17 +89,23 @@ class AssetClient {
    *  client.update(file, id, {
    *    onProgress: (?) => { console.log('in progress') },
    *    doCancel: (?) => { return (condition ? true : false) },
-   *    variations: {
-   *     marginal: ['-resize', '230x'],
-   *     common: ['-resize', '2048>', '-strip', '-interlace', 'Plane', '-quality', '100']
-   *    }
+   *    formats: {
+    *     marginal: {
+    *        in: ['-resize', '230x'],
+    *        ext: 'jpg'
+    *     },
+    *     common: {
+    *        in: ['-resize', '2048>', '-strip', '-interlace', 'Plane', '-quality', '100'],
+    *        ext: 'jpg'
+    *     }
+    *    }
    *  })
    * @param {File} file A file object.
    * @param {String} id An id of asset to update.
-   * @param {Object} options An options object allowing to specify onProgress and doCancel functions and variations for image assets.
+   * @param {Object} options An options object allowing to specify onProgress and doCancel functions and formats for image assets.
    * onProgress handles upload progress in an app using this client.
    * doCancle function returning true/false indicating if upload should be cancelled.
-   * variations define imagemagic transformation for image assets
+   * formats define imagemagic transformation for image assets
    * @return {Promise} The request promise.
    */
   update (file, id, options = {}) {
@@ -103,7 +115,7 @@ class AssetClient {
       file: file,
       onProgress: options.onProgress,
       doCancel: options.doCancel,
-      variations: options.variations || {}
+      formats: options.formats || {}
     })
   }
 
@@ -133,11 +145,7 @@ class AssetClient {
 
   __createOrUpdate (options = {}) {
     const fileName = options.file.name
-    const variations = Object.keys(options.variations).map(key => {
-      return {
-        [key]: JSON.stringify(options.variations[key])
-      }
-    })
+    const formats = options.formats
 
     const data = {
       data: {
@@ -145,7 +153,7 @@ class AssetClient {
         attributes: {
           filename: fileName,
           directory: this.directory,
-          variations: variations
+          formats: formats
         }
       }
     }
@@ -164,7 +172,7 @@ class AssetClient {
         file: options.file,
         onProgress: options.onProgress,
         doCancel: options.doCancel,
-        variations: variations
+        formats: formats
       }).then(() => {
         return this.find(id).then(asset => {
           return asset
