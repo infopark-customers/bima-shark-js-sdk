@@ -27,6 +27,8 @@ const ServiceSettingsClient = require('./clients/service/settings-client')
 const SubscriptionClient = require('./clients/subscription-client')
 const UserClient = require('./clients/user-client')
 
+const FeedbackPagesHelper = require('./helpers/feedback-pages-helper')
+
 /*
  * @class Shark
  * @classdesc Namespace for REST clients and configuration.
@@ -84,7 +86,8 @@ const Shark = {
   RoleClient,
   ServiceSettingsClient,
   SubscriptionClient,
-  UserClient
+  UserClient,
+  FeedbackPagesHelper
 }
 
 module.exports = Shark
