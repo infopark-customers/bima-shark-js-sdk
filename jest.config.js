@@ -95,8 +95,7 @@ module.exports = {
   projects: [
     '<rootDir>/test/browser',
     '<rootDir>/test/node',
-    '<rootDir>/test/jsonapi-serializer',
-    '<rootDir>/test/helpers'
+    '<rootDir>/test/jsonapi-serializer'
   ]
 
   // Use this configuration option to add custom reporters to Jest
