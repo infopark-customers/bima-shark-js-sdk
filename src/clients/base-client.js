@@ -184,7 +184,7 @@ class BaseClient {
 
     if (this.authorizationRequired) {
       return this.tokenClient.createServiceToken({}).then(token => {
-        requestOptions.headers['authorization'] = `Bearer ${token.jwt}`
+        requestOptions.headers.authorization = `Bearer ${token.jwt}`
         return simpleFetch(url, requestOptions)
       })
     } else {

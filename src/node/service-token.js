@@ -53,8 +53,8 @@ class ServiceTokenClient {
     const token = Cache.lookup(cacheKey)
 
     if (token && token.expiresAt) {
-      let now = new Date()
-      let date = new Date(token.expiresAt)
+      const now = new Date()
+      const date = new Date(token.expiresAt)
       if (date < now) {
         return this.requestServiceToken(options)
       } else {

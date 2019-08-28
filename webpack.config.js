@@ -21,10 +21,10 @@ module.exports = {
 
   resolve: {
     alias: {
-      'dist': path.join(__dirname, '/dist'),
-      'node_modules': path.join(__dirname, '/node_modules'),
-      'src': path.join(__dirname, '/src'),
-      'test': path.join(__dirname, '/test')
+      dist: path.join(__dirname, '/dist'),
+      node_modules: path.join(__dirname, '/node_modules'),
+      src: path.join(__dirname, '/src'),
+      test: path.join(__dirname, '/test')
     }
   },
 

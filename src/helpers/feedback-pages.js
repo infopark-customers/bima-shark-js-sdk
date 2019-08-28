@@ -13,13 +13,13 @@ const { isObject } = require('../utils/typecheck')
  * @return {string} URL to a feedback page.
  *
  * @example
- *  FeedbackPagesHelper.buildUrl('https://feedback.example.org', ['registration', 'failure'])
+ *  FeedbackPages.buildUrl('https://feedback.example.org', ['registration', 'failure'])
  *
  * @example
- *  FeedbackPagesHelper.buildUrl('https://feedback.example.org', ['registration', 'success'], { full_name: 'John Doe' })
+ *  FeedbackPages.buildUrl('https://feedback.example.org', ['registration', 'success'], { full_name: 'John Doe' })
  *
  * @example
- *  FeedbackPagesHelper.buildUrl('https://feedback.example.org', ['item', 'creation', 'success'], { item_type: { de: 'Gruppe', en: 'Group' } })
+ *  FeedbackPages.buildUrl('https://feedback.example.org', ['item', 'creation', 'success'], { item_type: { de: 'Gruppe', en: 'Group' } })
  */
 function buildUrl (baseUrl, path, translations = {}) {
   let url = `${baseUrl}/${path.join('/')}`
@@ -42,13 +42,13 @@ function buildUrl (baseUrl, path, translations = {}) {
  * @return {object} Parsed query string as object for given language code.
  *
  * @example
- *  FeedbackPagesHelper.parseTranslations('?translations[item_type][de]=Gruppe&translations[item_type][en]=Group', 'de')
+ *  FeedbackPages.parseTranslations('?translations[item_type][de]=Gruppe&translations[item_type][en]=Group', 'de')
  *
  * @example
- *  FeedbackPagesHelper.parseTranslations('?translations%5Bitem_type%5D%5Bde%5D=Gruppe&translations%5Bitem_type%5D%5Ben%5D=Group', 'de')
+ *  FeedbackPages.parseTranslations('?translations%5Bitem_type%5D%5Bde%5D=Gruppe&translations%5Bitem_type%5D%5Ben%5D=Group', 'de')
  *
  * @example
- *  FeedbackPagesHelper.parseTranslations('translations%5Bitem_type%5D%5Bde%5D=Gruppe&translations%5Bitem_type%5D%5Ben%5D=Group', 'de')
+ *  FeedbackPages.parseTranslations('translations%5Bitem_type%5D%5Bde%5D=Gruppe&translations%5Bitem_type%5D%5Ben%5D=Group', 'de')
  */
 function parseTranslations (queryString, language) {
   const query = qs.parse(queryString, { ignoreQueryPrefix: true })

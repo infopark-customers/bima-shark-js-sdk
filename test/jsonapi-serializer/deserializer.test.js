@@ -10,8 +10,8 @@ const BODY = {
     type: 'users',
     id: USER_ID,
     attributes: {
-      'first_name': 'Roger',
-      'last_name': 'Rabbit'
+      first_name: 'Roger',
+      last_name: 'Rabbit'
     },
     relationships: {
       permission: {
