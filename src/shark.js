@@ -27,7 +27,7 @@ const ServiceSettingsClient = require('./clients/service/settings-client')
 const SubscriptionClient = require('./clients/subscription-client')
 const UserClient = require('./clients/user-client')
 
-const FeedbackPagesHelper = require('./helpers/feedback-pages-helper')
+const FeedbackPages = require('./helpers/feedback-pages')
 
 /*
  * @class Shark
@@ -87,7 +87,7 @@ const Shark = {
   ServiceSettingsClient,
   SubscriptionClient,
   UserClient,
-  FeedbackPagesHelper
+  FeedbackPages
 }
 
 module.exports = Shark
