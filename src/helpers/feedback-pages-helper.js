@@ -53,7 +53,7 @@ class FeedbackPagesHelper {
    */
   static parseTranslations (queryString, language) {
     const query = qs.parse(queryString, { ignoreQueryPrefix: true })
-    const translations = query.translations
+    const translations = query.translations || {}
     const results = {}
 
     Object.keys(translations).forEach(translationKey => {
