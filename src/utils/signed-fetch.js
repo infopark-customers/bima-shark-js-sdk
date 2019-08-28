@@ -1,7 +1,7 @@
 'use strict'
 
 const crypto = require('crypto')
-const URL = require('url')
+const url = require('url')
 
 const { Headers } = require('../proxy')
 const { isString } = require('./typecheck')
@@ -61,7 +61,7 @@ class SignedRequest {
       this.getMethod(),
       this.headers.get('content-type'),
       this.headers.get('content-md5'),
-      this.getUrl().path,
+      this.getUrl().pathname,
       this.headers.get('date')
     ].join(',')
   }
@@ -86,7 +86,7 @@ class SignedRequest {
   }
 
   getOptions () {
-    let options = {
+    const options = {
       method: this.getMethod(),
       headers: this.headers
     }
@@ -99,7 +99,7 @@ class SignedRequest {
   }
 
   getUrl () {
-    return URL.parse(this.url)
+    return new url.URL(this.url)
   }
 
   hasBody () {

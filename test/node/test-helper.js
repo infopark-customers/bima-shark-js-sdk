@@ -37,8 +37,8 @@ const USER_RESPONSE_BODY = {
     type: 'users',
     id: '5490143e69e49d0c8f9fc6bc',
     attributes: {
-      'first_name': 'Roger',
-      'last_name': 'Rabbit'
+      first_name: 'Roger',
+      last_name: 'Rabbit'
     }
   }
 }
