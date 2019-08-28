@@ -1,7 +1,9 @@
 ## Changelog
 
 #### Unreleased
-- [new] added `FeedbackPagesHelper`
+
+#### 1.4.0
+- [new] added `FeedbackPages`
 
 #### 1.3.0
 - [new] added `ServiceSettingsClient`
