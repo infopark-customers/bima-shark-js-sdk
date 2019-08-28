@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict'
 
-const URL = require('url')
+const url = require('url')
 const nock = require('nock')
 const nodeFetch = require('node-fetch')
 
@@ -40,9 +40,9 @@ const JWT = 'json-web-token-0123456789'
 const SERVICE_TOKEN_URL = Config.serviceTokenUrl
 
 function setupTokenSuccess () {
-  const url = URL.parse(SERVICE_TOKEN_URL)
-  nock(`${url.protocol}//${url.host}`)
-    .post(URL.parse(SERVICE_TOKEN_URL).path)
+  const serviceTokenUrl = new url.URL(SERVICE_TOKEN_URL)
+  nock(serviceTokenUrl.origin)
+    .post(serviceTokenUrl.pathname)
     .reply(200, {
       data: {
         attributes: {
@@ -54,9 +54,9 @@ function setupTokenSuccess () {
 }
 
 function setupTokenError () {
-  const url = URL.parse(SERVICE_TOKEN_URL)
-  nock(`${url.protocol}//${url.host}`)
-    .post(URL.parse(SERVICE_TOKEN_URL).path)
+  const serviceTokenUrl = new url.URL(SERVICE_TOKEN_URL)
+  nock(serviceTokenUrl.origin)
+    .post(serviceTokenUrl.pathname)
     .reply(500, 'internal server error')
 }
 

@@ -99,8 +99,8 @@ describe('ServiceToken', () => {
         it('should cache the token', (done) => {
           const promise = client.createServiceToken()
           promise.then(body => {
-            expect(Cache.data).toHaveProperty(`api-service-token/undefined`)
-            expect(Cache.data).toHaveProperty(`api-service-token/undefined.jwt`, JWT)
+            expect(Cache.data).toHaveProperty('api-service-token/undefined')
+            expect(Cache.data).toHaveProperty('api-service-token/undefined.jwt', JWT)
             done()
           })
         })

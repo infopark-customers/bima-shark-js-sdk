@@ -67,7 +67,7 @@ describe('Browser version: BaseClient with successful service token', () => {
           {
             filter: [
               'b',
-              { c: [ 'd', 'f' ] }
+              { c: ['d', 'f'] }
             ],
             include: 'contacts'
           }
