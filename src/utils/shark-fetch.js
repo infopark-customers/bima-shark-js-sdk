@@ -62,10 +62,10 @@ function error (e) {
  *
  * @return {Promise}           The request promise
  */
-function simpleFetch (url, options) {
+function sharkFetch (url, options = {}) {
   Logger.debugLog('request: ', url, options)
 
-  if (url.startsWith('http:')) {
+  if (options && options.headers) {
     if (options.headers instanceof Headers) {
       options.headers.set('x-forwarded-proto', 'https')
     } else {
@@ -88,4 +88,4 @@ function simpleFetch (url, options) {
   })
 }
 
-module.exports = simpleFetch
+module.exports = sharkFetch
