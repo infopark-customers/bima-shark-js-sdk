@@ -1,8 +1,8 @@
 'use strict'
 
+const { buildUrl } = require('../helpers/url-helper')
 const { isString } = require('../utils/typecheck')
-const { buildUrl } = require('../utils/url-helper')
-const simpleFetch = require('../utils/simple-fetch')
+const sharkFetch = require('../utils/shark-fetch')
 const Config = require('../config')
 const SharkProxy = require('../proxy')
 
@@ -185,11 +185,11 @@ class BaseClient {
     if (this.authorizationRequired) {
       return this.tokenClient.createServiceToken({}).then(token => {
         requestOptions.headers.authorization = `Bearer ${token.jwt}`
-        return simpleFetch(url, requestOptions)
+        return sharkFetch(url, requestOptions)
       })
     } else {
       requestOptions.credentials = 'same-origin'
-      return simpleFetch(url, requestOptions)
+      return sharkFetch(url, requestOptions)
     }
   }
 }

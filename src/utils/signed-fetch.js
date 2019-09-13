@@ -5,7 +5,7 @@ const url = require('url')
 
 const { Headers } = require('../proxy')
 const { isString } = require('./typecheck')
-const simpleFetch = require('./simple-fetch')
+const sharkFetch = require('./shark-fetch')
 
 function md5Base64digest (data) {
   return crypto.createHash('md5')
@@ -45,7 +45,7 @@ class SignedRequest {
     const url = this.getUrl().href
     const options = this.getOptions()
 
-    return simpleFetch(url, options)
+    return sharkFetch(url, options)
   }
 
   authorizationHeader () {

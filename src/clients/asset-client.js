@@ -164,6 +164,8 @@ class AssetClient {
     }).then(response => {
       const id = response.data.id
       const uploadUrl = response.data.links.upload
+      // options.file.type is not enough because it might fail on Windows
+      // https://stackoverflow.com/questions/32849014/ie-11-and-ie-edge-get-file-type-failed
       const fileMimeType = mime.getType(fileName)
 
       return uploadFile({
