@@ -2,6 +2,9 @@
 
 #### Unreleased
 
+#### 1.5.0
+- make `Shark.fetch` work without options, so it behaves more like normal `fetch`
+
 #### 1.4.0
 - [new] added `FeedbackPages`
 

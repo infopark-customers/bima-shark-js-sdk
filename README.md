@@ -6,17 +6,13 @@ This is the Javascript SDK for the BImA applications.
 
 ### Installation
 
+1) Install the npm package
+
 ```
-npm install --save bima-shark-sdk
+npm install bima-shark-sdk
 ```
 
-For local development, when testing your package against our applications
-```
-# replace with your own absolute path
-npm install --save /User/jdahlke/.../bima-shark-js-sdk
-```
-
-Add your own `fetch` library.
+2) Bring your own `fetch` library.
 
 * for browsers use [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch) as polyfill for Internet Explorer
 * in AWS Lambda functions use [node-fetch](https://www.npmjs.com/package/node-fetch)
@@ -24,6 +20,27 @@ Add your own `fetch` library.
 > In pure browser enviroments without webpack:
 > - run `npm run build`
 > - copy ` dist/bima-shark-sdk.js ` into your app.
+
+3) In browser you have to use `babel-loader` to support IE 11 and project-wide
+`babel.config.js`. A `.babelrc` configuration is not enough and will ignore
+node_modules.
+
+```
+  // webpack.config.js
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          include: [
+            path.resolve(__dirname, 'src'),
+            path.resolve(__dirname, 'node_modules/bima-shark-sdk')
+          ],
+          use: {
+            loader: 'babel-loader'
+          }
+        },
+        ...
+```
 
 
 ### Usage
@@ -82,21 +99,6 @@ This SDK uses [jest](https://jestjs.io/) as test framework. Server responses are
 npm ci
 npm test
 ```
-
-
-### About promises
-
-If you add `then` multiple times, you are chaining methods that should be called in sequence, until an exception is thrown.
-Exceptions in the then chain must be handled by `catch` declared after the `then`. If there's no `catch` after the `then`, this error will be triggered: `Uncaught (in promise) Error(…)`.
-
-If you add `catch` multiple times, you are chaining methods that should be called when something goes wrong (in the `then` functions before).
-However, the second `catch` in the chain will only be called if the first one re-throws the exception, and so forth.
-When `catch` is triggered, the chain resumes on the next `then` declared after the `catch`.
-
-The **catch()** method returns a `Promise` and deals with rejected cases only. It behaves the same as calling `Promise.prototype.then(undefined, onRejected)`
-(in fact, calling `obj.catch(onRejected)` internally calls `obj.then(undefined, onRejected)`).
-
-[Source Stack Overflow](https://stackoverflow.com/questions/34222818/how-does-the-catch-work-in-a-native-promise-chain)
 
 
 ### Links for further reading

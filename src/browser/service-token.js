@@ -4,7 +4,7 @@ const Config = require('../config')
 const Cache = require('../cache')
 const Deserializer = require('../jsonapi-serializer/deserializer')
 const { isString } = require('../utils/typecheck')
-const simpleFetch = require('../utils/simple-fetch')
+const sharkFetch = require('../utils/shark-fetch')
 
 const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
 
@@ -61,7 +61,7 @@ class ServiceTokenClient {
 
     Cache.remove(cacheKey)
 
-    return simpleFetch(this.baseUrl,
+    return sharkFetch(this.baseUrl,
       {
         credentials: 'same-origin',
         headers: {

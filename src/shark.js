@@ -5,7 +5,7 @@ const Config = require('./config')
 const Logger = require('./logger')
 const SharkError = require('./error')
 const TypeCheck = require('./utils/typecheck')
-const fetch = require('./utils/simple-fetch')
+const sharkFetch = require('./utils/shark-fetch')
 
 const Client = require('./clients/base-client')
 const ActivityClient = require('./clients/activity-client')
@@ -65,7 +65,7 @@ const Shark = {
   isObject: TypeCheck.isObject,
   isString: TypeCheck.isString,
 
-  fetch: fetch,
+  fetch: sharkFetch,
 
   Client,
   ActivityClient,
