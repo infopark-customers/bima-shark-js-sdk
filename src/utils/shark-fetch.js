@@ -65,7 +65,13 @@ function error (e) {
 function sharkFetch (url, options = {}) {
   Logger.debugLog('request: ', url, options)
 
-  if (options && options.headers) {
+  if (url.startsWith('http:')) {
+    if (!options) {
+      options = {}
+    }
+    if (!options.headers) {
+      options.headers = {}
+    }
     if (options.headers instanceof Headers) {
       options.headers.set('x-forwarded-proto', 'https')
     } else {
