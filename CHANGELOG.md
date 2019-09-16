@@ -2,6 +2,10 @@
 
 #### Unreleased
 
+#### 1.5.1
+- [fix] Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource.
+  Reason: missing token ‘x-forwarded-proto’ in CORS header ‘Access-Control-Allow-Headers’ from CORS preflight channel
+
 #### 1.5.0
 - make `Shark.fetch` work without options, so it behaves more like normal `fetch`
 
