@@ -1,6 +1,7 @@
 ## Changelog
 
 #### Unreleased
+- [new] `NickClient` supports `accessibilityCatalog` and `accessiblilityQuestions`
 
 #### 1.5.1
 - [fix] Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource.
