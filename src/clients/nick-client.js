@@ -67,6 +67,24 @@ class NickClient {
   destroy (type, id, parameters = {}) {
     return this.client.delete(`${type}/${id}`, parameters)
   }
+
+  /**
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  accessibilityCatalog(parameters = {}) {
+    return this.client.get('accessibility/catalog', parameters)
+  }
+
+  /**
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  accessibilityQuestions(parameters = {}) {
+    return this.client.get('accessibility/questions', parameters)
+  }
 }
 
 module.exports = NickClient
