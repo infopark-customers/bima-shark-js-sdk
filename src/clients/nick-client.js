@@ -73,7 +73,7 @@ class NickClient {
    *
    * @return {promise} The request promise.
    */
-  accessibilityCatalog(parameters = {}) {
+  accessibilityCatalog (parameters = {}) {
     return this.client.get('accessibility/catalog', parameters)
   }
 
@@ -82,7 +82,7 @@ class NickClient {
    *
    * @return {promise} The request promise.
    */
-  accessibilityQuestions(parameters = {}) {
+  accessibilityQuestions (parameters = {}) {
     return this.client.get('accessibility/questions', parameters)
   }
 }
