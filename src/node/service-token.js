@@ -1,6 +1,5 @@
 'use strict'
 
-const qs = require('qs')
 const Cache = require('../cache')
 const Deserializer = require('../jsonapi-serializer/deserializer')
 const { isString } = require('../utils/typecheck')
@@ -71,14 +70,14 @@ class ServiceTokenClient {
    * @return {Promise} the fetch promise
    */
   verifyServiceToken (params, options = {}) {
-    const authenticateParams = Object.assign({}, params)
-    authenticateParams.service_token = authenticateParams.serviceToken
-    delete authenticateParams.serviceToken
-    const queryString = qs.stringify(authenticateParams)
+    const body = Object.assign({}, params)
+    body.service_token = body.service_token || body.serviceToken
+    delete body.serviceToken
 
-    const url = `${this.baseUrl}/api/users/authenticate?${queryString}`
+    const url = `${this.baseUrl}/api/users/authenticate`
     const requestOptions = Object.assign({
-      method: 'GET'
+      method: 'POST',
+      body: body
     }, options)
 
     return this.signedRequest(url, requestOptions)
