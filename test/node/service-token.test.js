@@ -114,8 +114,9 @@ describe('ServiceToken', () => {
     describe('on success', () => {
       beforeEach(() => {
         mockFetch({
+          method: 'POST',
           host: DOORKEEPER_BASE_URL,
-          path: `/api/users/authenticate?include=permission&service_token=${serviceToken}`,
+          path: '/api/users/authenticate',
           responseBody: USER_RESPONSE_BODY
         })
       })

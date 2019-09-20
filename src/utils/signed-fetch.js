@@ -22,11 +22,14 @@ function md5Base64digest (data) {
  */
 class SignedRequest {
   constructor (options = {}) {
-    const optionKeys = ['accessKey', 'secretKey', 'digest', 'method', 'url', 'body']
+    const optionKeys = ['accessKey', 'secretKey', 'digest', 'method', 'body']
     this.options = Object.assign({}, options)
 
     this.headers = new Headers(this.options.headers || {})
     delete this.options.headers
+
+    this.url = new url.URL(options.url)
+    delete this.options.url
 
     optionKeys.forEach((key) => {
       this[key] = this.options[key]
@@ -42,7 +45,7 @@ class SignedRequest {
   fetch () {
     this.sign()
 
-    const url = this.getUrl().href
+    const url = this.url.href
     const options = this.getOptions()
 
     return sharkFetch(url, options)
@@ -61,7 +64,7 @@ class SignedRequest {
       this.getMethod(),
       this.headers.get('content-type'),
       this.headers.get('content-md5'),
-      this.getUrl().pathname,
+      this.getPathAndQuery(),
       this.headers.get('date')
     ].join(',')
   }
@@ -85,6 +88,10 @@ class SignedRequest {
     return this.method.toUpperCase()
   }
 
+  getPathAndQuery () {
+    return (this.url.pathname + this.url.search)
+  }
+
   getOptions () {
     const options = {
       method: this.getMethod(),
@@ -96,10 +103,6 @@ class SignedRequest {
     }
 
     return Object.assign({}, this.options, options)
-  }
-
-  getUrl () {
-    return new url.URL(this.url)
   }
 
   hasBody () {
