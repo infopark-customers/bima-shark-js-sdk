@@ -17,10 +17,6 @@ npm install bima-shark-sdk
 * for browsers use [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch) as polyfill for Internet Explorer
 * in AWS Lambda functions use [node-fetch](https://www.npmjs.com/package/node-fetch)
 
-> In pure browser enviroments without webpack:
-> - run `npm run build`
-> - copy ` dist/bima-shark-sdk.js ` into your app.
-
 3) In browser you have to use `babel-loader` to support IE 11 and project-wide
 `babel.config.js`. A `.babelrc` configuration is not enough and will ignore
 node_modules.

@@ -2,6 +2,11 @@
 
 #### Unreleased
 
+#### 2.0.0
+- [fix] `ServiceTokenClient.verifyServiceToken` in Node.js and use `POST`
+    endpoint for authentication
+- [break] removed `npm run build` for browser ready packages
+
 #### 1.5.1
 - [fix] Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource.
   Reason: missing token ‘x-forwarded-proto’ in CORS header ‘Access-Control-Allow-Headers’ from CORS preflight channel
