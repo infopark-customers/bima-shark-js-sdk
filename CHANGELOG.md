@@ -2,6 +2,9 @@
 
 #### Unreleased
 
+#### 2.1.0
+- [new] `NickClient` supports `accessibilityCatalog` and `accessiblilityQuestions`
+
 #### 2.0.0
 - [fix] `ServiceTokenClient.verifyServiceToken` in Node.js and use `POST`
     endpoint for authentication
