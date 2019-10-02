@@ -1,6 +1,8 @@
 ## Changelog
 
 #### Unreleased
+
+#### 2.1.0
 - [new] `NickClient` supports `accessibilityCatalog` and `accessiblilityQuestions`
 
 #### 2.0.0
