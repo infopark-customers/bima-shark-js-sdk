@@ -21,6 +21,13 @@ const { isArray, isString, isObject } = require('../utils/typecheck')
  *   deserializer.deserialize(json)
  */
 class Deserializer {
+  /**
+   * Create a deserializer.
+   *
+   * @param {Object} opts
+   * @param {string} [opts.keyForAttribute=camelCase]
+   * @param {Object} [opts.caseConversionStopPaths] An Object whose keys represent a data type and values an Object path in it's attributes to exclude children keys from being converted, see: https://www.npmjs.com/package/camelcase-keys#stoppaths
+   */
   constructor (opts) {
     this.opts = opts || {}
   }
