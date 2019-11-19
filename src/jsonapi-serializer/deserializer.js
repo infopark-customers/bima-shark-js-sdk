@@ -1,18 +1,33 @@
 'use strict'
 
-const humps = require('humps')
-const { isArray, isObject } = require('../utils/typecheck')
+const camelcaseKeys = require('camelcase-keys')
+const camelcase = require('camelcase')
+const { isArray, isString, isObject } = require('../utils/typecheck')
 
 /**
  * @class Deserializer
  * @classdesc Deserialize a JSON-API response documents.
- *   Ignores deserialization of relationships and links.
+ *   Ignores deserialization of links.
  *
  * @example
  *   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
  *   deserializer.deserialize(json)
+ *
+ * @example
+ *   const deserializer = new Deserializer({
+ *     keyForAttribute: 'camelCase',
+ *     caseConversionStopPaths: { permissions: ['rules'] }
+ *   })
+ *   deserializer.deserialize(json)
  */
 class Deserializer {
+  /**
+   * Create a deserializer.
+   *
+   * @param {Object} opts
+   * @param {string} [opts.keyForAttribute=camelCase]
+   * @param {Object} [opts.caseConversionStopPaths] An Object whose keys represent a data type and values an Object path in it's attributes to exclude children keys from being converted, see: https://www.npmjs.com/package/camelcase-keys#stoppaths
+   */
   constructor (opts) {
     this.opts = opts || {}
   }
@@ -56,7 +71,7 @@ class Resource {
   }
 
   __extractAttributes (data) {
-    const resource = this.__keyForAttribute(data.attributes || {})
+    const resource = this.__keyForAttribute(data.attributes || {}, data.type)
 
     if ('id' in data) {
       resource[this.opts.id || 'id'] = data.id
@@ -131,12 +146,15 @@ class Resource {
     }
   }
 
-  __keyForAttribute (value) {
+  __keyForAttribute (value, dataType) {
     if (this.opts.keyForAttribute === undefined || this.opts.keyForAttribute === 'camelCase') {
       if (isArray(value) || isObject(value)) {
-        return humps.camelizeKeys(value)
+        const stopPaths = (this.opts.caseConversionStopPaths || {})[dataType] || []
+        return camelcaseKeys(value, { deep: true, stopPaths: stopPaths })
+      } else if (isString(value)) {
+        return camelcase(value)
       } else {
-        return humps.camelize(value)
+        return value
       }
     } else {
       return value
