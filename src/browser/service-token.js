@@ -6,7 +6,10 @@ const Deserializer = require('../jsonapi-serializer/deserializer')
 const { isString } = require('../utils/typecheck')
 const sharkFetch = require('../utils/shark-fetch')
 
-const deserializer = new Deserializer({ keyForAttribute: 'camelCase' })
+const deserializer = new Deserializer({
+  keyForAttribute: 'camelCase',
+  caseConversionStopPaths: { permissions: ['rules'] }
+})
 
 /**
  * @class ServiceTokenClient
