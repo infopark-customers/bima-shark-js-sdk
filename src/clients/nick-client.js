@@ -85,6 +85,15 @@ class NickClient {
   accessibilityQuestions (parameters = {}) {
     return this.client.get('accessibility/questions', parameters)
   }
+
+  /**
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  userinfo (parameters = {}) {
+    return this.client.get('userinfo', parameters)
+  }
 }
 
 module.exports = NickClient
