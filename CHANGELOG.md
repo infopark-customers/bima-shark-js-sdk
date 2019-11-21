@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 2.2.0
+- [new] `NickClient` supports userinfo
+
 #### 2.1.1
 - [fix] [JSON Deserializer is camelizing permission rule keys](https://www.pivotaltracker.com/story/show/168646343)
 
