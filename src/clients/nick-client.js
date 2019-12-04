@@ -101,7 +101,7 @@ class NickClient {
    *
    * @return {promise} The request promise.
    */
-  createAsset(data, parameters = {}) {
+  createAsset (data, parameters = {}) {
     return this.client.post('assets', data, parameters)
   }
 }
