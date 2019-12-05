@@ -94,6 +94,16 @@ class NickClient {
   userinfo (parameters = {}) {
     return this.client.get('userinfo', parameters)
   }
+
+  /**
+   * @param  {object} [data] The data object.
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  createAsset (data, parameters = {}) {
+    return this.client.post('assets', data, parameters)
+  }
 }
 
 module.exports = NickClient
