@@ -1,5 +1,7 @@
 ## Changelog
 
+- [new] `NickClient` add support for asset creation
+
 #### 2.2.0
 - [new] `NickClient` supports userinfo
 
