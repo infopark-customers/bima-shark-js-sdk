@@ -1,5 +1,6 @@
 ## Changelog
 
+### 2.3.0
 - [new] `NickClient` add support for asset creation
 
 #### 2.2.0
