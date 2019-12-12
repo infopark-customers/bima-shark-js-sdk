@@ -1,5 +1,7 @@
 ## Changelog
 
+- [new] `NickClient` add support for property import
+
 ### 2.3.0
 - [new] `NickClient` add support for asset creation
 
