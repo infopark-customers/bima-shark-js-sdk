@@ -1,5 +1,6 @@
 ## Changelog
 
+### 2.4.0
 - [new] `NickClient` add support for property import
 
 ### 2.3.0
