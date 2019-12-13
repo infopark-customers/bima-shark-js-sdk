@@ -104,6 +104,16 @@ class NickClient {
   createAsset (data, parameters = {}) {
     return this.client.post('assets', data, parameters)
   }
+
+  /**
+   * @param  {object} [data] The data object with csv and contact group id.
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  importProperty (data, parameters = {}) {
+    return this.client.post('property-importer', data, parameters)
+  }
 }
 
 module.exports = NickClient
