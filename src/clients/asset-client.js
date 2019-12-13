@@ -134,12 +134,17 @@ class AssetClient {
   /**
    *
    * @param {String} id An id of asset to get the temporary show url of.
+   * @param {String} format A format of an asset
    *
    * @return {Promise} A promise that resolves to a temporary asset show url.
    */
-  getTemporaryDisplayUrl (id) {
+  getTemporaryDisplayUrl (id, format = null) {
     return this.find(id).then(asset => {
-      return asset.data.links.show
+      if (format) {
+        return asset.data.links.formats[format]
+      } else {
+        return asset.data.links.show
+      }
     })
   }
 
