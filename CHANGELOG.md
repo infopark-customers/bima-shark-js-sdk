@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2.5.0
+- [new] `AssetClient` add support for `format` parameter in `getTemporaryDisplayUrl`
+
 ### 2.4.0
 - [new] `NickClient` add support for property import
 
