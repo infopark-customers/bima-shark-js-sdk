@@ -114,6 +114,15 @@ class NickClient {
   importProperty (data, parameters = {}) {
     return this.client.post('property-importer', data, parameters)
   }
+
+  /**
+   * @param  {object} [parameters] The query parameters as an object.
+   *
+   * @return {promise} The request promise.
+   */
+  search (parameters = {}) {
+    return this.client.get('search', parameters)
+  }
 }
 
 module.exports = NickClient
