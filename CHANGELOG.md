@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2.6.0
+- [new] `NickClient` add search for object node
+
 ### 2.5.0
 - [new] `AssetClient` add support for `format` parameter in `getTemporaryDisplayUrl`
 
