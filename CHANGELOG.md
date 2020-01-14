@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2.7.0
+- [new] `NickClient` add findAsset
+
 ### 2.6.0
 - [new] `NickClient` add search for object node
 
