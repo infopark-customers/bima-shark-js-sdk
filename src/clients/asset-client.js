@@ -34,7 +34,7 @@ class AssetClient {
    *     }
    *    }
    *  })
-   * @param {File} file A file object.
+   * @param {File} file A file object or { name: name, body: streamOrBuffer } object.
    * @param {Object} options An options object allowing to specify onProgress and doCancel functions and formats for image assets.
    * onProgress handles upload progress in an app using this client.
    * doCancle function returning true/false indicating if upload should be cancelled.
@@ -100,7 +100,7 @@ class AssetClient {
     *     }
     *    }
    *  })
-   * @param {File} file A file object.
+   * @param {File} file A file object or { name: name, body: streamOrBuffer } object.
    * @param {String} id An id of asset to update.
    * @param {Object} options An options object allowing to specify onProgress and doCancel functions and formats for image assets.
    * onProgress handles upload progress in an app using this client.
@@ -151,6 +151,10 @@ class AssetClient {
   __createOrUpdate (options = {}) {
     const fileName = options.file.name
     const formats = options.formats
+
+    if (fileName === null || fileName === undefined) {
+      throw new Error('Option file.name cannot be null')
+    }
 
     const data = {
       data: {

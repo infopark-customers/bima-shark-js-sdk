@@ -19,16 +19,17 @@ describe('#uploadFile', () => {
   })
 
   it('returns empty body', () => {
+    const fileName = 'jest.config.js'
     const fileMimeType = 'text/html'
-    const stats = fs.statSync('jest.config.js')
-    const fileSizeInBytes = stats.size
-    const readStream = fs.createReadStream('jest.config.js')
+    const file = {
+      name: fileName,
+      body: fs.createReadStream(fileName)
+    }
 
     const promise = uploadFile({
       uploadUrl: `${UPLOAD_URL}/uploads`,
       fileMimeType: fileMimeType,
-      contentLength: fileSizeInBytes,
-      file: readStream
+      file: file
     })
 
     promise.then(body => {

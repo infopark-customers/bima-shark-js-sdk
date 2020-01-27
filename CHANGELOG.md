@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2.7.1
+- [fix] missing name for `AssetClient.create` in nodejs
+
 ### 2.7.0
 - [new] `NickClient` add findAsset
 
