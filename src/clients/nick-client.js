@@ -116,6 +116,16 @@ class NickClient {
   }
 
   /**
+   * @param  {integer} [id] The asset id.
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  destroyAsset (id, parameters = {}) {
+    return this.client.delete(`assets/${id}`, parameters)
+  }
+
+  /**
    * @param  {object} [data] The data object with csv and contact group id.
    * @param  {object} [parameters] The query parameters as an object (optional).
    *
