@@ -1,5 +1,10 @@
 ## Changelog
 
+### Unreleased
+
+### 2.8.0
+- [new] `NickClient` add support for asset deletion
+
 ### 2.7.1
 - [fix] missing name for `AssetClient.create` in nodejs
 
