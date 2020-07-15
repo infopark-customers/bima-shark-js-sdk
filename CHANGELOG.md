@@ -1,6 +1,7 @@
 ## Changelog
 
 ### Unreleased
+- [new] `NickClient` add support for organization import
 
 ### 2.8.0
 - [new] `NickClient` add support for asset deletion
