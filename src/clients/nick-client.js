@@ -136,6 +136,16 @@ class NickClient {
   }
 
   /**
+   * @param  {object} [data][csv] The data object with csv.
+   * @param  {object} [parameters] The query parameters as an object (optional).
+   *
+   * @return {promise} The request promise.
+   */
+  importOrganization (data, parameters = {}) {
+    return this.client.post('organization-importer', data, parameters)
+  }
+
+  /**
    * @param  {object} [parameters] The query parameters as an object.
    *
    * @return {promise} The request promise.
