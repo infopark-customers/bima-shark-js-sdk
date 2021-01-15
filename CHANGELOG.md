@@ -1,6 +1,11 @@
 ## Changelog
 
 ### Unreleased
+
+### 2.10.0
+- [new] `NickClient` add support for importing users to groups from csv
+
+### 2.9.0
 - [new] `NickClient` add support for organization import
 
 ### 2.8.0
