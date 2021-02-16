@@ -2,6 +2,10 @@
 
 ### Unreleased
 
+### 2.11.0
+- [fix] `typecheck.js` for webpack module system
+- refactor `signedFetch` to use simple object for headers
+
 ### 2.10.0
 - [new] `NickClient` add support for importing users to groups from csv
 
