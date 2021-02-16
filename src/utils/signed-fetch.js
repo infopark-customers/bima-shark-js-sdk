@@ -3,7 +3,6 @@
 const crypto = require('crypto')
 const url = require('url')
 
-const { Headers } = require('../proxy')
 const { isString } = require('./typecheck')
 const sharkFetch = require('./shark-fetch')
 
@@ -22,19 +21,17 @@ function md5Base64digest (data) {
  */
 class SignedRequest {
   constructor (options = {}) {
-    const optionKeys = ['accessKey', 'secretKey', 'digest', 'method', 'body']
-    this.options = Object.assign({}, options)
+    this.method = options.method.toUpperCase()
 
-    this.headers = new Headers(this.options.headers || {})
-    delete this.options.headers
+    this.headers = Object.assign({}, options.headers || {})
 
     this.url = new url.URL(options.url)
-    delete this.options.url
 
-    optionKeys.forEach((key) => {
-      this[key] = this.options[key]
-      delete this.options[key]
-    })
+    this.body = options.body
+
+    this.digest = options.digest || 'sha1'
+    this.accessKey = options.accessKey
+    this.secretKey = options.secretKey
   }
 
   /**
@@ -52,20 +49,20 @@ class SignedRequest {
   }
 
   authorizationHeader () {
-    const signature = crypto.createHmac(this.getDigest(), this.secretKey)
+    const signature = crypto.createHmac(this.digest, this.secretKey)
       .update(this.canonicalString())
       .digest('base64')
 
-    return `APIAuth-HMAC-${this.getDigest().toUpperCase()} ${this.accessKey}:${signature}`
+    return `APIAuth-HMAC-${this.digest.toUpperCase()} ${this.accessKey}:${signature}`
   }
 
   canonicalString () {
     return [
-      this.getMethod(),
-      this.headers.get('content-type'),
-      this.headers.get('content-md5'),
+      this.method,
+      this.headers['content-type'],
+      this.headers['content-md5'],
       this.getPathAndQuery(),
-      this.headers.get('date')
+      this.headers.date
     ].join(',')
   }
 
@@ -80,21 +77,13 @@ class SignedRequest {
     return body
   }
 
-  getDigest () {
-    return this.digest || 'sha1'
-  }
-
-  getMethod () {
-    return this.method.toUpperCase()
-  }
-
   getPathAndQuery () {
     return (this.url.pathname + this.url.search)
   }
 
   getOptions () {
     const options = {
-      method: this.getMethod(),
+      method: this.method,
       headers: this.headers
     }
 
@@ -102,20 +91,18 @@ class SignedRequest {
       options.body = this.getBody()
     }
 
-    return Object.assign({}, this.options, options)
+    // return Object.assign({}, options)
+    return options
   }
 
   hasBody () {
-    return ['GET', 'HEAD'].indexOf(this.getMethod()) === -1
+    return ['GET', 'HEAD'].indexOf(this.method) === -1
   }
 
-  setContentMd5 () {
-    this.headers.delete('content-md5')
+  getContentMd5 () {
     if (!this.hasBody()) { return this }
 
-    const md5Checksum = md5Base64digest(this.getBody())
-    this.headers.set('content-md5', md5Checksum)
-    return this
+    return md5Base64digest(this.getBody())
   }
 
   sign () {
@@ -123,9 +110,9 @@ class SignedRequest {
 
     const timestamp = new Date()
 
-    this.setContentMd5()
-    this.headers.set('date', timestamp.toUTCString())
-    this.headers.set('authorization', this.authorizationHeader())
+    this.headers['content-md5'] = this.getContentMd5()
+    this.headers.date = timestamp.toUTCString()
+    this.headers.authorization = this.authorizationHeader()
 
     return this
   }
