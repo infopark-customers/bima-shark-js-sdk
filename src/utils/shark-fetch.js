@@ -13,26 +13,39 @@ const { jsonApiError } = require('./response-helper')
  */
 function parse (response) {
   return new Promise(resolve => {
-    return response.text().then(text => {
+    const contentType = response.headers.get('content-type')
+
+    if (contentType === 'text/csv') {
+      return response.blob().then(blob => {
+        return resolve({
+          status: response.status,
+          statusText: response.statusText,
+          ok: response.ok,
+          blob: blob
+        })
+      })
+    } else {
+      return response.text().then(text => {
       // TODO inspect response headers?
       // TODO inspect content length?
 
-      let json = {}
-      if (text) {
-        try {
-          json = JSON.parse(text)
-        } catch (e) {
-          json = { message: text }
+        let json = {}
+        if (text) {
+          try {
+            json = JSON.parse(text)
+          } catch (e) {
+            json = { message: text }
+          }
         }
-      }
 
-      return resolve({
-        status: response.status,
-        statusText: response.statusText,
-        ok: response.ok,
-        json: json
+        return resolve({
+          status: response.status,
+          statusText: response.statusText,
+          ok: response.ok,
+          json: json
+        })
       })
-    })
+    }
   })
 }
 
@@ -85,7 +98,11 @@ function sharkFetch (url, options = {}) {
       .then(response => {
         Logger.debugLog('response: ', response)
         if (response.ok) {
-          return resolve(response.json)
+          if (response.hasOwnProperty('blob')) {
+            return resolve(response.blob)
+          } else {
+            return resolve(response.json)
+          }
         } else {
           const error = jsonApiError(response)
           return reject(error)
