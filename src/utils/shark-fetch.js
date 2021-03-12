@@ -13,27 +13,54 @@ const { jsonApiError } = require('./response-helper')
  */
 function parse (response) {
   return new Promise(resolve => {
-    return response.text().then(text => {
-      // TODO inspect response headers?
-      // TODO inspect content length?
+    const contentType = response.headers.get('content-type')
+    // TODO inspect response headers?
+    // TODO inspect content length?
 
-      let json = {}
-      if (text) {
-        try {
-          json = JSON.parse(text)
-        } catch (e) {
-          json = { message: text }
-        }
+    return response.text().then(text => {
+      if (isJsonContent(contentType)) {
+        return resolve({
+          status: response.status,
+          statusText: response.statusText,
+          ok: response.ok,
+          json: parseJSON(text)
+        })
       }
 
       return resolve({
         status: response.status,
         statusText: response.statusText,
         ok: response.ok,
-        json: json
+        body: text
       })
     })
   })
+}
+
+function isJsonContent (type) {
+  const contentType = type || ''
+
+  if (contentType.indexOf('application/json') !== -1) {
+    return true
+  } else if (contentType.indexOf('application/vnd.api+json') !== -1) {
+    return true
+  } else if (contentType.indexOf('text/x-json') !== -1) {
+    return true
+  }
+
+  return false
+}
+
+function parseJSON (text) {
+  let json
+
+  try {
+    json = JSON.parse(text)
+  } catch (e) {
+    json = { message: text }
+  }
+
+  return json
 }
 
 /**
@@ -85,7 +112,11 @@ function sharkFetch (url, options = {}) {
       .then(response => {
         Logger.debugLog('response: ', response)
         if (response.ok) {
-          return resolve(response.json)
+          if (response.hasOwnProperty('body')) {
+            return resolve(response.body)
+          } else {
+            return resolve(response.json)
+          }
         } else {
           const error = jsonApiError(response)
           return reject(error)

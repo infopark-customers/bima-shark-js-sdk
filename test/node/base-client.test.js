@@ -346,10 +346,10 @@ describe('Node version: BaseClient with successful service token', () => {
         })
       })
 
-      it('should return empty json', (done) => {
+      it('should return empty body', (done) => {
         const promise = client.delete('foobar')
         promise.then(body => {
-          expect(body).toEqual({})
+          expect(body).toEqual('')
           done()
         })
       })

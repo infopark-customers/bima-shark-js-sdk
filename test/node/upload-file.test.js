@@ -33,7 +33,7 @@ describe('#uploadFile', () => {
     })
 
     promise.then(body => {
-      expect(body).toEqual({})
+      expect(body).toEqual('')
     })
   })
 })

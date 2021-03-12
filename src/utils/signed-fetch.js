@@ -91,7 +91,6 @@ class SignedRequest {
       options.body = this.getBody()
     }
 
-    // return Object.assign({}, options)
     return options
   }
 
