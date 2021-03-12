@@ -13,12 +13,12 @@ const { jsonApiError } = require('./response-helper')
  */
 function parse (response) {
   return new Promise(resolve => {
-    const contentType = response.headers.get('content-type') || ''
+    const contentType = response.headers.get('content-type')
     // TODO inspect response headers?
     // TODO inspect content length?
 
     return response.text().then(text => {
-      if (contentType.match('json')) {
+      if (isJsonContent(contentType)) {
         return resolve({
           status: response.status,
           statusText: response.statusText,
@@ -37,12 +37,14 @@ function parse (response) {
   })
 }
 
-function isJsonContent(contentType) {
-  if (contentType.match('application/json')) {
+function isJsonContent (type) {
+  const contentType = type || ''
+
+  if (contentType.indexOf('application/json') !== -1) {
     return true
-  } else if (contentType.match('application/vnd.api+json')) {
+  } else if (contentType.indexOf('application/vnd.api+json') !== -1) {
     return true
-  } else if (contentType.match('text/x-json')) {
+  } else if (contentType.indexOf('text/x-json') !== -1) {
     return true
   }
 
