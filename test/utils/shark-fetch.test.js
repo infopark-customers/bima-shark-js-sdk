@@ -38,10 +38,10 @@ describe('#sharkFetch', () => {
   })
 
   describe('with text response', () => {
-    it('should return { message: RESPONSE_BODY }', (done) => {
+    it('should return response.body', (done) => {
       const promise = sharkFetch('http://www.example.com')
-      promise.then(json => {
-        expect(json.message).toMatch(/<title>Example Domain<\/title>/)
+      promise.then(body => {
+        expect(body).toMatch(/<title>Example Domain<\/title>/)
         done()
       })
     })

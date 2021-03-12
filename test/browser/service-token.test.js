@@ -51,7 +51,7 @@ describe('ServiceToken#createServiceToken', () => {
       }, error => {
         expect(Array.isArray(error.errors)).toEqual(true)
         expect(error.errors[0].status).toEqual(500)
-        expect(error.errors[0].detail).toEqual('internal server error')
+        expect(error.errors[0].detail).toEqual('Unhandled error')
         done()
       })
     })

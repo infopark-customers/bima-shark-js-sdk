@@ -50,6 +50,8 @@ function setupTokenSuccess () {
           expires_at: new Date()
         }
       }
+    }, {
+      'content-type': 'application/vnd.api+json'
     })
 }
 
