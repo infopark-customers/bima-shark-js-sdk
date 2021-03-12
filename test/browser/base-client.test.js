@@ -218,10 +218,10 @@ describe('Browser version: BaseClient with successful service token', () => {
         })
       })
 
-      it('should return empty json', (done) => {
+      it('should return empty body', (done) => {
         const promise = client.destroy(1)
         promise.then(body => {
-          expect(body).toEqual({})
+          expect(body).toEqual('')
           done()
         })
       })
@@ -368,10 +368,10 @@ describe('Browser version: BaseClient with successful service token', () => {
         })
       })
 
-      it('should return empty json', (done) => {
+      it('should return empty body', (done) => {
         const promise = client.delete('foobar')
         promise.then(body => {
-          expect(body).toEqual({})
+          expect(body).toEqual('')
           done()
         })
       })
@@ -404,7 +404,7 @@ describe('Browser version: BaseClient with failed service tokens', () => {
         }, error => {
           expect(Array.isArray(error.errors)).toEqual(true)
           expect(error.errors[0].status).toEqual(500)
-          expect(error.errors[0].detail).toEqual('internal server error')
+          expect(error.errors[0].detail).toEqual('Unhandled error')
           done()
         })
       })
