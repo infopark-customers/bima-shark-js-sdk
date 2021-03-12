@@ -13,40 +13,52 @@ const { jsonApiError } = require('./response-helper')
  */
 function parse (response) {
   return new Promise(resolve => {
-    const contentType = response.headers.get('content-type')
+    const contentType = response.headers.get('content-type') || ''
+    // TODO inspect response headers?
+    // TODO inspect content length?
 
-    if (contentType === 'text/csv') {
-      return response.blob().then(blob => {
+    return response.text().then(text => {
+      if (contentType.match('json')) {
         return resolve({
           status: response.status,
           statusText: response.statusText,
           ok: response.ok,
-          blob: blob
+          json: parseJSON(text)
         })
-      })
-    } else {
-      return response.text().then(text => {
-      // TODO inspect response headers?
-      // TODO inspect content length?
+      }
 
-        let json = {}
-        if (text) {
-          try {
-            json = JSON.parse(text)
-          } catch (e) {
-            json = { message: text }
-          }
-        }
-
-        return resolve({
-          status: response.status,
-          statusText: response.statusText,
-          ok: response.ok,
-          json: json
-        })
+      return resolve({
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok,
+        body: text
       })
-    }
+    })
   })
+}
+
+function isJsonContent(contentType) {
+  if (contentType.match('application/json')) {
+    return true
+  } else if (contentType.match('application/vnd.api+json')) {
+    return true
+  } else if (contentType.match('text/x-json')) {
+    return true
+  }
+
+  return false
+}
+
+function parseJSON (text) {
+  let json
+
+  try {
+    json = JSON.parse(text)
+  } catch (e) {
+    json = { message: text }
+  }
+
+  return json
 }
 
 /**
@@ -98,8 +110,8 @@ function sharkFetch (url, options = {}) {
       .then(response => {
         Logger.debugLog('response: ', response)
         if (response.ok) {
-          if (response.hasOwnProperty('blob')) {
-            return resolve(response.blob)
+          if (response.hasOwnProperty('body')) {
+            return resolve(response.body)
           } else {
             return resolve(response.json)
           }
