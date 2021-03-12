@@ -4,7 +4,7 @@
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
  */
 function SharkError (status, message, json, fileName, lineNumber) {
-  var instance = new Error(message, fileName, lineNumber)
+  const instance = new Error(message, fileName, lineNumber)
   instance.status = status
   instance.json = json
   Object.setPrototypeOf(instance, Object.getPrototypeOf(this))
