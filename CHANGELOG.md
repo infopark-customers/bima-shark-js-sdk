@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+### 2.12.0
+- allow `Shark.etch` to handle any text response (formerly only JSON)
+
 ### 2.11.0
 - [fix] `typecheck.js` for webpack module system
 - refactor `signedFetch` to use simple object for headers
