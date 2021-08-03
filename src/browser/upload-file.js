@@ -7,7 +7,12 @@ function uploadFileBrowser (options = {}) {
   return new Promise((resolve, reject) => {
     const xhr = new window.XMLHttpRequest()
     xhr.open('PUT', options.uploadUrl)
-    xhr.setRequestHeader('Content-Type', options.fileMimeType || '')
+    if (options.fileMimeType) {
+      xhr.setRequestHeader('Content-Type', options.fileMimeType)
+    }
+    if (options.authorization) {
+      xhr.setRequestHeader('Authorization', options.authorization)
+    }
 
     xhr.responseType = 'json'
     xhr.upload.onprogress = (e) => {
