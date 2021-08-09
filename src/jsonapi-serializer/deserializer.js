@@ -97,13 +97,13 @@ class Resource {
     const dest = {}
     const self = this
 
-    Object.keys(data.relationships).map(function (key) {
+    Object.keys(data.relationships).forEach(function (key) {
       const relationship = data.relationships[key]
 
       if (relationship.data === null) {
         dest[self.__keyForAttribute(key)] = null
       } else if (Array.isArray(relationship.data)) {
-        relationship.data.map(function (relationshipData) {
+        relationship.data.forEach(function (relationshipData) {
           const includes = self.__findIncluded(relationshipData)
 
           if (includes) {
