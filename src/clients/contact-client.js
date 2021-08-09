@@ -1,6 +1,7 @@
 'use strict'
 
 const Client = require('./base-client')
+const { uploadFile } = require('../proxy')
 
 class ContactClient {
   constructor (url, options = {}) {
@@ -31,8 +32,25 @@ class ContactClient {
     return this.client.destroy(id, parameters)
   }
 
-  uploadAvatar (id, data) {
-    return this.client.uploadFile(`${id}/avatar`, data)
+  uploadAvatar (id, formData) {
+    const options = {
+      uploadUrl: `${this.client.baseUrl}/${id}/avatar`,
+      file: formData
+    }
+
+    let promise
+
+    if (this.client.authorizationRequired) {
+      promise = this.client.tokenClient.createServiceToken({}).then(token => {
+        options.authorization = `Bearer ${token.jwt}`
+      })
+    } else {
+      promise = Promise.resolve()
+    }
+
+    return promise.then(_ => {
+      return uploadFile(options)
+    })
   }
 
   deleteAvatar (id) {

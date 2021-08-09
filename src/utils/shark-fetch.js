@@ -112,7 +112,7 @@ function sharkFetch (url, options = {}) {
       .then(response => {
         Logger.debugLog('response: ', response)
         if (response.ok) {
-          if (response.hasOwnProperty('body')) {
+          if ('body' in response) {
             return resolve(response.body)
           } else {
             return resolve(response.json)
