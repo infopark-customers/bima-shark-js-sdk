@@ -2,8 +2,11 @@
 
 ### Unreleased
 
+### 2.12.1
+- [fix] `uploadFile` can handle authorization
+
 ### 2.12.0
-- allow `Shark.etch` to handle any text response (formerly only JSON)
+- allow `Shark.fetch` to handle any text response (formerly only JSON)
 
 ### 2.11.0
 - [fix] `typecheck.js` for webpack module system
