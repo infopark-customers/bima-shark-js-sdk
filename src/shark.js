@@ -8,7 +8,6 @@ const TypeCheck = require('./utils/typecheck')
 const sharkFetch = require('./utils/shark-fetch')
 
 const Client = require('./clients/base-client')
-const ActivityClient = require('./clients/activity-client')
 const AssetClient = require('./clients/asset-client')
 const BusinessAppClient = require('./clients/business-app-client')
 const ConsentClient = require('./clients/consent-client')
@@ -23,7 +22,6 @@ const NickClient = require('./clients/nick-client')
 const NotificationsClient = require('./clients/notifications-client')
 const PermissionClient = require('./clients/permission-client')
 const RoleClient = require('./clients/role-client')
-const ServiceSettingsClient = require('./clients/service/settings-client')
 const SubscriptionClient = require('./clients/subscription-client')
 const UserClient = require('./clients/user-client')
 
@@ -68,7 +66,6 @@ const Shark = {
   fetch: sharkFetch,
 
   Client,
-  ActivityClient,
   AppClient: BusinessAppClient,
   AssetClient,
   BusinessAppClient,
@@ -84,7 +81,6 @@ const Shark = {
   NotificationsClient,
   PermissionClient,
   RoleClient,
-  ServiceSettingsClient,
   SubscriptionClient,
   UserClient,
   FeedbackPages
