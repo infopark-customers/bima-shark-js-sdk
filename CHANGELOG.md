@@ -2,6 +2,10 @@
 
 ### Unreleased
 
+### 2.13.0
+- [fix] client for new asset-service
+- remove old clients `ActivityClient`, `SettingsClient`
+
 ### 2.12.1
 - [fix] `uploadFile` can handle authorization
 
