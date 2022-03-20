@@ -1,8 +1,10 @@
 'use strict'
 
+const mime = require('mime/lite')
+
 const Client = require('./base-client')
 const { uploadFile } = require('../proxy')
-const mime = require('mime/lite')
+const { imageUrl } = require('../utils/image-url')
 
 /**
  * @class AssetClient
@@ -141,7 +143,7 @@ class AssetClient {
   getTemporaryDisplayUrl (id, format = null) {
     return this.find(id).then(asset => {
       if (format) {
-        return asset.data.links.formats[format]
+        return imageUrl(asset.data.links.show, format)
       } else {
         return asset.data.links.show
       }
