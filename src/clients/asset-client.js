@@ -4,7 +4,7 @@ const mime = require('mime/lite')
 
 const Client = require('./base-client')
 const { uploadFile } = require('../proxy')
-const { imageUrl } = require('../utils/image-url')
+const imageUrl = require('../utils/image-url')
 
 /**
  * @class AssetClient
