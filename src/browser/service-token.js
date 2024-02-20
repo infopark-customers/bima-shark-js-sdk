@@ -66,7 +66,7 @@ class ServiceTokenClient {
 
     return sharkFetch(this.baseUrl,
       {
-        credentials: 'same-origin',
+        credentials: 'include',
         headers: {
           'content-type': 'application/vnd.api+json',
           'x-csrf-token': csrfToken

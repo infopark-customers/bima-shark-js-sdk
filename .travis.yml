@@ -1,10 +1,9 @@
 language: node_js
 cache: npm
 node_js:
-  - "14"
+  - "16"
 
 before_install:
-  - npm i -g npm@latest
   - npm i -g standard
 
 script:
