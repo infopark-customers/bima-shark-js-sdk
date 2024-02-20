@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+### 2.14.0
+- [new] send credentials (cookies) during service token request from browser
+
 ### 2.13.0, 2.13.1
 - [fix] client for new asset-service
 - remove old clients `ActivityClient`, `SettingsClient`
