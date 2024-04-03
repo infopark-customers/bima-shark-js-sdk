@@ -10,11 +10,6 @@ if (!window.fetch) {
  */
 const proxy = require('./src/proxy')
 
-proxy.fetch = window.fetch
-proxy.Headers = window.Headers
-proxy.Request = window.Request
-proxy.Response = window.Response
-
 proxy.uploadFile = require('./src/browser/upload-file')
 proxy.ServiceTokenClient = require('./src/browser/service-token')
 

@@ -1,15 +1,15 @@
 'use strict'
 
+const [major,,] = process.versions.node.split('.').map(Number)
+
+if (major < 18) {
+  console.error('[Shark] NodeJS >= 18 is required for native fetch')
+}
+
 /*
  * Configure proxy with Node.js implementation details
  */
 const proxy = require('./src/proxy')
-const nodeFetch = require('node-fetch')
-
-proxy.fetch = nodeFetch
-proxy.Headers = nodeFetch.Headers
-proxy.Request = nodeFetch.Request
-proxy.Response = nodeFetch.Response
 
 proxy.uploadFile = require('./src/node/upload-file')
 proxy.ServiceTokenClient = require('./src/node/service-token')
