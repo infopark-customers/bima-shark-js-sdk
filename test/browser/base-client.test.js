@@ -34,7 +34,7 @@ function mockFetch (options) {
     .intercept(path || '/', method || 'GET')
     .reply(status || 200, responseBody)
   nock(host)
-    .intercept(path || '', method || 'GET')
+    .intercept(path || '/', method || 'GET')
     .reply(403, { message: 'Access forbidden' })
 }
 
@@ -57,7 +57,7 @@ describe('Browser version: BaseClient with successful service token', () => {
       beforeEach(() => {
         mockFetch({
           host: CLIENT_URL,
-          path: '/?filter%5B%5D=b&filter%5B%5D%5Bc%5D%5B%5D=d&filter%5B%5D%5Bc%5D%5B%5D=f&include=contacts',
+          path: '/?filters%5Ba%5D%5Bequals%5D=foo&filters%5Bb%5D%5Bcontains%5D%5B%5D=1&filters%5Bb%5D%5Bcontains%5D%5B%5D=2&filters%5Bb%5D%5Bcontains%5D%5B%5D=3&include=contacts',
           responseBody: [BODY, BODY]
         })
       })
@@ -65,10 +65,14 @@ describe('Browser version: BaseClient with successful service token', () => {
       it('should return json', (done) => {
         const promise = client.search(
           {
-            filter: [
-              'b',
-              { c: ['d', 'f'] }
-            ],
+            filters: {
+              a: {
+                equals: 'foo'
+              },
+              b: {
+                contains: [1, 2, 3]
+              }
+            },
             include: 'contacts'
           }
         )
@@ -221,7 +225,7 @@ describe('Browser version: BaseClient with successful service token', () => {
       it('should return empty body', (done) => {
         const promise = client.destroy(1)
         promise.then(body => {
-          expect(body).toEqual('')
+          expect(body).toEqual(null)
           done()
         })
       })
@@ -371,7 +375,7 @@ describe('Browser version: BaseClient with successful service token', () => {
       it('should return empty body', (done) => {
         const promise = client.delete('foobar')
         promise.then(body => {
-          expect(body).toEqual('')
+          expect(body).toEqual(null)
           done()
         })
       })
