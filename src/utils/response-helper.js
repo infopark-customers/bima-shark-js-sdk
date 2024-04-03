@@ -22,7 +22,7 @@ function jsonApiError (response) {
       errorDetails = ['Unhandled error']
     }
     errors = errorDetails.map(detail => {
-      return { status: response.status, title: response.statusText, detail: detail }
+      return { status: response.status, title: response.statusText, detail }
     })
   }
 

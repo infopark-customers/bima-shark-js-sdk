@@ -47,7 +47,7 @@ class AssetClient {
     return this.__createOrUpdate({
       method: 'POST',
       url: `${this.client.baseUrl}`,
-      file: file,
+      file,
       onProgress: options.onProgress,
       doCancel: options.doCancel,
       formats: options.formats || {}
@@ -114,7 +114,7 @@ class AssetClient {
     return this.__createOrUpdate({
       method: 'PUT',
       url: `${this.client.baseUrl}/${id}`,
-      file: file,
+      file,
       onProgress: options.onProgress,
       doCancel: options.doCancel,
       formats: options.formats || {}
@@ -164,7 +164,7 @@ class AssetClient {
         attributes: {
           filename: fileName,
           directory: this.directory,
-          formats: formats
+          formats
         }
       }
     }
@@ -180,12 +180,12 @@ class AssetClient {
       const fileMimeType = mime.getType(fileName)
 
       return uploadFile({
-        uploadUrl: uploadUrl,
-        fileMimeType: fileMimeType,
+        uploadUrl,
+        fileMimeType,
         file: options.file,
         onProgress: options.onProgress,
         doCancel: options.doCancel,
-        formats: formats
+        formats
       }).then(() => {
         return this.find(id).then(asset => {
           return asset

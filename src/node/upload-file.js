@@ -15,9 +15,9 @@ function uploadFileNode (options = {}) {
 
   return sharkFetch(options.uploadUrl, {
     method: 'PUT',
-    headers: headers,
+    headers,
     body: file.body,
-    duplex: 'half',
+    duplex: 'half'
   })
 }
 

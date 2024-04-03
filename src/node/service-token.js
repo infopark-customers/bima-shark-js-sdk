@@ -80,7 +80,7 @@ class ServiceTokenClient {
     const url = `${this.baseUrl}/api/users/authenticate`
     const requestOptions = Object.assign({
       method: 'POST',
-      body: body
+      body
     }, options)
 
     return this.signedRequest(url, requestOptions)
@@ -112,7 +112,7 @@ class ServiceTokenClient {
       accessKey: this.accessKey,
       secretKey: this.secretKey,
       digest: this.digest,
-      headers: headers
+      headers
     })
 
     return signedFetch(url, requestOptions).then(json => {

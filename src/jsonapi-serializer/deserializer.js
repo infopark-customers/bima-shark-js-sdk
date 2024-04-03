@@ -150,7 +150,7 @@ class Resource {
     if (this.opts.keyForAttribute === undefined || this.opts.keyForAttribute === 'camelCase') {
       if (isArray(value) || isObject(value)) {
         const stopPaths = (this.opts.caseConversionStopPaths || {})[dataType] || []
-        return camelcaseKeys(value, { deep: true, stopPaths: stopPaths })
+        return camelcaseKeys(value, { deep: true, stopPaths })
       } else if (isString(value)) {
         return camelcase(value)
       } else {
