@@ -25,7 +25,7 @@ function buildUrl (baseUrl, path, translations = {}) {
   let url = `${baseUrl}/${path.join('/')}`
 
   if (Object.keys(translations).length > 0) {
-    const query = { translations: translations }
+    const query = { translations }
     const queryString = qs.stringify(query, { addQueryPrefix: true })
     url += queryString
   }

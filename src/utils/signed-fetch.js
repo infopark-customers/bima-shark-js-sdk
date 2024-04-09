@@ -118,7 +118,7 @@ class SignedRequest {
 }
 
 function signedFetch (url, options = {}) {
-  const signedRequestOptions = Object.assign({ url: url }, options)
+  const signedRequestOptions = Object.assign({ url }, options)
   const signedRequest = new SignedRequest(signedRequestOptions)
 
   return signedRequest.fetch()

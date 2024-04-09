@@ -15,6 +15,6 @@ function log () {
 }
 
 module.exports = {
-  debugLog: debugLog,
-  log: log
+  debugLog,
+  log
 }

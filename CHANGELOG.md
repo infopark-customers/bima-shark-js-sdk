@@ -2,6 +2,12 @@
 
 ### Unreleased
 
+### 3.0.0
+- require Nodejs 18.x and remove `node-fetch` dependency
+
+### 2.14.0
+- [new] send credentials (cookies) during service token request from browser
+
 ### 2.13.0, 2.13.1
 - [fix] client for new asset-service
 - remove old clients `ActivityClient`, `SettingsClient`

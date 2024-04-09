@@ -55,7 +55,7 @@ function mockFetch (options) {
     .intercept(path || '/', method || 'GET')
     .reply(status || 200, responseBody)
   nock(host)
-    .intercept(path || '', method || 'GET')
+    .intercept(path || '/', method || 'GET')
     .reply(403, { message: 'Access forbidden' })
 }
 
@@ -349,7 +349,7 @@ describe('Node version: BaseClient with successful service token', () => {
       it('should return empty body', (done) => {
         const promise = client.delete('foobar')
         promise.then(body => {
-          expect(body).toEqual('')
+          expect(body).toEqual(null)
           done()
         })
       })

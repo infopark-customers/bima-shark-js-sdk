@@ -50,9 +50,9 @@ describe('#sharkFetch', () => {
   describe('with error response', () => {
     const expectError = {
       errors: [{
-        detail: 'request to http://invalid.foobar.domain/ failed, reason: getaddrinfo ENOTFOUND invalid.foobar.domain',
+        detail: 'fetch failed',
         status: 503,
-        title: 'request to http://invalid.foobar.domain/ failed, reason: getaddrinfo ENOTFOUND invalid.foobar.domain'
+        title: 'fetch failed'
       }]
     }
 
