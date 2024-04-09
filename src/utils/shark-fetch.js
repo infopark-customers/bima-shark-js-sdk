@@ -1,6 +1,5 @@
 'use strict'
 
-const { fetch, Headers } = require('../proxy')
 const Logger = require('../logger')
 const { jsonApiError } = require('./response-helper')
 
@@ -14,8 +13,6 @@ const { jsonApiError } = require('./response-helper')
 function parse (response) {
   return new Promise(resolve => {
     const contentType = response.headers.get('content-type')
-    // TODO inspect response headers?
-    // TODO inspect content length?
 
     return response.text().then(text => {
       if (isJsonContent(contentType)) {
@@ -53,6 +50,10 @@ function isJsonContent (type) {
 
 function parseJSON (text) {
   let json
+
+  if (text === '') {
+    return null
+  }
 
   try {
     json = JSON.parse(text)

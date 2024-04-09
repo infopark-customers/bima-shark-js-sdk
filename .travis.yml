@@ -1,7 +1,8 @@
+dist: focal
 language: node_js
 cache: npm
 node_js:
-  - "16"
+  - "18"
 
 before_install:
   - npm i -g standard

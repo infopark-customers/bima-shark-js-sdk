@@ -28,12 +28,12 @@ describe('#uploadFile', () => {
 
     const promise = uploadFile({
       uploadUrl: `${UPLOAD_URL}/uploads`,
-      fileMimeType: fileMimeType,
-      file: file
+      fileMimeType,
+      file
     })
 
     promise.then(body => {
-      expect(body).toEqual('')
+      expect(body).toEqual(null)
     })
   })
 })

@@ -66,7 +66,7 @@ describe('ServiceToken', () => {
           accessKey: 'doorkeeper_client_access_key',
           secretKey: '0123456789',
           baseUrl: DOORKEEPER_BASE_URL,
-          userId: userId
+          userId
         })
 
         it('should return json', (done) => {
@@ -122,7 +122,7 @@ describe('ServiceToken', () => {
       })
 
       it('should return json', (done) => {
-        const promise = client.verifyServiceToken({ serviceToken: serviceToken, include: 'permission' })
+        const promise = client.verifyServiceToken({ serviceToken, include: 'permission' })
         promise.then(body => {
           expect(body.id).toEqual(USER_RESPONSE_BODY.data.id)
           expect(body.firstName).toEqual(USER_RESPONSE_BODY.data.attributes.first_name)
