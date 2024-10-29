@@ -86,6 +86,30 @@ try {
 }
 ```
 
+Additionally, you can use your own function to generate authentication tokens:
+
+```js
+const { MailingClient } = require('bima-shark-sdk')
+
+const client = new MailingClient('https://mailing-development.bundesimmo.de', {
+  getAuthToken: () => 'Bearer ' + crypto.randomBytes(20).toString('hex')
+})
+```
+
+or generate JWT-based short-lived tokens which are valid for 1 minute:
+
+```js
+const { MailingClient, jwtAuthorization } = require('bima-shark-sdk')
+
+const client = new MailingClient('https://mailing-development.bundesimmo.de', {
+  getAuthToken: () => {
+    const accessId = 'mailingservice'
+    const secretKey = 'ZT...=='
+
+    return jwtAuthorization({ accessId, secretKey })
+  }
+})
+```
 
 ### Testing
 

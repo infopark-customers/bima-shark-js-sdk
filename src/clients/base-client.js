@@ -34,11 +34,17 @@ class BaseClient {
       throw new Error('Parameter `url` is missing or not a string')
     }
 
-    const serviceTokenOptions = Object.assign(
-      { baseUrl: Config.serviceTokenUrl },
-      options.serviceToken
-    )
-    this.tokenClient = new SharkProxy.ServiceTokenClient(serviceTokenOptions)
+    if (options.getAuthToken) {
+      this.getAuthToken = async () => await options.getAuthToken()
+    } else {
+      const tokenClient = new SharkProxy.ServiceTokenClient({ baseUrl: Config.serviceTokenUrl, ...options.serviceToken })
+
+      this.getAuthToken = async () => {
+        const token = await tokenClient.createServiceToken({})
+
+        return `Bearer ${token.jwt}`
+      }
+    }
   }
 
   /**
@@ -183,8 +189,8 @@ class BaseClient {
     }
 
     if (this.authorizationRequired) {
-      return this.tokenClient.createServiceToken({}).then(token => {
-        requestOptions.headers.authorization = `Bearer ${token.jwt}`
+      return this.getAuthToken().then(authorization => {
+        requestOptions.headers.authorization = authorization
         return sharkFetch(url, requestOptions)
       })
     } else {
