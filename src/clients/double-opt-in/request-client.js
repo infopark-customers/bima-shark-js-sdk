@@ -7,7 +7,8 @@ class DoubleOptInRequestClient {
     this.client = new Client({
       name: 'DoubleOptInRequestClient',
       url: `${url}/requests`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
   }
 

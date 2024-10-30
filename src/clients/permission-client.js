@@ -7,7 +7,8 @@ class PermissionClient {
     this.client = new Client({
       name: 'PermissionClient',
       url: `${url}/api/permissions`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
   }
 

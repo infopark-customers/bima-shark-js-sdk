@@ -11,7 +11,8 @@ class NickClient {
     this.client = new Client({
       name: 'NickClient',
       url: `${url}`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
   }
 
