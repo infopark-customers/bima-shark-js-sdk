@@ -7,7 +7,8 @@ class NotificationsClient {
     this.client = new Client({
       name: 'NotificationsClient',
       url: `${url}/notifications`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
   }
 

@@ -15,6 +15,7 @@ const SharkProxy = require('../proxy')
  *   - name {string}
  *   - contentType {string}
  *   - serviceToken {object}
+ *   - getAuthToken {function}
  *
  * @throws {Error} if baseUrl is invalid
  * @throws {Error} if tokenClient cannot be instantiated
@@ -34,7 +35,7 @@ class BaseClient {
       throw new Error('Parameter `url` is missing or not a string')
     }
 
-    if (options.getAuthToken) {
+    if (options.getAuthToken && typeof options.getAuthToken === 'function') {
       this.getAuthToken = async () => await options.getAuthToken()
     } else {
       const tokenClient = new SharkProxy.ServiceTokenClient({ baseUrl: Config.serviceTokenUrl, ...options.serviceToken })

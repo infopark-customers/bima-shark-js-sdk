@@ -8,7 +8,8 @@ class ContactClient {
     this.client = new Client({
       name: 'ContactClient',
       url: `${url}/api/contacts`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
   }
 

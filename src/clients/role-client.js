@@ -7,7 +7,8 @@ class RoleClient {
     this.client = new Client({
       name: 'RoleClient',
       url: `${url}/api/roles`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
   }
 

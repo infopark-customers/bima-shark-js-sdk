@@ -7,7 +7,8 @@ class DescriptionClient {
     this.client = new Client({
       name: 'DescriptionClient',
       url: `${url}/api/descriptions`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
   }
 

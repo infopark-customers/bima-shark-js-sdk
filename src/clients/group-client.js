@@ -7,7 +7,8 @@ class GroupClient {
     this.client = new Client({
       name: 'GroupClient',
       url: `${url}/api/groups`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
   }
 

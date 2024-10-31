@@ -7,7 +7,8 @@ class SubscriptionClient {
     this.client = new Client({
       name: 'SubscriptionClient',
       url: `${url}/subscriptions`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
   }
 
