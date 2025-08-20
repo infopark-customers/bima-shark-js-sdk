@@ -7,7 +7,8 @@ class DoubleOptInExecutionClient {
     this.client = new Client({
       name: 'DoubleOptInExecutionClient',
       url: `${url}/executions`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
   }
 

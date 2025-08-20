@@ -6,6 +6,7 @@ const Logger = require('./logger')
 const SharkError = require('./error')
 const TypeCheck = require('./utils/typecheck')
 const sharkFetch = require('./utils/shark-fetch')
+const jwtAuthorization = require('./utils/jwtAuthorization')
 
 const Client = require('./clients/base-client')
 const AssetClient = require('./clients/asset-client')
@@ -13,6 +14,7 @@ const BusinessAppClient = require('./clients/business-app-client')
 const ConsentClient = require('./clients/consent-client')
 const ConsentChangesClient = require('./clients/consent-changes-client')
 const ContactClient = require('./clients/contact-client')
+const ContactListClient = require('./clients/contact-list-client')
 const DescriptionClient = require('./clients/description-client')
 const DoubleOptInExecutionClient = require('./clients/double-opt-in/execution-client')
 const DoubleOptInRequestClient = require('./clients/double-opt-in/request-client')
@@ -64,6 +66,7 @@ const Shark = {
   isString: TypeCheck.isString,
 
   fetch: sharkFetch,
+  jwtAuthorization,
 
   Client,
   AppClient: BusinessAppClient,
@@ -72,6 +75,7 @@ const Shark = {
   ConsentClient,
   ConsentChangesClient,
   ContactClient,
+  ContactListClient,
   DescriptionClient,
   DoubleOptInExecutionClient,
   DoubleOptInRequestClient,

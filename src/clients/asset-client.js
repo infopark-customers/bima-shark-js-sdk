@@ -15,7 +15,8 @@ class AssetClient {
     this.client = new Client({
       name: 'AssetClient',
       url: `${url}/assets`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
     this.directory = directory
   }

@@ -2,6 +2,13 @@
 
 ### Unreleased
 
+### 3.2.0
+- Introduce ContactListClient for managing contact lists with CRUD and search operations
+- Add 'cities' and 'tags' methods to ContactClient for fetching related data
+
+### 3.1.0
+- Introduce JWT-based short-lived tokens for request signing
+
 ### 3.0.0
 - require Nodejs 18.x and remove `node-fetch` dependency
 

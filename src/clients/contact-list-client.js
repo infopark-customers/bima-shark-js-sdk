@@ -2,17 +2,18 @@
 
 const Client = require('./base-client')
 
-class RoleClient {
+class ContactListClient {
   constructor (url, options = {}) {
     this.client = new Client({
-      name: 'RoleClient',
-      url: `${url}/api/roles`,
+      name: 'ContactListClient',
+      url: `${url}/api/contact_lists`,
       serviceToken: options.serviceToken,
       getAuthToken: options.getAuthToken
     })
   }
 
-  search (parameters = {}) {
+  /** Fetch contacts that match this ContactList’s saved Elasticsearch query. */
+  contacts (parameters = {}) {
     return this.client.search(parameters)
   }
 
@@ -31,10 +32,6 @@ class RoleClient {
   destroy (id, parameters = {}) {
     return this.client.destroy(id, parameters)
   }
-
-  describe (parameters = {}) {
-    return this.client.get('describe', parameters)
-  }
 }
 
-module.exports = RoleClient
+module.exports = ContactListClient

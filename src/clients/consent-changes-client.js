@@ -7,7 +7,8 @@ class ConsentChangesClient {
     this.client = new Client({
       name: 'ConsentChangesClient',
       url: `${url}/consents`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
   }
 

@@ -8,7 +8,8 @@ class ContactClient {
     this.client = new Client({
       name: 'ContactClient',
       url: `${url}/api/contacts`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
   }
 
@@ -30,6 +31,20 @@ class ContactClient {
 
   destroy (id, parameters = {}) {
     return this.client.destroy(id, parameters)
+  }
+
+  cities (parameters = {}) {
+    return this.client.sendRequest(`${this.client.baseUrl}/cities`, {
+      method: 'GET',
+      query: parameters
+    })
+  }
+
+  tags (parameters = {}) {
+    return this.client.sendRequest(`${this.client.baseUrl}/tags`, {
+      method: 'GET',
+      query: parameters
+    })
   }
 
   uploadAvatar (id, formData) {

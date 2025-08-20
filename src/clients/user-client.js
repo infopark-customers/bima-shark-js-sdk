@@ -8,7 +8,8 @@ class UserClient {
     this.client = new Client({
       name: 'UserClient',
       url: `${url}/api/users`,
-      serviceToken: options.serviceToken
+      serviceToken: options.serviceToken,
+      getAuthToken: options.getAuthToken
     })
     this.businessAppClient = new BusinessAppClient(url, options)
   }
