@@ -1,54 +1,55 @@
 /* eslint-env jest */
 'use strict'
 
+const nock = require('nock')
 const sharkFetch = require('../../src/utils/shark-fetch')
 
 describe('#sharkFetch', () => {
-  const url = 'http://echo.jsontest.com/key/value/one/two'
-  const expectedJson = {
-    one: 'two',
-    key: 'value'
-  }
+  const baseUrl = 'http://echo.jsontest.com'
+  const path = '/key/value/one/two'
+  const expectedJson = { one: 'two', key: 'value' }
 
-  describe('with url', () => {
-    it('should return json', (done) => {
-      const promise = sharkFetch(url)
-      promise.then(json => {
-        expect(json).toEqual(expectedJson)
-        done()
-      })
-    })
+  beforeEach(() => {
+    nock.cleanAll()
   })
 
-  describe('with url and options', () => {
-    const options = {
+  it('should return json with GET', async () => {
+    nock(baseUrl)
+      .get(path)
+      .reply(200, expectedJson)
+
+    const json = await sharkFetch(`${baseUrl}${path}`)
+    expect(json).toEqual(expectedJson)
+  })
+
+  it('should return json with POST and headers', async () => {
+    nock(baseUrl)
+      .post(path)
+      .matchHeader('content-type', 'application/vnd.api+json')
+      .reply(200, expectedJson)
+
+    const json = await sharkFetch(`${baseUrl}${path}`, {
       method: 'POST',
       headers: {
         'content-type': 'application/vnd.api+json'
       }
-    }
-
-    it('should return json', (done) => {
-      const promise = sharkFetch(url, options)
-      promise.then(json => {
-        expect(json).toEqual(expectedJson)
-        done()
-      })
     })
+    expect(json).toEqual(expectedJson)
   })
 
-  describe('with text response', () => {
-    it('should return response.body', (done) => {
-      const promise = sharkFetch('http://www.example.com')
-      promise.then(body => {
-        expect(body).toMatch(/<title>Example Domain<\/title>/)
-        done()
+  it('should return text for non-JSON responses', async () => {
+    nock('http://www.example.com')
+      .get('/')
+      .reply(200, '<html><title>Example Domain</title></html>', {
+        'content-type': 'text/html'
       })
-    })
+
+    const text = await sharkFetch('http://www.example.com')
+    expect(text).toMatch(/<title>Example Domain<\/title>/)
   })
 
-  describe('with error response', () => {
-    const expectError = {
+  it('should return error object on fetch failure', async () => {
+    const errorJson = {
       errors: [{
         detail: 'fetch failed',
         status: 503,
@@ -56,15 +57,15 @@ describe('#sharkFetch', () => {
       }]
     }
 
-    it('should return error object', (done) => {
-      const promise = sharkFetch('http://invalid.foobar.domain')
-      promise.then(json => {
-        console.log(json)
-        done(new Error('#sharkFetch with error response was resolved, but it should fail!'))
-      }, (error) => {
-        expect(error).toEqual(expectError)
-        done()
-      })
-    })
+    nock('http://invalid.foobar.domain')
+      .get('/')
+      .replyWithError('fetch failed')
+
+    try {
+      await sharkFetch('http://invalid.foobar.domain')
+      throw new Error('This should not be reached')
+    } catch (err) {
+      expect(err).toEqual(errorJson)
+    }
   })
 })
