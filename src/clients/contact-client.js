@@ -33,6 +33,20 @@ class ContactClient {
     return this.client.destroy(id, parameters)
   }
 
+  cities (parameters = {}) {
+    return this.client.sendRequest(`${this.client.baseUrl}/cities`, {
+      method: 'GET',
+      query: parameters
+    })
+  }
+
+  tags (parameters = {}) {
+    return this.client.sendRequest(`${this.client.baseUrl}/tags`, {
+      method: 'GET',
+      query: parameters
+    })
+  }
+
   uploadAvatar (id, formData) {
     const options = {
       uploadUrl: `${this.client.baseUrl}/${id}/avatar`,
