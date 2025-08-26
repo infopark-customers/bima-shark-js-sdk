@@ -1,6 +1,6 @@
 ## Changelog
 
-### Unreleased
+### 3.3.0
 - Add `search` method to ContactListClient
 
 ### 3.2.0
