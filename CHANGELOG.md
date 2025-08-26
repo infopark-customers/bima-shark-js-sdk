@@ -1,6 +1,7 @@
 ## Changelog
 
 ### Unreleased
+- Add `search` method to ContactListClient
 
 ### 3.2.0
 - Introduce ContactListClient for managing contact lists with CRUD and search operations

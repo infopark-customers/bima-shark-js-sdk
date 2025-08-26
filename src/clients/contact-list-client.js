@@ -14,6 +14,10 @@ class ContactListClient {
 
   /** Fetch contacts that match this ContactList’s saved Elasticsearch query. */
   contacts (parameters = {}) {
+    return this.client.contacts(parameters)
+  }
+
+  search (parameters = {}) {
     return this.client.search(parameters)
   }
 
