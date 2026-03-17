@@ -6,7 +6,6 @@ const Logger = require('./logger')
 const SharkError = require('./error')
 const TypeCheck = require('./utils/typecheck')
 const sharkFetch = require('./utils/shark-fetch')
-const jwtAuthorization = require('./utils/jwtAuthorization')
 
 const Client = require('./clients/base-client')
 const AssetClient = require('./clients/asset-client')
@@ -66,7 +65,6 @@ const Shark = {
   isString: TypeCheck.isString,
 
   fetch: sharkFetch,
-  jwtAuthorization,
 
   Client,
   AppClient: BusinessAppClient,

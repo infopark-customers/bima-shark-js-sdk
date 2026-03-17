@@ -1,6 +1,6 @@
 {
   "name": "bima-shark-sdk",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "private": false,
   "license": "MIT",
   "repository": {
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "camelcase-keys": "^6.1.1",
+    "jsonwebtoken": "^9.0.0",
     "mime": "^2.3.1",
     "qs": "^6.8.3",
     "uuid": "^3.2.1"

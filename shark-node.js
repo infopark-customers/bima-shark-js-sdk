@@ -19,5 +19,6 @@ proxy.ServiceTokenClient = require('./src/node/service-token')
  */
 const Shark = require('./src/shark')
 Shark.ServiceTokenClient = proxy.ServiceTokenClient
+Shark.jwtAuthorization = require('./src/utils/jwtAuthorization')
 
 module.exports = Shark
